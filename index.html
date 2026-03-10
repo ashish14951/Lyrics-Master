@@ -46,11 +46,26 @@
             transition: background 0.6s ease, color 0.6s ease;
         }
 
+        /* Subtle noise texture for a premium feel */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         /* ------------------------------------- */
         /* DYNAMIC THEMES                        */
         /* ------------------------------------- */
 
-        /* Super Stan Theme (Dark Mode) */
         body.theme-super {
             background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #120e1f);
             background-size: 300% 300%;
@@ -74,37 +89,15 @@
             border-color: rgba(255,71,87,0.5);
             box-shadow: 0 15px 30px rgba(255, 71, 87, 0.3), 0 5px 15px rgba(0,0,0,0.2);
         }
-        body.theme-super .lyric-box {
-            background: rgba(0, 0, 0, 0.4);
-            border-color: rgba(255,255,255,0.1);
-        }
-        body.theme-super .overlay {
-            background: rgba(20, 25, 35, 0.95);
-        }
-        body.theme-super .coin-counter {
-            background: rgba(20, 25, 35, 0.9);
-            color: var(--gold);
-        }
-        body.theme-super .song-card {
-            background: rgba(0,0,0,0.5);
-            border-color: rgba(255,255,255,0.1);
-        }
-        body.theme-super .correct-answer-reveal {
-            background: rgba(255,255,255,0.1);
-            color: #dfe6e9;
-        }
-        body.theme-super h1 {
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.6);
-        }
-        body.theme-super .score-item {
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.6);
-        }
-        body.theme-super .timer-container {
-            border-color: rgba(255,255,255,0.2);
-            background: rgba(0,0,0,0.3);
-        }
+        body.theme-super .lyric-box { background: rgba(0, 0, 0, 0.4); border-color: rgba(255,255,255,0.1); }
+        body.theme-super .overlay { background: rgba(20, 25, 35, 0.95); }
+        body.theme-super .coin-counter { background: rgba(20, 25, 35, 0.9); color: var(--gold); }
+        body.theme-super .song-card { background: rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.1); }
+        body.theme-super .correct-answer-reveal { background: rgba(255,255,255,0.1); color: #dfe6e9; }
+        body.theme-super h1 { text-shadow: 2px 2px 0px rgba(0,0,0,0.6); }
+        body.theme-super .score-item { text-shadow: 3px 3px 0px rgba(0,0,0,0.6); }
+        body.theme-super .timer-container { border-color: rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); }
 
-        /* Who Sang It Theme (Purple Gradient) */
         body.theme-who {
             background: linear-gradient(-45deg, #a18cd1, #fbc2eb, #8e44ad, #e0c3fc);
             background-size: 300% 300%;
@@ -121,166 +114,68 @@
             border-color: #d4a5ff;
             box-shadow: 0 15px 30px rgba(142, 68, 173, 0.2), 0 5px 15px rgba(0,0,0,0.05);
         }
-        body.theme-who .option-with-img img {
-            border-color: var(--pink-vibrant);
-        }
+        body.theme-who .option-with-img img { border-color: var(--pink-vibrant); }
 
-
-        /* Subtle noise texture for a premium feel */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .bg-elements {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
+        /* Background Shapes */
+        .bg-elements { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
         .bg-shape {
-            position: absolute;
-            fill: rgba(255, 255, 255, 0.6);
-            animation: float 6s infinite ease-in-out;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
+            position: absolute; fill: rgba(255, 255, 255, 0.6);
+            animation: float 6s infinite ease-in-out; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
         }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-25px) rotate(12deg); } }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-25px) rotate(12deg); }
-        }
-
+        /* Main Container */
         .game-container {
-            width: 100%;
-            max-width: 480px;
-            margin: auto;
-            background: var(--glass-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-radius: 40px;
-            padding: 40px 30px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.1), 
-                        inset 0 2px 0 rgba(255,255,255,0.8),
-                        inset 0 -2px 0 rgba(255,255,255,0.4);
+            width: 100%; max-width: 480px; margin: auto;
+            background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-radius: 40px; padding: 40px 30px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.1), inset 0 2px 0 rgba(255,255,255,0.8), inset 0 -2px 0 rgba(255,255,255,0.4);
             border: 1px solid var(--glass-border);
-            text-align: center;
-            position: relative;
-            z-index: 5;
+            text-align: center; position: relative; z-index: 5;
             transition: background 0.6s ease, border-color 0.6s ease;
         }
 
-        /* Premium Title */
         h1 {
             font-family: 'Varela Round', sans-serif;
             background: linear-gradient(135deg, var(--pink-vibrant), var(--purple-vibrant));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0 0 25px 0;
-            font-size: 2.4rem;
-            letter-spacing: -1px;
-            filter: drop-shadow(0 2px 4px var(--pink-glow));
-            transition: filter 0.6s ease;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin: 0 0 25px 0; font-size: 2.4rem; letter-spacing: -1px;
+            filter: drop-shadow(0 2px 4px var(--pink-glow)); transition: filter 0.6s ease;
         }
+        .subtitle { font-weight: 700; color: var(--text-light); font-size: 1.1rem; margin-bottom: 30px; margin-top: -15px; }
 
-        .subtitle {
-            font-weight: 700;
-            color: var(--text-light);
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            margin-top: -15px;
-        }
-
-        /* Start Screen Hero Image */
-        .hero-image-wrapper {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 35px auto;
-        }
-
+        /* Hero Image */
+        .hero-image-wrapper { position: relative; width: 180px; height: 180px; margin: 0 auto 35px auto; }
         .hero-image-glow {
-            position: absolute;
-            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
             background: linear-gradient(45deg, var(--pink-vibrant), var(--purple-vibrant), #00d2d3, var(--pink-vibrant));
-            background-size: 400%;
-            border-radius: 50%;
-            z-index: -1;
-            filter: blur(15px);
-            animation: glowingAura 8s linear infinite;
-            opacity: 0.6;
+            background-size: 400%; border-radius: 50%; z-index: -1; filter: blur(15px);
+            animation: glowingAura 8s linear infinite; opacity: 0.6;
         }
-
-        @keyframes glowingAura {
-            0% { background-position: 0% 0; }
-            50% { background-position: 100% 0; }
-            100% { background-position: 0% 0; }
-        }
-
+        @keyframes glowingAura { 0% { background-position: 0% 0; } 50% { background-position: 100% 0; } 100% { background-position: 0% 0; } }
         .hero-image {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 6px solid var(--white);
-            background-color: var(--pink-soft);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            animation: breathe 4s ease-in-out infinite;
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+            border: 6px solid var(--white); background-color: var(--pink-soft);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); animation: breathe 4s ease-in-out infinite;
         }
+        @keyframes breathe { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-5px) scale(1.02); } }
 
-        @keyframes breathe {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-5px) scale(1.02); }
-        }
-
-        /* In-Game Header (Round & Coin UI) */
-        .game-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 0 5px;
-        }
-
+        /* In-Game Header & Coin UI */
+        .game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 5px; }
         .coin-counter {
-            background: var(--white);
-            border: 2px solid rgba(241, 196, 15, 0.3);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-family: 'Varela Round', sans-serif;
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: var(--gold);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 6px 15px rgba(241, 196, 15, 0.15);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 20;
+            background: var(--white); border: 2px solid rgba(241, 196, 15, 0.3);
+            padding: 6px 16px; border-radius: 30px; font-family: 'Varela Round', sans-serif;
+            font-size: 1.15rem; font-weight: 800; color: var(--gold);
+            display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 15px rgba(241, 196, 15, 0.15);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 20;
         }
-
         .coin-counter.pulse { transform: scale(1.15); }
         .coin-icon { font-size: 1.3rem; filter: drop-shadow(0 2px 4px rgba(241, 196, 15, 0.4)); }
 
         .floating-coin {
-            position: fixed;
-            font-size: 2rem;
-            z-index: 100;
-            pointer-events: none;
-            animation: coinBurst 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+            position: fixed; font-size: 2rem; z-index: 100; pointer-events: none;
+            animation: coinBurst 1s cubic-bezier(0.25, 1, 0.5, 1) forwards; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
         }
-
         @keyframes coinBurst {
             0% { transform: scale(0) translate(0, 0); opacity: 1; }
             50% { transform: scale(1.2) translate(var(--tx-mid), var(--ty-mid)); opacity: 1; }
@@ -288,276 +183,135 @@
         }
 
         /* Timer UI */
-        .timer-container {
-            width: 100%;
-            height: 10px;
-            background: rgba(0,0,0,0.05);
-            border-radius: 20px;
-            margin-bottom: 25px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .timer-bar {
-            height: 100%;
-            width: 100%;
-            background: var(--success);
-            border-radius: 20px;
-            transition: width 0.1s linear, background-color 0.3s ease;
-        }
-
+        .timer-container { width: 100%; height: 10px; background: rgba(0,0,0,0.05); border-radius: 20px; margin-bottom: 25px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        .timer-bar { height: 100%; width: 100%; background: var(--success); border-radius: 20px; transition: width 0.1s linear, background-color 0.3s ease; }
         .timer-bar.gamble {
-            background: linear-gradient(90deg, var(--pink-vibrant), #ff9933, var(--pink-vibrant));
-            background-size: 200% 200%;
-            animation: fieryPulse 1s infinite linear;
-            box-shadow: 0 0 15px var(--pink-glow);
+            background: linear-gradient(90deg, var(--pink-vibrant), #ff9933, var(--pink-vibrant)); background-size: 200% 200%;
+            animation: fieryPulse 1s infinite linear; box-shadow: 0 0 15px var(--pink-glow);
         }
-
-        @keyframes fieryPulse {
-            0% { background-position: 0% 50%; }
-            100% { background-position: -200% 50%; }
-        }
+        @keyframes fieryPulse { 0% { background-position: 0% 50%; } 100% { background-position: -200% 50%; } }
 
         /* Lyric UI */
         .lyric-box {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 30px 25px;
-            border-radius: 24px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            font-size: 1.3rem;
-            font-weight: 700;
-            line-height: 1.6;
-            min-height: 140px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); padding: 30px 25px;
+            border-radius: 24px; margin-bottom: 25px; box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.8); font-size: 1.3rem; font-weight: 700; line-height: 1.6;
+            min-height: 140px; display: flex; flex-direction: column; justify-content: center;
         }
-
         .artist-tag {
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--purple-vibrant), var(--pink-vibrant));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 12px;
+            font-weight: 800; background: linear-gradient(135deg, var(--purple-vibrant), var(--pink-vibrant));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 0.9rem;
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;
         }
-
         .blank-space {
-            display: inline-block;
-            min-width: 130px;
-            border-bottom: 3px solid var(--pink-vibrant);
-            color: var(--pink-vibrant);
-            padding: 0 15px;
-            background: linear-gradient(to top, rgba(255, 51, 133, 0.1) 0%, transparent 100%);
-            border-radius: 6px 6px 0 0;
-            transition: all 0.3s ease;
+            display: inline-block; min-width: 130px; border-bottom: 3px solid var(--pink-vibrant); color: var(--pink-vibrant);
+            padding: 0 15px; background: linear-gradient(to top, rgba(255, 51, 133, 0.1) 0%, transparent 100%);
+            border-radius: 6px 6px 0 0; transition: all 0.3s ease;
         }
 
-        /* Member Photo Buttons */
-        .option-with-img {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 15px;
-            padding: 12px 20px;
-            text-align: left;
-        }
-
-        .option-with-img img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--blue-soft);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            background: var(--pink-soft);
-        }
-
-        /* Sleek Modern Buttons */
-        .options-grid {
-            display: grid;
-            gap: 14px;
-        }
+        /* Buttons */
+        .options-grid { display: grid; gap: 14px; }
+        .option-with-img { display: flex; align-items: center; justify-content: flex-start; gap: 15px; padding: 12px 20px; text-align: left; }
+        .option-with-img img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--blue-soft); box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: var(--pink-soft); }
 
         .option-bubble {
-            background: var(--white);
-            border: 1px solid rgba(255,255,255,0.9);
-            padding: 18px 24px;
-            border-radius: 20px;
-            font-family: inherit;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.04), 0 2px 5px rgba(0,0,0,0.02);
-            color: var(--text-main);
-            position: relative;
-            line-height: 1.4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: var(--white); border: 1px solid rgba(255,255,255,0.9); padding: 18px 24px; border-radius: 20px;
+            font-family: inherit; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04), 0 2px 5px rgba(0,0,0,0.02); color: var(--text-main); position: relative; line-height: 1.4; display: flex; align-items: center; justify-content: center;
         }
+        .option-bubble:hover { transform: translateY(-4px); background: linear-gradient(135deg, var(--white), var(--blue-soft)); box-shadow: 0 15px 30px rgba(0, 210, 211, 0.15), 0 5px 15px rgba(0,0,0,0.05); color: #0097e6; border-color: #cbf3f0; }
+        .option-bubble:active { transform: translateY(2px) scale(0.98); box-shadow: 0 5px 10px rgba(0,0,0,0.05); }
 
-        .option-bubble:hover {
-            transform: translateY(-4px);
-            background: linear-gradient(135deg, var(--white), var(--blue-soft));
-            box-shadow: 0 15px 30px rgba(0, 210, 211, 0.15), 0 5px 15px rgba(0,0,0,0.05);
-            color: #0097e6;
-            border-color: #cbf3f0;
-        }
-
-        .option-bubble:active {
-            transform: translateY(2px) scale(0.98);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
-        }
-
-        .super-stan-btn {
-            background: linear-gradient(135deg, var(--pink-vibrant), var(--purple-vibrant));
-            color: white;
-            border: none;
-            box-shadow: 0 12px 25px var(--pink-glow), inset 0 2px 0 rgba(255,255,255,0.2);
-            font-weight: 800;
-        }
-
-        .super-stan-btn:hover {
-            background: linear-gradient(135deg, #ff4d94, #b260f7);
-            box-shadow: 0 18px 35px var(--pink-glow);
-            color: white;
-        }
-
-        /* Overlay Modals */
-        .overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            border-radius: 40px;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 30px;
-            transition: background 0.6s ease;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .gamble-text {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin: 20px 0 25px 0;
-            line-height: 1.6;
-        }
+        .super-stan-btn { background: linear-gradient(135deg, var(--pink-vibrant), var(--purple-vibrant)); color: white; border: none; box-shadow: 0 12px 25px var(--pink-glow), inset 0 2px 0 rgba(255,255,255,0.2); font-weight: 800; }
+        .super-stan-btn:hover { background: linear-gradient(135deg, #ff4d94, #b260f7); box-shadow: 0 18px 35px var(--pink-glow); color: white; }
         
-        .gamble-highlight {
-            color: var(--pink-vibrant);
-            font-size: 1.5rem;
-            font-weight: 800;
-            display: block;
-            margin-top: 10px;
-        }
+        .small-btn { padding: 12px; font-size: 1rem; }
 
-        /* Premium Photocard */
+        /* Overlays & Modals */
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px);
+            border-radius: 40px; display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 30px; transition: background 0.6s ease;
+        }
+        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        .gamble-text { font-size: 1.3rem; font-weight: 700; color: var(--text-main); margin: 20px 0 25px 0; line-height: 1.6; }
+        .gamble-highlight { color: var(--pink-vibrant); font-size: 1.5rem; font-weight: 800; display: block; margin-top: 10px; }
+
+        /* Photocards */
         .song-card {
-            width: 170px;
-            height: 240px;
-            background: var(--white);
-            border-radius: 16px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
-            overflow: hidden;
-            border: 8px solid white;
-            position: relative;
+            width: 170px; height: 240px; background: var(--white); border-radius: 16px; margin-bottom: 25px;
+            display: flex; justify-content: center; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+            overflow: hidden; border: 8px solid white; position: relative;
         }
-
         .song-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(110deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.4) 100%);
-            pointer-events: none;
-            z-index: 2;
+            pointer-events: none; z-index: 2;
         }
+        .song-card img { width: 100%; height: 100%; object-fit: cover; background-color: var(--pink-soft); }
 
-        .song-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background-color: var(--pink-soft);
-        }
-
-        .feedback-text {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
-        }
-
+        .feedback-text { font-size: 2rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; }
         .correct-answer-reveal {
-            color: var(--text-light);
-            margin-bottom: 20px;
-            font-weight: 600;
-            font-size: 1.05rem;
-            background: rgba(0,0,0,0.03);
-            padding: 12px 24px;
-            border-radius: 16px;
-            line-height: 1.4;
+            color: var(--text-light); margin-bottom: 20px; font-weight: 600; font-size: 1.05rem;
+            background: rgba(0,0,0,0.03); padding: 12px 24px; border-radius: 16px; line-height: 1.4;
         }
 
         /* Screens */
         .screen { display: none; }
-        .screen.active { 
-            display: block; 
-            animation: fadeInScreen 0.4s ease-out forwards;
+        .screen.active { display: block; animation: fadeInScreen 0.4s ease-out forwards; }
+        @keyframes fadeInScreen { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Gacha Animation */
+        .gacha-card-reveal {
+            animation: gachaPop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, gachaFloat 3s infinite ease-in-out 1s;
+            box-shadow: 0 0 40px var(--gold), 0 0 80px var(--pink-vibrant); border: 8px solid var(--gold);
+        }
+        @keyframes gachaPop { 0% { transform: scale(0) rotate(-20deg); opacity: 0; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+        @keyframes gachaFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* Collection Gallery */
+        .collection-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 15px; max-height: 55vh; overflow-y: auto; padding: 10px; margin-bottom: 20px;
+            width: 100%; border-radius: 20px; background: rgba(0,0,0,0.02);
+        }
+        .collection-grid::-webkit-scrollbar { width: 6px; }
+        .collection-grid::-webkit-scrollbar-thumb { background: var(--pink-vibrant); border-radius: 10px; }
+        
+        .gallery-card {
+            width: 100%; aspect-ratio: 2/3; border-radius: 8px; background: var(--white);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative; overflow: hidden; border: 3px solid white;
+        }
+        .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
+        .gallery-card.locked { filter: grayscale(100%) opacity(0.4); border-color: #ddd; }
+        .gallery-card.locked::after {
+            content: '🔒'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 1.5rem; filter: grayscale(0) !important; opacity: 1 !important;
         }
 
-        @keyframes fadeInScreen {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* Stats Panel */
+        .stat-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); font-weight: 700; font-size: 1.1rem; }
+        .stat-val { color: var(--pink-vibrant); font-weight: 800; }
 
-        /* Mobile Adjustments */
         @media (max-width: 500px) {
-            .game-container {
-                margin: auto;
-                padding: 30px 20px;
-                border-radius: 35px;
-            }
+            .game-container { margin: auto; padding: 30px 20px; border-radius: 35px; }
             h1 { font-size: 2rem; margin-bottom: 15px; }
             .subtitle { font-size: 1rem; margin-bottom: 25px; }
             .hero-image-wrapper { width: 150px; height: 150px; margin-bottom: 25px; }
-            
             .game-header { margin-bottom: 15px; }
             .coin-counter { font-size: 1.05rem; padding: 4px 12px; }
             .coin-icon { font-size: 1.15rem; }
-            
             .lyric-box { font-size: 1.15rem; padding: 25px 20px; min-height: 120px; }
             .option-bubble { padding: 15px 20px; font-size: 1rem; }
             .option-with-img { padding: 10px 15px; }
             .song-card { width: 140px; height: 200px; }
             .gamble-text { font-size: 1.1rem; }
             .gamble-highlight { font-size: 1.3rem; }
+            .collection-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); }
         }
-
-        @media (max-width: 360px) {
-            h1 { font-size: 1.75rem; }
-            .lyric-box { font-size: 1.05rem; }
-            .option-bubble { padding: 14px 16px; font-size: 0.95rem; }
-        }
+        @media (max-width: 360px) { h1 { font-size: 1.75rem; } .lyric-box { font-size: 1.05rem; } .option-bubble { padding: 14px 16px; font-size: 0.95rem; } }
     </style>
 </head>
 <body>
@@ -587,6 +341,36 @@
                     Super Stan Mode 🔥
                 </button>
             </div>
+
+            <div class="options-grid" style="grid-template-columns: 1fr 1fr; margin-top: 15px;">
+                <button class="option-bubble small-btn" onclick="game.showCollection(); audioManager.play('click');">Card Gallery 📚</button>
+                <button class="option-bubble small-btn" onclick="game.showStats(); audioManager.play('click');">My Stats 🏆</button>
+            </div>
+        </div>
+
+        <!-- Collection Screen -->
+        <div id="collectionScreen" class="screen">
+            <h1>My Collection</h1>
+            <p class="subtitle" id="collectionProgress">0 / 150 Cards Collected</p>
+            <div class="collection-grid" id="collectionGrid">
+                <!-- Cards injected here -->
+            </div>
+            <button class="option-bubble" style="width: 100%;" onclick="game.showScreen('startScreen'); audioManager.play('click');">Back to Menu ➔</button>
+        </div>
+
+        <!-- Stats Overlay -->
+        <div class="overlay" id="statsOverlay">
+            <h1 style="font-size: 1.8rem; margin-bottom: 5px;">Hall of Fame 🏆</h1>
+            <p class="subtitle" id="allTimeRankText" style="color: var(--pink-vibrant); margin-bottom: 20px;">ALL-TIME: ROOKIE</p>
+            
+            <div style="width: 100%; background: var(--white); padding: 20px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: left;">
+                <div class="stat-row"><span>Highest Score:</span> <span class="stat-val" id="statHigh">0 💖</span></div>
+                <div class="stat-row"><span>Total Coins Banked:</span> <span class="stat-val" id="statTotal">0 💖</span></div>
+                <div class="stat-row"><span>Total Correct:</span> <span class="stat-val" id="statCorrect">0</span></div>
+                <div class="stat-row" style="border:none;"><span>Gamble Win Rate:</span> <span class="stat-val" id="statWinRate">0%</span></div>
+            </div>
+            
+            <button class="option-bubble super-stan-btn" style="width: 100%;" onclick="document.getElementById('statsOverlay').style.display='none'; audioManager.play('click');">Close</button>
         </div>
 
         <!-- Game Screen -->
@@ -602,7 +386,6 @@
                 <div class="timer-bar" id="timerBar"></div>
             </div>
 
-            <!-- Standard Lyric UI -->
             <div class="lyric-box" id="lyricBox">
                 <div class="artist-tag" id="artistName">BTS</div>
                 <div id="lyricText">
@@ -640,6 +423,17 @@
                     <button class="option-bubble super-stan-btn" onclick="game.makeGambleDecision(true); audioManager.play('click');">DOUBLE OR NOTHING! 😈</button>
                 </div>
             </div>
+            
+            <!-- Gacha Reveal Overlay -->
+            <div class="overlay" id="gachaOverlay">
+                <h1 style="font-size: 1.8rem; margin-bottom: 10px;">JACKPOT! 🎉</h1>
+                <p class="subtitle" style="margin-bottom: 20px;">You unlocked a new Photocard!</p>
+                
+                <div class="song-card gacha-card-reveal" id="gachaCardImage" style="width: 180px; height: 260px;"></div>
+                
+                <p style="font-weight: 800; color: var(--pink-vibrant); font-size: 1.2rem; margin-bottom: 25px;" id="gachaCardName">BTS Rare Card</p>
+                <button class="option-bubble super-stan-btn" style="width: 100%;" onclick="game.closeGacha()">Claim Reward ✨</button>
+            </div>
         </div>
 
         <!-- Result Screen -->
@@ -650,15 +444,62 @@
                 <span class="coin-icon" style="font-size: 3rem;">💖</span><span id="finalScore">300</span>
             </div>
             
-            <div style="background: linear-gradient(135deg, var(--purple-vibrant), var(--pink-vibrant)); color: white; padding: 12px 28px; border-radius: 20px; display: inline-block; margin-bottom: 15px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 10px 20px var(--pink-glow);" id="rankBadge">ULTIMATE K-POP DEITY</div>
-            
-            <p id="rankMessage" style="font-weight: 700; font-size: 1.15rem; color: var(--text-light); line-height: 1.5; margin-bottom: 30px;">You own the fandom.</p>
-            
+            <div style="background: linear-gradient(135deg, var(--purple-vibrant), var(--pink-vibrant)); color: white; padding: 12px 28px; border-radius: 20px; display: inline-block; margin-bottom: 10px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 10px 20px var(--pink-glow);" id="rankBadge">ULTIMATE K-POP DEITY</div>
+            <p id="rankMessage" style="font-weight: 700; font-size: 1.15rem; color: var(--text-light); line-height: 1.5; margin-bottom: 10px;">You own the fandom.</p>
+            <p style="font-weight: 800; font-size: 0.95rem; color: var(--pink-vibrant); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px;" id="resultAllTimeRank">ALL-TIME: ROOKIE</p>
+
             <button class="option-bubble" style="width: 100%; justify-content: center;" onclick="location.reload()">Encore! 🎶</button>
         </div>
     </div>
 
     <script>
+        // --- DATA PERSISTENCE (LocalStorage) ---
+        const STORAGE_KEY = 'kpop_lyric_master_save';
+        let playerData = {
+            totalCoins: 0,
+            highScore: 0,
+            totalCorrect: 0,
+            gambleWins: 0,
+            gambleAttempts: 0,
+            ownedPhotocardIDs: []
+        };
+
+        function loadGameData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    playerData = { ...playerData, ...JSON.parse(saved) };
+                }
+            } catch (e) { console.warn("Could not load save data:", e); }
+        }
+
+        function saveGameData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(playerData));
+            } catch (e) { console.warn("Could not save game data:", e); }
+        }
+
+        function getAllTimeRankName(coins) {
+            if (coins >= 5000) return "ALL-TIME: K-POP LEGEND 👑";
+            if (coins >= 2000) return "ALL-TIME: VETERAN STAN 🌟";
+            if (coins >= 500) return "ALL-TIME: DEDICATED FAN 💖";
+            if (coins >= 100) return "ALL-TIME: EXPERIENCED TRAINEE 🎤";
+            return "ALL-TIME: ROOKIE 🐣";
+        }
+
+        // --- PHOTOCARD VAULT (150 Unique Cards) ---
+        const pcGroups = ["BTS", "BLACKPINK", "TWICE", "Stray Kids", "Seventeen", "ENHYPEN", "EXO"];
+        const photocardVault = Array.from({length: 150}, (_, i) => {
+            const group = pcGroups[i % 7];
+            const tier = i < 35 ? "Common" : (i < 105 ? "Rare" : "Ultra-Rare");
+            return {
+                id: `pc_card_${i+1}`,
+                name: `${group} ${tier} #${Math.floor(i/7) + 1}`,
+                group: group,
+                query: `${group} kpop member`
+            };
+        });
+
         // Image Fetchers
         const getRealImage = (name) => `https://tse2.mm.bing.net/th?q=${encodeURIComponent(name + ' kpop')}&w=800&h=800&c=7&rs=1&p=0`;
         const getAvatar = (name) => `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=200`;
@@ -690,74 +531,49 @@
                 osc.connect(gain); gain.connect(this.ctx.destination);
                 
                 if (type === 'correct') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(523.25, now);
-                    osc.frequency.exponentialRampToValueAtTime(1046.5, now + 0.1);
-                    gain.gain.setValueAtTime(0.3, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, now); osc.frequency.exponentialRampToValueAtTime(1046.5, now + 0.1);
+                    gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
                     osc.start(now); osc.stop(now + 0.3);
                 } else if (type === 'wrong') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(150, now);
-                    osc.frequency.exponentialRampToValueAtTime(80, now + 0.3);
-                    gain.gain.setValueAtTime(0.3, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, now); osc.frequency.exponentialRampToValueAtTime(80, now + 0.3);
+                    gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
                     osc.start(now); osc.stop(now + 0.3);
                 } else if (type === 'tick') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(800, now);
-                    gain.gain.setValueAtTime(0.05, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    osc.type = 'triangle'; osc.frequency.setValueAtTime(800, now);
+                    gain.gain.setValueAtTime(0.05, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
                     osc.start(now); osc.stop(now + 0.05);
                 } else if (type === 'click') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(600, now);
-                    gain.gain.setValueAtTime(0.1, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(600, now);
+                    gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
                     osc.start(now); osc.stop(now + 0.05);
                 } else if (type === 'jackpot') {
                     const notes = [440, 554.37, 659.25, 880, 1108.73, 1318.51];
                     notes.forEach((freq, i) => {
-                        const o = this.ctx.createOscillator();
-                        const g = this.ctx.createGain();
-                        o.connect(g); g.connect(this.ctx.destination);
-                        o.type = 'square';
-                        o.frequency.value = freq;
-                        g.gain.setValueAtTime(0, now + i * 0.05);
-                        g.gain.linearRampToValueAtTime(0.15, now + i * 0.05 + 0.02);
+                        const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
+                        o.connect(g); g.connect(this.ctx.destination); o.type = 'square'; o.frequency.value = freq;
+                        g.gain.setValueAtTime(0, now + i * 0.05); g.gain.linearRampToValueAtTime(0.15, now + i * 0.05 + 0.02);
                         g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.05 + 0.2);
                         o.start(now + i * 0.05); o.stop(now + i * 0.05 + 0.2);
                     });
                 } else if (type === 'aww') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(300, now);
-                    osc.frequency.exponentialRampToValueAtTime(50, now + 1);
-                    gain.gain.setValueAtTime(0.3, now);
-                    gain.gain.linearRampToValueAtTime(0.01, now + 1);
+                    osc.type = 'sawtooth'; osc.frequency.setValueAtTime(300, now); osc.frequency.exponentialRampToValueAtTime(50, now + 1);
+                    gain.gain.setValueAtTime(0.3, now); gain.gain.linearRampToValueAtTime(0.01, now + 1);
                     osc.start(now); osc.stop(now + 1);
                 } else if (type === 'win') {
                     const notes = [523.25, 659.25, 783.99, 1046.50];
                     notes.forEach((freq, i) => {
-                        const o = this.ctx.createOscillator();
-                        const g = this.ctx.createGain();
-                        o.connect(g); g.connect(this.ctx.destination);
-                        o.type = 'triangle';
-                        o.frequency.value = freq;
-                        g.gain.setValueAtTime(0, now + i * 0.1);
-                        g.gain.linearRampToValueAtTime(0.2, now + i * 0.1 + 0.05);
+                        const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
+                        o.connect(g); g.connect(this.ctx.destination); o.type = 'triangle'; o.frequency.value = freq;
+                        g.gain.setValueAtTime(0, now + i * 0.1); g.gain.linearRampToValueAtTime(0.2, now + i * 0.1 + 0.05);
                         g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.4);
                         o.start(now + i * 0.1); o.stop(now + i * 0.1 + 0.4);
                     });
                 } else if (type === 'lose') {
                     const notes = [392.00, 369.99, 349.23, 329.63];
                     notes.forEach((freq, i) => {
-                        const o = this.ctx.createOscillator();
-                        const g = this.ctx.createGain();
-                        o.connect(g); g.connect(this.ctx.destination);
-                        o.type = 'sawtooth';
-                        o.frequency.value = freq;
-                        g.gain.setValueAtTime(0, now + i * 0.25);
-                        g.gain.linearRampToValueAtTime(0.2, now + i * 0.25 + 0.1);
+                        const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
+                        o.connect(g); g.connect(this.ctx.destination); o.type = 'sawtooth'; o.frequency.value = freq;
+                        g.gain.setValueAtTime(0, now + i * 0.25); g.gain.linearRampToValueAtTime(0.2, now + i * 0.25 + 0.1);
                         g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.25 + 0.4);
                         o.start(now + i * 0.25); o.stop(now + i * 0.25 + 0.4);
                     });
@@ -770,33 +586,19 @@
             const gameBox = document.getElementById('gameBox');
             for(let i = 0; i < 60; i++) {
                 const conf = document.createElement('div');
-                conf.style.position = 'absolute';
-                conf.style.width = Math.random() * 10 + 6 + 'px';
-                conf.style.height = conf.style.width;
+                conf.style.position = 'absolute'; conf.style.width = Math.random() * 10 + 6 + 'px'; conf.style.height = conf.style.width;
                 conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                conf.style.left = '50%'; conf.style.top = '50%';
-                conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '4px';
-                conf.style.zIndex = '100'; conf.style.pointerEvents = 'none';
-                conf.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
-                
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = 3 + Math.random() * 8;
-                const tx = Math.cos(angle) * velocity * 35;
-                const ty = Math.sin(angle) * velocity * 35 + 150; 
-                
-                conf.animate([
-                    { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: 1 },
-                    { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0) rotate(${Math.random()*720}deg)`, opacity: 0 }
-                ], { duration: 1200 + Math.random() * 1000, easing: 'cubic-bezier(.37,0,.23,1)', fill: 'forwards' });
-                
-                gameBox.appendChild(conf);
-                setTimeout(() => conf.remove(), 2500);
+                conf.style.left = '50%'; conf.style.top = '50%'; conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '4px';
+                conf.style.zIndex = '100'; conf.style.pointerEvents = 'none'; conf.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+                const angle = Math.random() * Math.PI * 2; const velocity = 3 + Math.random() * 8;
+                const tx = Math.cos(angle) * velocity * 35; const ty = Math.sin(angle) * velocity * 35 + 150; 
+                conf.animate([ { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: 1 }, { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0) rotate(${Math.random()*720}deg)`, opacity: 0 } ], { duration: 1200 + Math.random() * 1000, easing: 'cubic-bezier(.37,0,.23,1)', fill: 'forwards' });
+                gameBox.appendChild(conf); setTimeout(() => conf.remove(), 2500);
             }
         }
 
         // Standard Text Vault (Strictly 7 Bands)
         const vault = [
-            // DIFFICULTY 1
             { artist: "BTS", song: "Butter", snippet: "___, like a criminal undercover", answer: "Smooth like butter", options: ["Smooth like butter", "Sweet like honey", "Hot like summer"], difficulty: 1 },
             { artist: "BLACKPINK", song: "DDU-DU DDU-DU", snippet: "___, ah yeah, ah yeah", answer: "Hit you with that ddu-du", options: ["Hit you with that ddu-du", "Make you crazy like a", "Playing with the fire"], difficulty: 1 },
             { artist: "TWICE", song: "Cheer Up", snippet: "___, shy shy shy", answer: "Cheer up baby", options: ["Cheer up baby", "Meet you later", "Fancy you baby"], difficulty: 1 },
@@ -804,17 +606,14 @@
             { artist: "Seventeen", song: "Aju Nice", snippet: "___, aju nice!", answer: "Gibun gibun gibun joa", options: ["Gibun gibun gibun joa", "Oneul harudo sugohesseo", "Uri hamkke dallyeoboja"], difficulty: 1 },
             { artist: "ENHYPEN", song: "Drunk-Dazed", snippet: "Jeongdabeun eopseo, ___", answer: "Just play play play", options: ["Just play play play", "We run run run", "Let's dance dance dance"], difficulty: 1 },
             { artist: "EXO", song: "Love Shot", snippet: "It's the love shot, ___", answer: "Na nanana nananana", options: ["Na nanana nananana", "We are the absolute", "Boom boom pow pow pow"], difficulty: 1 },
-            // DIFFICULTY 2
             { artist: "BLACKPINK", song: "Pink Venom", snippet: "This that pink venom, ___", answer: "Get 'em, get 'em, get 'em", options: ["Get 'em, get 'em, get 'em", "Watch out, we are coming", "Poison, running through your veins"], difficulty: 2 },
             { artist: "TWICE", song: "Fancy", snippet: "Fancy you, nuga meonjeo joahamyeon eottae, ___", answer: "Fancy you, jigeum neoegero gallae", options: ["Fancy you, jigeum neoegero gallae", "I love you, nae maeumeul badajwo", "Want you back, urin yeongwonhal geoya"], difficulty: 2 },
             { artist: "Stray Kids", song: "Thunderous", snippet: "Sorikkun, ___", answer: "Ppaengppaenghage ullyeo peojeo", options: ["Ppaengppaenghage ullyeo peojeo", "Urin jeoldae meomchuji ana", "Sori jilleo bwa right now"], difficulty: 2 },
             { artist: "Seventeen", song: "HOT", snippet: "Modu chyeodabwa, ___", answer: "Drop it like hot hot hot", options: ["Drop it like hot hot hot", "Burn it up right now now", "We are gonna set the fire"], difficulty: 2 },
             { artist: "ENHYPEN", song: "Fever", snippet: "Neol ango sipeo, ___", answer: "Fever, fever, fever, fever", options: ["Fever, fever, fever, fever", "Desire, desire, desire, desire", "Fire, fire, fire, fire"], difficulty: 2 },
-            // DIFFICULTY 3
             { artist: "EXO", song: "Tempo", snippet: "I can't believe, ___", answer: "Gidaryeotdeon ireon neukkim", options: ["Gidaryeotdeon ireon neukkim", "Neol cheoeum bon sunganbuteo", "Nae simjangi ttwineun sori"], difficulty: 3 },
             { artist: "BLACKPINK", song: "Shut Down", snippet: "Keep watching me shut it down, ___", answer: "Nah nah nah nah nah", options: ["Nah nah nah nah nah", "Yeah yeah yeah yeah yeah", "Ooh ooh ooh ooh ooh"], difficulty: 3 },
             { artist: "BTS", song: "Run BTS", snippet: "Run bulletproof, run, ___", answer: "Yeah you gotta run", options: ["Yeah you gotta run", "Never looking back", "Keep moving forward now"], difficulty: 3 },
-            // DIFFICULTY 4
             { artist: "BTS", song: "134340", snippet: "My cold heart is ___", answer: "248 degrees minus, below zero", options: ["248 degrees minus, below zero", "Frozen solid like the winter snow", "Lost completely in the universe"], difficulty: 4 },
             { artist: "BLACKPINK", song: "Tally", snippet: "I say fuck it when I ___", answer: "Feel it, cause no one's keeping tally", options: ["Feel it, cause no one's keeping tally", "Want to, doing whatever I please", "Need to, living life on my own terms"], difficulty: 4 },
             { artist: "TWICE", song: "Hell in Heaven", snippet: "Take me to your paradise, ___", answer: "Make me feel like I'm alive", options: ["Make me feel like I'm alive", "Hiding in the shadows of love", "Burning up the skies above"], difficulty: 4 },
@@ -827,11 +626,8 @@
             { artist: "TWICE", song: "Icon", snippet: "Damn I got it, ___", answer: "I'm iconic, you know I've got it", options: ["I'm iconic, you know I've got it", "Looking flawless every day", "Shining brighter than a diamond"], difficulty: 4 }
         ];
 
-        // ==========================================
-        // 🎤 WHO SANG IT? VAULT (Strictly 7 Bands) 🎤
-        // ==========================================
+        // Who Sang It Vault
         const whoSangItVault = [
-            // DIFFICULTY 1
             { artist: "Stray Kids", song: "God's Menu", snippet: "Cooking like a chef, I'm a 5 star Michelin", answer: "Felix", options: ["Felix", "Bang Chan", "Hyunjin"], difficulty: 1 },
             { artist: "TWICE", song: "Cheer Up", snippet: "Shy shy shy", answer: "Sana", options: ["Sana", "Momo", "Nayeon"], difficulty: 1 },
             { artist: "BLACKPINK", song: "Boombayah", snippet: "Click clack bada bing bada boom", answer: "Jennie", options: ["Jennie", "Lisa", "Rosé"], difficulty: 1 },
@@ -839,45 +635,21 @@
             { artist: "EXO", song: "Monster", snippet: "I'm creeping in your heart babe", answer: "Baekhyun", options: ["Baekhyun", "D.O.", "Kai"], difficulty: 1 },
             { artist: "Seventeen", song: "Aju Nice", snippet: "Aju nice!", answer: "Hoshi", options: ["Hoshi", "Mingyu", "Woozi"], difficulty: 1 },
             { artist: "ENHYPEN", song: "Bite Me", snippet: "Just come kiss me and bite me", answer: "Heeseung", options: ["Heeseung", "Sunghoon", "Ni-ki"], difficulty: 1 },
-            { artist: "TWICE", song: "TT", snippet: "I'm like TT, just like TT", answer: "Nayeon", options: ["Nayeon", "Jihyo", "Dahyun"], difficulty: 1 },
-            { artist: "BLACKPINK", song: "Pretty Savage", snippet: "Born skinny, bitch, but I fly thick", answer: "Lisa", options: ["Lisa", "Jisoo", "Jennie"], difficulty: 1 },
-            { artist: "BTS", song: "Blood Sweat & Tears", snippet: "Nae pi ttam nunmul", answer: "Jimin", options: ["Jimin", "V", "Jin"], difficulty: 1 },
-
-            // DIFFICULTY 2
             { artist: "Stray Kids", song: "Maniac", snippet: "Poppin' like a maniac", answer: "Felix", options: ["Felix", "Han", "Seungmin"], difficulty: 2 },
             { artist: "BTS", song: "Dynamite", snippet: "'Cause I, I, I'm in the stars tonight", answer: "Jungkook", options: ["Jungkook", "Jimin", "J-Hope"], difficulty: 2 },
             { artist: "TWICE", song: "Likey", snippet: "BB cream papapa, lipstick mamama", answer: "Dahyun", options: ["Dahyun", "Chaeyoung", "Mina"], difficulty: 2 },
             { artist: "BLACKPINK", song: "Playing With Fire", snippet: "My love is on fire", answer: "Rosé", options: ["Rosé", "Jisoo", "Jennie"], difficulty: 2 },
             { artist: "ENHYPEN", song: "Fever", snippet: "Neol ango sipeo fever", answer: "Ni-ki", options: ["Ni-ki", "Jay", "Jake"], difficulty: 2 },
-            { artist: "EXO", song: "Growl", snippet: "Nareul jageuk haji ma", answer: "D.O.", options: ["D.O.", "Chanyeol", "Suho"], difficulty: 2 },
-            { artist: "Seventeen", song: "HOT", snippet: "Drop it like hot hot hot", answer: "Mingyu", options: ["Mingyu", "S.Coups", "Jeonghan"], difficulty: 2 },
-            { artist: "Stray Kids", song: "Thunderous", snippet: "Maaamdaero kkeuchangbwa!", answer: "Changbin", options: ["Changbin", "I.N", "Lee Know"], difficulty: 2 },
-            { artist: "BTS", song: "Epiphany", snippet: "I'm the one I should love in this world", answer: "Jin", options: ["Jin", "V", "Suga"], difficulty: 2 },
-            { artist: "TWICE", song: "Feel Special", snippet: "You make me feel special", answer: "Nayeon", options: ["Nayeon", "Tzuyu", "Sana"], difficulty: 2 },
-
-            // DIFFICULTY 3
             { artist: "BLACKPINK", song: "Shut Down", snippet: "It's not a comeback since we've never left", answer: "Jennie", options: ["Jennie", "Lisa", "Rosé"], difficulty: 3 },
             { artist: "BTS", song: "Mic Drop", snippet: "Yeah nuga nae sujeo deoreopdae", answer: "Suga", options: ["Suga", "RM", "J-Hope"], difficulty: 3 },
             { artist: "Seventeen", song: "Super", snippet: "Darumdarimda", answer: "Vernon", options: ["Vernon", "DK", "Wonwoo"], difficulty: 3 },
-            { artist: "Stray Kids", song: "S-Class", snippet: "I'm a S-Class, yeah", answer: "Han", options: ["Han", "Bang Chan", "Changbin"], difficulty: 3 },
-            { artist: "ENHYPEN", song: "Drunk-Dazed", snippet: "Daze daze daze", answer: "Jungwon", options: ["Jungwon", "Sunoo", "Heeseung"], difficulty: 3 },
-            { artist: "EXO", song: "Love Shot", snippet: "It's the love shot", answer: "Kai", options: ["Kai", "Sehun", "Xiumin"], difficulty: 3 },
-            { artist: "TWICE", song: "Fancy", snippet: "Fancy you, nuga meonjeo joahamyeon eottae", answer: "Jihyo", options: ["Jihyo", "Nayeon", "Jeongyeon"], difficulty: 3 },
-            { artist: "BLACKPINK", song: "How You Like That", snippet: "Bodaran du son-e sumg-yeodun bal-teob", answer: "Jisoo", options: ["Jisoo", "Rosé", "Jennie"], difficulty: 3 },
-            { artist: "BTS", song: "Boy In Luv", snippet: "I'm a good boy", answer: "V", options: ["V", "Jimin", "Jungkook"], difficulty: 3 },
-            { artist: "Seventeen", song: "Very Nice", snippet: "Gibun gibun gibun joa", answer: "DK", options: ["DK", "Seungkwan", "Joshua"], difficulty: 3 },
-
-            // DIFFICULTY 4 (BOSS LEVEL)
             { artist: "BTS", song: "Spring Day", snippet: "You know it all, you're my best friend", answer: "V", options: ["V", "Jimin", "Jin"], difficulty: 4 },
             { artist: "Stray Kids", song: "Venom", snippet: "Spider web, spider web", answer: "Hyunjin", options: ["Hyunjin", "Felix", "Lee Know"], difficulty: 4 },
             { artist: "BLACKPINK", song: "Lovesick Girls", snippet: "I'm a girl with a good heart", answer: "Rosé", options: ["Rosé", "Jisoo", "Jennie"], difficulty: 4 },
             { artist: "TWICE", song: "Alcohol-Free", snippet: "I'm drunk in you", answer: "Mina", options: ["Mina", "Chaeyoung", "Tzuyu"], difficulty: 4 },
             { artist: "ENHYPEN", song: "Given-Taken", snippet: "Unmyeongeui hwasalbie", answer: "Sunghoon", options: ["Sunghoon", "Jake", "Jungwon"], difficulty: 4 },
             { artist: "EXO", song: "Call Me Baby", snippet: "Never don't mind about a thing", answer: "Sehun", options: ["Sehun", "Chanyeol", "Kai"], difficulty: 4 },
-            { artist: "Seventeen", song: "Rock With You", snippet: "I wanna stay with you", answer: "Joshua", options: ["Joshua", "Jeonghan", "Jun"], difficulty: 4 },
-            { artist: "BTS", song: "Blood Sweat & Tears", snippet: "Peaches and cream, sweeter than sweet", answer: "RM", options: ["RM", "Suga", "J-Hope"], difficulty: 4 },
-            { artist: "Stray Kids", song: "Maknae On Top", snippet: "Maknae on top", answer: "I.N", options: ["I.N", "Seungmin", "Bang Chan"], difficulty: 4 },
-            { artist: "BLACKPINK", song: "Whistle", snippet: "Make 'em whistle like a missile, bomb, bomb", answer: "Jennie", options: ["Jennie", "Lisa", "Rosé"], difficulty: 4 }
+            { artist: "Seventeen", song: "Rock With You", snippet: "I wanna stay with you", answer: "Joshua", options: ["Joshua", "Jeonghan", "Jun"], difficulty: 4 }
         ];
 
         const cheers = {
@@ -893,6 +665,7 @@
             timerId: null,
             gameMode: 'normal',
             isGambleMode: false,
+            pendingGacha: false,
 
             start(mode = 'normal') {
                 audioManager.init();
@@ -901,27 +674,60 @@
                 this.currentRound = 0;
                 this.gameMode = mode;
                 this.isGambleMode = false;
+                this.pendingGacha = false;
                 
-                // Set Theme dynamically based on game mode
                 document.body.className = '';
-                if (mode === 'super') {
-                    document.body.classList.add('theme-super');
-                } else if (mode === 'whoSangIt') {
-                    document.body.classList.add('theme-who');
-                }
+                if (mode === 'super') document.body.classList.add('theme-super');
+                else if (mode === 'whoSangIt') document.body.classList.add('theme-who');
                 
-                createBg(mode); // Redraw background elements based on mode
-
+                createBg(mode);
                 this.generateRounds();
                 this.showScreen('gameScreen');
                 this.loadRound();
+            },
+
+            showStats() {
+                document.getElementById('statHigh').innerText = `${playerData.highScore} 💖`;
+                document.getElementById('statTotal').innerText = `${playerData.totalCoins} 💖`;
+                document.getElementById('statCorrect').innerText = playerData.totalCorrect;
+                
+                const winRate = playerData.gambleAttempts > 0 
+                    ? Math.round((playerData.gambleWins / playerData.gambleAttempts) * 100) 
+                    : 0;
+                document.getElementById('statWinRate').innerText = `${winRate}%`;
+                
+                document.getElementById('allTimeRankText').innerText = getAllTimeRankName(playerData.totalCoins);
+                document.getElementById('statsOverlay').style.display = 'flex';
+            },
+
+            showCollection() {
+                const grid = document.getElementById('collectionGrid');
+                grid.innerHTML = '';
+                
+                document.getElementById('collectionProgress').innerText = `${playerData.ownedPhotocardIDs.length} / 150 Photocards`;
+
+                photocardVault.forEach(card => {
+                    const el = document.createElement('div');
+                    const isOwned = playerData.ownedPhotocardIDs.includes(card.id);
+                    
+                    if (isOwned) {
+                        el.className = 'gallery-card';
+                        el.innerHTML = `<img src="${getRealImage(card.query)}" loading="lazy" alt="${card.name}">`;
+                    } else {
+                        el.className = 'gallery-card locked';
+                        // To save API hits on 150 locked images, we use UI avatars for placeholders.
+                        el.innerHTML = `<img src="${getAvatar(card.group)}" loading="lazy" alt="Locked">`;
+                    }
+                    grid.appendChild(el);
+                });
+                
+                this.showScreen('collectionScreen');
             },
 
             updateCoinDisplay() {
                 const ui = document.getElementById('coinTotal');
                 const counterBox = document.getElementById('coinCounterUI');
                 ui.innerText = this.coins;
-                
                 counterBox.classList.add('pulse');
                 setTimeout(() => counterBox.classList.remove('pulse'), 200);
             },
@@ -930,21 +736,13 @@
                 const body = document.body;
                 for(let i=0; i<6; i++) {
                     const coin = document.createElement('div');
-                    coin.className = 'floating-coin';
-                    coin.innerText = '💖';
-                    coin.style.left = '50%';
-                    coin.style.top = '50%';
-                    
-                    const angle = Math.random() * Math.PI * 2;
-                    const dist = 60 + Math.random() * 60;
+                    coin.className = 'floating-coin'; coin.innerText = '💖';
+                    coin.style.left = '50%'; coin.style.top = '50%';
+                    const angle = Math.random() * Math.PI * 2; const dist = 60 + Math.random() * 60;
                     coin.style.setProperty('--tx-mid', `${Math.cos(angle) * dist}px`);
                     coin.style.setProperty('--ty-mid', `${Math.sin(angle) * dist}px`);
-                    
-                    coin.style.setProperty('--tx-end', '40vw');
-                    coin.style.setProperty('--ty-end', '-45vh');
-                    
-                    body.appendChild(coin);
-                    setTimeout(() => coin.remove(), 1000);
+                    coin.style.setProperty('--tx-end', '40vw'); coin.style.setProperty('--ty-end', '-45vh');
+                    body.appendChild(coin); setTimeout(() => coin.remove(), 1000);
                 }
             },
 
@@ -967,13 +765,7 @@
                     const d2 = shuffle(sourceVault.filter(s => s.difficulty === 2));
                     const d3 = shuffle(sourceVault.filter(s => s.difficulty === 3));
                     const d4 = shuffle(sourceVault.filter(s => s.difficulty === 4));
-
-                    this.rounds = [
-                        ...d1.slice(0, 2),
-                        ...d2.slice(0, 3),
-                        ...d3.slice(0, 1),
-                        ...d4.slice(0, 1)
-                    ];
+                    this.rounds = [...d1.slice(0, 2), ...d2.slice(0, 3), ...d3.slice(0, 1), ...d4.slice(0, 1)];
                 }
             },
 
@@ -982,55 +774,29 @@
                 const roundText = this.currentRound === 6 ? "ROUND 7 : BOSS LEVEL 😈" : `ROUND ${this.currentRound + 1} / 7`;
                 document.getElementById('roundCounter').innerText = roundText;
                 
-                if(this.currentRound === 6 && this.isGambleMode) {
-                    document.getElementById('roundCounter').style.color = 'var(--pink-vibrant)';
-                } else {
-                    document.getElementById('roundCounter').style.color = 'var(--text-light)';
-                }
-
+                document.getElementById('roundCounter').style.color = (this.currentRound === 6 && this.isGambleMode) ? 'var(--pink-vibrant)' : 'var(--text-light)';
                 document.getElementById('artistName').innerText = song.artist;
                 
-                // Switch text rendering based on mode
-                let lyricHtml = "";
-                if (this.gameMode === 'whoSangIt') {
-                    lyricHtml = `"${song.snippet}"<br><span style="font-size:0.85em; color:var(--text-light); margin-top:12px; display:block; text-transform:uppercase; letter-spacing:1px;">Who sang this line?</span>`;
-                } else {
-                    lyricHtml = song.snippet.replace("___", '<span class="blank-space">...</span>');
-                }
-                
+                let lyricHtml = this.gameMode === 'whoSangIt' 
+                    ? `"${song.snippet}"<br><span style="font-size:0.85em; color:var(--text-light); margin-top:12px; display:block; text-transform:uppercase; letter-spacing:1px;">Who sang this line?</span>`
+                    : song.snippet.replace("___", '<span class="blank-space">...</span>');
                 document.getElementById('lyricText').innerHTML = lyricHtml;
 
-                // Build Options
                 const optionsGrid = document.getElementById('optionsGrid');
                 optionsGrid.innerHTML = '';
-                
-                const shuffle = (array) => {
-                    for (let i = array.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [array[i], array[j]] = [array[j], array[i]];
-                    }
-                    return array;
-                };
-                const shuffledOptions = shuffle([...song.options]);
+                const shuffledOptions = [...song.options].sort(() => Math.random() - 0.5);
                 
                 shuffledOptions.forEach(opt => {
                     const btn = document.createElement('button');
-                    
                     if (this.gameMode === 'whoSangIt') {
                         btn.className = 'option-bubble option-with-img';
-                        // Fetch the member's face dynamically!
                         const imgSrc = getRealImage(opt + " " + song.artist);
-                        const fallbackSrc = getAvatar(opt);
-                        btn.innerHTML = `<img src="${imgSrc}" onerror="this.onerror=null; this.src='${fallbackSrc}'" alt="${opt}"> <span>${opt}</span>`;
+                        btn.innerHTML = `<img src="${imgSrc}" onerror="this.onerror=null; this.src='${getAvatar(opt)}'" alt="${opt}"> <span>${opt}</span>`;
                     } else {
                         btn.className = 'option-bubble';
                         btn.innerText = opt;
                     }
-                    
-                    btn.onclick = () => {
-                        audioManager.play('click');
-                        this.handleAnswer(opt);
-                    };
+                    btn.onclick = () => { audioManager.play('click'); this.handleAnswer(opt); };
                     optionsGrid.appendChild(btn);
                 });
 
@@ -1051,69 +817,59 @@
                 }
                 
                 bar.style.width = '100%';
-
                 clearInterval(this.timerId);
                 this.timerId = setInterval(() => {
                     this.timeLeft -= 0.1;
-                    const percent = (this.timeLeft / totalTime) * 100;
-                    bar.style.width = percent + '%';
+                    bar.style.width = (this.timeLeft / totalTime) * 100 + '%';
 
                     if (!this.isGambleMode || this.currentRound !== 6) {
-                        if (this.timeLeft < 4 && Math.floor(this.timeLeft * 10) % 10 === 0) {
-                            bar.style.backgroundColor = 'var(--danger)';
-                            audioManager.play('tick'); 
-                        }
-                        else if (this.timeLeft < 7 && this.timeLeft >= 4) {
-                            bar.style.backgroundColor = 'var(--warning)';
-                        }
+                        if (this.timeLeft < 4 && Math.floor(this.timeLeft * 10) % 10 === 0) { bar.style.backgroundColor = 'var(--danger)'; audioManager.play('tick'); }
+                        else if (this.timeLeft < 7 && this.timeLeft >= 4) { bar.style.backgroundColor = 'var(--warning)'; }
                     } else {
                          if(Math.floor(this.timeLeft * 10) % 5 === 0) audioManager.play('tick');
                     }
-
-                    if (this.timeLeft <= 0) {
-                        this.handleAnswer(null);
-                    }
+                    if (this.timeLeft <= 0) this.handleAnswer(null);
                 }, 100);
             },
 
             handleAnswer(choice) {
                 clearInterval(this.timerId);
-                
                 const song = this.rounds[this.currentRound];
                 const isCorrect = choice?.toLowerCase() === song.answer.toLowerCase();
                 
-                let coinsEarned = 0;
-                let isJackpot = false;
-                let isFail = false;
+                let coinsEarned = 0; let isJackpot = false; let isFail = false;
 
                 if (isCorrect) {
+                    playerData.totalCorrect++; // Persistent Stat
                     if (this.currentRound < 2) coinsEarned = 10;
                     else if (this.currentRound < 5) coinsEarned = 25;
                     else if (this.currentRound === 5) coinsEarned = 50;
                     else if (this.currentRound === 6) {
                         if (this.isGambleMode) {
-                            coinsEarned = this.coins;
+                            coinsEarned = this.coins; 
                             isJackpot = true;
+                            playerData.gambleWins++; // Persistent Stat
+                            this.pendingGacha = true; // Trigger Gacha!
                         } else {
                             coinsEarned = 100;
                         }
                     }
-                    
                     this.coins += coinsEarned;
                     this.spawnFloatingCoins();
                     setTimeout(() => this.updateCoinDisplay(), 800);
-
-                    if (isJackpot) audioManager.play('jackpot');
-                    else audioManager.play('correct');
+                    if (isJackpot) audioManager.play('jackpot'); else audioManager.play('correct');
                 } else {
                     if (this.currentRound === 6 && this.isGambleMode) {
-                        this.coins = 0; 
-                        this.updateCoinDisplay();
-                        isFail = true;
-                        audioManager.play('aww');
+                        this.coins = 0; this.updateCoinDisplay();
+                        isFail = true; audioManager.play('aww');
                     } else {
                         audioManager.play('wrong');
                     }
+                }
+
+                // Track gamble attempt persistently
+                if (this.currentRound === 6 && this.isGambleMode) {
+                    playerData.gambleAttempts++;
                 }
 
                 const overlay = document.getElementById('feedbackOverlay');
@@ -1132,18 +888,13 @@
                 else if (isFail) coinText.innerText = `Bankrupt! 😭`;
                 else coinText.innerText = ``;
                 
-                // Show the specific member's face if in "Who Sang It" mode!
                 let imageQuery = this.gameMode === 'whoSangIt' ? (song.answer + " " + song.artist) : song.artist;
-                const realSrc = getRealImage(imageQuery);
-                const fallbackSrc = getAvatar(imageQuery);
-                card.innerHTML = `<img src="${realSrc}" alt="${song.artist}" onerror="this.onerror=null; this.src='${fallbackSrc}';">`;
+                card.innerHTML = `<img src="${getRealImage(imageQuery)}" alt="${song.artist}" onerror="this.onerror=null; this.src='${getAvatar(imageQuery)}';">`;
                 
                 overlay.style.display = 'flex';
             },
 
-            getRandom(arr) {
-                return arr[Math.floor(Math.random() * arr.length)];
-            },
+            getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; },
 
             nextRound() {
                 this.currentRound++;
@@ -1152,7 +903,7 @@
                 } else if (this.currentRound < 7) {
                     this.loadRound();
                 } else {
-                    this.showResults();
+                    this.processEndOfGame();
                 }
             },
 
@@ -1168,38 +919,72 @@
                 this.loadRound();
             },
 
+            processEndOfGame() {
+                // Persistent saving logic
+                playerData.totalCoins += this.coins;
+                if (this.coins > playerData.highScore) playerData.highScore = this.coins;
+                saveGameData();
+
+                document.getElementById('feedbackOverlay').style.display = 'none';
+
+                if (this.pendingGacha) {
+                    this.triggerGacha();
+                } else {
+                    this.showResults();
+                }
+            },
+
+            triggerGacha() {
+                const unowned = photocardVault.filter(c => !playerData.ownedPhotocardIDs.includes(c.id));
+                if (unowned.length === 0) {
+                    // Maxed out collection fallback
+                    this.coins += 500;
+                    this.showResults();
+                    return;
+                }
+
+                // Random pull
+                const newCard = unowned[Math.floor(Math.random() * unowned.length)];
+                playerData.ownedPhotocardIDs.push(newCard.id);
+                saveGameData();
+
+                // Setup overlay
+                const gachaOverlay = document.getElementById('gachaOverlay');
+                document.getElementById('gachaCardName').innerText = newCard.name;
+                document.getElementById('gachaCardImage').innerHTML = `<img src="${getRealImage(newCard.query)}" alt="${newCard.name}">`;
+                
+                audioManager.play('win'); // Shimmer effect substitute
+                gachaOverlay.style.display = 'flex';
+            },
+
+            closeGacha() {
+                document.getElementById('gachaOverlay').style.display = 'none';
+                this.showResults();
+            },
+
             showResults() {
                 this.showScreen('resultScreen');
                 const scoreDisplay = document.getElementById('finalScore');
                 const rankBadge = document.getElementById('rankBadge');
                 const rankMsg = document.getElementById('rankMessage');
                 const resultIcon = document.getElementById('resultIcon');
+                
+                document.getElementById('resultAllTimeRank').innerText = getAllTimeRankName(playerData.totalCoins);
 
                 scoreDisplay.innerText = `${this.coins}`;
 
                 if (this.coins >= 300) {
-                    audioManager.play('win');
-                    fireConfetti();
-                    resultIcon.innerText = "👑🔥";
-                    rankBadge.innerText = "ULTIMATE K-POP DEITY";
-                    rankMsg.innerText = "You won the Boss gamble! You own the fandom.";
+                    audioManager.play('win'); fireConfetti(); resultIcon.innerText = "👑🔥";
+                    rankBadge.innerText = "ULTIMATE K-POP DEITY"; rankMsg.innerText = "You won the Boss gamble! You own the fandom.";
                 } else if (this.coins >= 151) {
-                    audioManager.play('win');
-                    fireConfetti();
-                    resultIcon.innerText = "📸";
-                    rankBadge.innerText = "HIGH-TIER BIAS";
-                    rankMsg.innerText = "Daebak! Time to watch more Behind the Scenes!";
+                    audioManager.play('win'); fireConfetti(); resultIcon.innerText = "📸";
+                    rankBadge.innerText = "HIGH-TIER BIAS"; rankMsg.innerText = "Daebak! Time to watch more Behind the Scenes!";
                 } else if (this.coins >= 51) {
-                    audioManager.play('win');
-                    fireConfetti();
-                    resultIcon.innerText = "✨";
-                    rankBadge.innerText = "TRAINEE";
-                    rankMsg.innerText = "You know your title tracks! Keep practicing!";
+                    audioManager.play('win'); fireConfetti(); resultIcon.innerText = "✨";
+                    rankBadge.innerText = "TRAINEE"; rankMsg.innerText = "You know your title tracks! Keep practicing!";
                 } else {
-                    audioManager.play('lose');
-                    resultIcon.innerText = "🌧️";
-                    rankBadge.innerText = "MUGGLE LISTENER";
-                    rankMsg.innerText = "It's just a casual vibe. Watch some MVs!";
+                    audioManager.play('lose'); resultIcon.innerText = "🌧️";
+                    rankBadge.innerText = "MUGGLE LISTENER"; rankMsg.innerText = "It's just a casual vibe. Watch some MVs!";
                 }
             },
 
@@ -1211,46 +996,32 @@
 
         function createBg(mode = 'normal') {
             const container = document.getElementById('bgElements');
-            container.innerHTML = ''; // Clear existing background elements
-            
-            let pathD = "";
-            let viewBox = "";
-            
+            container.innerHTML = ''; 
+            let pathD = "", viewBox = "";
             if (mode === 'super') {
-                // Fire Emoji Path
-                viewBox = "0 0 448 512";
-                pathD = "M159.3 5.4c7.8-7.3 19.9-7.2 27.7 .1c27.6 25.9 53.5 53.8 77.7 84c11-14.4 23.5-30.1 37-42.9c7.9-7.4 20.1-7.4 28 .1c34.6 33 63.9 76.6 84.5 118c20.3 40.8 33.8 82.5 33.8 111.9C448 404.2 348.2 512 224 512C98.4 512 0 404.1 0 276.5c0-38.4 17.8-85.3 45.4-131.7C73.3 97.7 112.7 48.6 159.3 5.4zM225.7 416c25.3 0 47.7-7 68.8-21c42.1-29.4 53.4-88.2 28.1-134.4c-4.5-9-16-9.6-22.5-2l-25.2 29.3c-6.6 7.6-18.5 7.4-24.7-.5c-16.5-21-46-58.5-62.8-79.8c-6.3-8-18.3-8.1-24.7-.1c-33.8 42.5-50.8 69.3-50.8 99.4C112 375.4 162.6 416 225.7 416z";
+                viewBox = "0 0 448 512"; pathD = "M159.3 5.4c7.8-7.3 19.9-7.2 27.7 .1c27.6 25.9 53.5 53.8 77.7 84c11-14.4 23.5-30.1 37-42.9c7.9-7.4 20.1-7.4 28 .1c34.6 33 63.9 76.6 84.5 118c20.3 40.8 33.8 82.5 33.8 111.9C448 404.2 348.2 512 224 512C98.4 512 0 404.1 0 276.5c0-38.4 17.8-85.3 45.4-131.7C73.3 97.7 112.7 48.6 159.3 5.4zM225.7 416c25.3 0 47.7-7 68.8-21c42.1-29.4 53.4-88.2 28.1-134.4c-4.5-9-16-9.6-22.5-2l-25.2 29.3c-6.6 7.6-18.5 7.4-24.7-.5c-16.5-21-46-58.5-62.8-79.8c-6.3-8-18.3-8.1-24.7-.1c-33.8 42.5-50.8 69.3-50.8 99.4C112 375.4 162.6 416 225.7 416z";
             } else if (mode === 'whoSangIt') {
-                // Microphone Path
-                viewBox = "0 0 384 512";
-                pathD = "M192 0C139 0 96 43 96 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H120c-13.3 0-24 10.7-24 24s10.7 24 24 24h72 72c13.3 0 24-10.7 24-24s-10.7-24-24-24H216V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z";
+                viewBox = "0 0 384 512"; pathD = "M192 0C139 0 96 43 96 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H120c-13.3 0-24 10.7-24 24s10.7 24 24 24h72 72c13.3 0 24-10.7 24-24s-10.7-24-24-24H216V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z";
             } else {
-                // Standard Heart Path
-                viewBox = "0 0 32 32";
-                pathD = "M16,28.221l-2.221-2.022C6.126,19.389,1,14.737,1,9.088C1,4.438,4.646,1,9.088,1c2.51,0,4.919,1.168,6.912,3.007 C17.993,2.168,20.402,1,22.912,1C27.354,1,31,4.438,31,9.088c0,5.649-5.126,10.301-12.779,17.13L16,28.221z";
+                viewBox = "0 0 32 32"; pathD = "M16,28.221l-2.221-2.022C6.126,19.389,1,14.737,1,9.088C1,4.438,4.646,1,9.088,1c2.51,0,4.919,1.168,6.912,3.007 C17.993,2.168,20.402,1,22.912,1C27.354,1,31,4.438,31,9.088c0,5.649-5.126,10.301-12.779,17.13L16,28.221z";
             }
 
             for (let i = 0; i < 15; i++) {
                 const shape = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                shape.setAttribute("viewBox", viewBox);
-                shape.classList.add('bg-shape');
-                
+                shape.setAttribute("viewBox", viewBox); shape.classList.add('bg-shape');
                 let baseSize = mode === 'normal' ? 20 : 30;
-                shape.style.width = Math.random() * 30 + baseSize + 'px';
-                shape.style.left = Math.random() * 100 + 'vw';
-                shape.style.top = Math.random() * 100 + 'vh';
-                shape.style.animationDelay = Math.random() * 5 + 's';
+                shape.style.width = Math.random() * 30 + baseSize + 'px'; shape.style.left = Math.random() * 100 + 'vw';
+                shape.style.top = Math.random() * 100 + 'vh'; shape.style.animationDelay = Math.random() * 5 + 's';
                 shape.style.opacity = Math.random() * 0.4 + 0.1;
-                
-                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                path.setAttribute("d", pathD);
-                
-                shape.appendChild(path);
-                container.appendChild(shape);
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path"); path.setAttribute("d", pathD);
+                shape.appendChild(path); container.appendChild(shape);
             }
         }
 
-        window.onload = () => createBg('normal');
+        window.onload = () => {
+            loadGameData();
+            createBg('normal');
+        };
     </script>
 </body>
 </html>
