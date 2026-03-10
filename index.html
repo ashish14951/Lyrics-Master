@@ -7,35 +7,49 @@
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Dynamic Base Variables (Synced to Theme) */
+            --accent-color: #ff3385;
+            --glow-color: rgba(255, 51, 133, 0.4);
+            --glass-blur: 32px; /* Increased for richer frosted effect */
+            --bg-gradient: linear-gradient(-45deg, #ffc3db, #cbf3f0, #eaddff, #ffb6c1);
+            
+            /* Core Mappings */
+            --pink-vibrant: var(--accent-color);
+            --pink-glow: var(--glow-color);
+            --purple-vibrant: var(--accent-color); 
+            
+            /* Standard Colors */
             --pink-soft: #ffe5f0;
-            --pink-vibrant: #ff3385;
-            --pink-glow: rgba(255, 51, 133, 0.4);
             --blue-soft: #e0fbfa;
-            --purple-soft: #f0e6ff;
-            --purple-vibrant: #a142f5;
             --white: #ffffff;
             --text-main: #2d3436;
             --text-light: #636e72;
             --success: #00b894;
             --warning: #fdcb6e;
             --danger: #ff7675;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-bg: rgba(255, 255, 255, 0.75); /* Slightly more transparent to let blur show */
+            --glass-border: rgba(255, 255, 255, 0.8);
             --gold: #f1c40f;
+            
+            /* Apple-Style Easing */
+            --spring: cubic-bezier(0.25, 1.2, 0.4, 1); /* Smoother, less exaggerated spring */
+            --slide-ease: cubic-bezier(0.32, 0.72, 0, 1);
+            --theme-transition: background 0.8s var(--slide-ease), color 0.8s var(--slide-ease), border-color 0.8s var(--slide-ease), box-shadow 0.8s var(--slide-ease);
         }
 
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            outline: none;
         }
 
         body {
             margin: 0;
-            padding: 40px 20px;
+            padding: 40px 20px 100px 20px; 
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(-45deg, #ffc3db, #cbf3f0, #eaddff, #ffb6c1);
+            background: var(--bg-gradient);
             background-size: 300% 300%;
-            animation: gradientBG 15s ease infinite;
+            animation: gradientBG 20s ease-in-out infinite;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -43,17 +57,27 @@
             overflow-x: hidden;
             overflow-y: auto;
             color: var(--text-main);
-            transition: background 0.6s ease, color 0.6s ease;
+            transition: var(--theme-transition);
         }
 
         /* Subtle noise texture for a premium feel */
         body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 0;
+            content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 0;
+        }
+
+        /* Animated Pulse Background Glow */
+        body::after {
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, var(--glow-color) 0%, transparent 65%);
+            opacity: 0.25; pointer-events: none; z-index: -1;
+            animation: pulseBg 6s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background 0.8s var(--slide-ease);
+        }
+        @keyframes pulseBg {
+            0% { opacity: 0.15; transform: scale(0.9); }
+            100% { opacity: 0.35; transform: scale(1.1); }
         }
 
         @keyframes gradientBG {
@@ -63,255 +87,398 @@
         }
 
         /* ------------------------------------- */
-        /* DYNAMIC THEMES                        */
+        /* DYNAMIC BIAS THEMES                   */
         /* ------------------------------------- */
 
+        body.theme-jhope {
+            --accent-color: #FFD700;
+            --glow-color: rgba(255, 215, 0, 0.4);
+            --purple-vibrant: #ffaa00; 
+            --bg-gradient: linear-gradient(-45deg, #fffcf0, #ffeaa7, #ffd700, #ffb300);
+        }
+        body.theme-rm {
+            --accent-color: #A020F0;
+            --glow-color: rgba(160, 32, 240, 0.4);
+            --purple-vibrant: #6600cc;
+            --bg-gradient: linear-gradient(-45deg, #f9f2ff, #ebd4ff, #d1a3ff, #b870ff);
+        }
+        body.theme-dk {
+            --accent-color: #FF69B4;
+            --glow-color: rgba(255, 105, 180, 0.4);
+            --purple-vibrant: #ff1a8c;
+            --bg-gradient: linear-gradient(-45deg, #fff0f7, #ffcce0, #ff99c2, #ff66a3);
+        }
+        body.theme-mingyu {
+            --accent-color: #FF4500;
+            --glow-color: rgba(255, 69, 0, 0.4);
+            --purple-vibrant: #cc3300;
+            --bg-gradient: linear-gradient(-45deg, #ffebe6, #ffbbaa, #ff8866, #ff5522);
+        }
+        body.theme-scoups {
+            --accent-color: #87CEEB;
+            --glow-color: rgba(135, 206, 235, 0.4);
+            --purple-vibrant: #33bbff;
+            --bg-gradient: linear-gradient(-45deg, #f0fafe, #cceeff, #99ddff, #66ccff);
+        }
+
+        /* ------------------------------------- */
+        /* DARK MODE OVERRIDES (Super & Who)     */
+        /* ------------------------------------- */
+        
+        body.theme-super, body.theme-who {
+            --text-main: #ffffff;
+            --text-light: rgba(255,255,255,0.75);
+        }
         body.theme-super {
-            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #120e1f);
-            background-size: 300% 300%;
-            --text-main: #f5f6fa;
-            --text-light: #b2bec3;
-            --glass-bg: rgba(20, 25, 35, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --pink-vibrant: #ff4757;
-            --purple-vibrant: #ff6b81;
-            --pink-glow: rgba(255, 71, 87, 0.4);
+            --bg-gradient: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #120e1f) !important;
+            --glass-bg: rgba(20, 25, 35, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --pink-soft: #2f3542;
         }
-        body.theme-super .option-bubble {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            color: #ffffff;
-            border-color: rgba(255,255,255,0.2);
-        }
-        body.theme-super .option-bubble:hover {
-            background: linear-gradient(135deg, rgba(255,71,87,0.8), rgba(255,107,129,0.8));
-            color: #ffffff;
-            border-color: rgba(255,71,87,0.5);
-            box-shadow: 0 15px 30px rgba(255, 71, 87, 0.3), 0 5px 15px rgba(0,0,0,0.2);
-        }
-        body.theme-super .lyric-box { background: rgba(0, 0, 0, 0.4); border-color: rgba(255,255,255,0.1); }
-        body.theme-super .overlay { background: rgba(20, 25, 35, 0.95); }
-        body.theme-super .coin-counter { background: rgba(20, 25, 35, 0.9); color: var(--gold); }
-        body.theme-super .song-card { background: rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.1); }
-        body.theme-super .correct-answer-reveal { background: rgba(255,255,255,0.1); color: #dfe6e9; }
-        body.theme-super h1 { text-shadow: 2px 2px 0px rgba(0,0,0,0.6); }
-        body.theme-super .score-item { text-shadow: 3px 3px 0px rgba(0,0,0,0.6); }
-        body.theme-super .timer-container { border-color: rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); }
-
         body.theme-who {
-            background: linear-gradient(-45deg, #a18cd1, #fbc2eb, #8e44ad, #e0c3fc);
-            background-size: 300% 300%;
-            --pink-vibrant: #8e44ad;
-            --purple-vibrant: #9b59b6;
-            --pink-soft: #f3e5f5;
-            --glass-bg: rgba(250, 240, 255, 0.85);
-            --blue-soft: #e8daff;
-            --pink-glow: rgba(142, 68, 173, 0.4);
+            --bg-gradient: linear-gradient(-45deg, #1b0735, #2b1055, #3c1e70, #2b1055) !important;
+            --glass-bg: rgba(20, 10, 40, 0.65);
+            --pink-soft: rgba(255,255,255,0.1);
+            --blue-soft: rgba(255,255,255,0.1);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
-        body.theme-who .option-bubble:hover {
-            background: linear-gradient(135deg, var(--white), var(--blue-soft));
-            color: #8e44ad;
-            border-color: #d4a5ff;
-            box-shadow: 0 15px 30px rgba(142, 68, 173, 0.2), 0 5px 15px rgba(0,0,0,0.05);
+
+        /* Unified Dark Buttons & Overlays */
+        body.theme-super .game-container, body.theme-who .game-container {
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5), 0 30px 60px -30px rgba(0, 0, 0, 0.6), inset 0 -2px 6px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.08);
         }
-        body.theme-who .option-with-img img { border-color: var(--pink-vibrant); }
+        body.theme-super .option-bubble, body.theme-who .option-bubble { 
+            background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)); 
+            color: #ffffff; 
+            border-color: rgba(255,255,255,0.15); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1);
+        }
+        body.theme-super .option-bubble:hover, body.theme-who .option-bubble:hover { 
+            background: linear-gradient(135deg, var(--accent-color), var(--purple-vibrant)); 
+            color: #ffffff; 
+            border-color: var(--accent-color); 
+            box-shadow: 0 15px 30px var(--glow-color), 0 5px 15px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.3); 
+        }
+        body.theme-super .lyric-box, body.theme-who .lyric-box { background: rgba(0, 0, 0, 0.3); border-color: rgba(255,255,255,0.05); box-shadow: inset 0 2px 10px rgba(0,0,0,0.2); }
+        body.theme-super .coin-counter, body.theme-who .coin-counter { background: rgba(0, 0, 0, 0.4); color: var(--gold); border-color: rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        body.theme-super .song-card, body.theme-who .song-card { background: rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.1); }
+        body.theme-super .correct-answer-reveal, body.theme-who .correct-answer-reveal { background: rgba(255,255,255,0.08); color: #ffffff; }
+        body.theme-super h1, body.theme-who h1 { text-shadow: 2px 4px 8px rgba(0,0,0,0.4); }
+        body.theme-super .timer-container, body.theme-who .timer-container { border-color: rgba(255,255,255,0.1); background: rgba(0,0,0,0.4); box-shadow: inset 0 2px 5px rgba(0,0,0,0.3); }
+
+        /* The Golden Maknae Skin */
+        body.theme-golden {
+            --accent-color: #d35400;
+            --glow-color: rgba(241, 196, 15, 0.5);
+            --purple-vibrant: #f39c12;
+            --bg-gradient: linear-gradient(-45deg, #f1c40f, #f39c12, #e67e22, #d35400) !important;
+            --pink-soft: #fffdf5;
+            --glass-bg: rgba(255, 250, 240, 0.85);
+            --blue-soft: #ffecd2;
+            --gold: #d35400;
+            --text-main: #2d3436; 
+        }
+        body.theme-golden .option-bubble:hover { color: var(--accent-color); border-color: #f1c40f; background: var(--white); }
+        body.theme-golden .super-stan-btn { background: linear-gradient(135deg, #f1c40f, #d35400); box-shadow: 0 12px 25px var(--pink-glow); }
+        body.theme-golden .super-stan-btn:hover { background: linear-gradient(135deg, #f1c40f, #d35400); color: white !important; border-color: transparent; }
 
         /* Background Shapes */
         .bg-elements { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
         .bg-shape {
-            position: absolute; fill: rgba(255, 255, 255, 0.6);
-            animation: float 6s infinite ease-in-out; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
+            position: absolute; fill: rgba(255, 255, 255, 0.7);
+            animation: float 8s infinite ease-in-out; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.06));
         }
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-25px) rotate(12deg); } }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(15deg); } }
 
         /* Main Container */
         .game-container {
             width: 100%; max-width: 480px; margin: auto;
-            background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border-radius: 40px; padding: 40px 30px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.1), inset 0 2px 0 rgba(255,255,255,0.8), inset 0 -2px 0 rgba(255,255,255,0.4);
+            background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-radius: 48px; padding: 45px 35px;
+            /* Premium multi-layered shadow */
+            box-shadow: 0 40px 80px -20px rgba(50, 50, 93, 0.15), 0 20px 40px -20px rgba(0, 0, 0, 0.1), inset 0 -2px 6px rgba(0,0,0,0.02), inset 0 2px 4px rgba(255,255,255,0.6);
             border: 1px solid var(--glass-border);
             text-align: center; position: relative; z-index: 5;
-            transition: background 0.6s ease, border-color 0.6s ease;
+            transition: var(--theme-transition);
         }
+
+        /* FLUID ROUND TRANSITIONS */
+        .fluid-content {
+            transition: transform 0.5s var(--slide-ease), opacity 0.4s ease;
+            transform: translateX(0); opacity: 1;
+        }
+        .fluid-content.slide-out {
+            transform: translateX(-50px); opacity: 0; pointer-events: none;
+        }
+        .fluid-content.slide-in {
+            transform: translateX(50px); opacity: 0; animation: slideInAnim 0.5s var(--slide-ease) forwards;
+        }
+        @keyframes slideInAnim { to { transform: translateX(0); opacity: 1; } }
 
         h1 {
             font-family: 'Varela Round', sans-serif;
-            background: linear-gradient(135deg, var(--pink-vibrant), var(--purple-vibrant));
+            background: linear-gradient(135deg, var(--accent-color), var(--purple-vibrant), var(--accent-color));
+            background-size: 200% auto;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin: 0 0 25px 0; font-size: 2.4rem; letter-spacing: -1px;
-            filter: drop-shadow(0 2px 4px var(--pink-glow)); transition: filter 0.6s ease;
+            margin: 0 0 20px 0; font-size: 2.6rem; letter-spacing: -1.5px; line-height: 1.1;
+            filter: drop-shadow(0 4px 8px var(--glow-color)); transition: filter 0.8s var(--slide-ease);
+            animation: textShine 4s linear infinite;
         }
-        .subtitle { font-weight: 700; color: var(--text-light); font-size: 1.1rem; margin-bottom: 30px; margin-top: -15px; }
+        @keyframes textShine { to { background-position: 200% center; } }
+        
+        .subtitle { font-weight: 600; color: var(--text-light); font-size: 1.1rem; margin-bottom: 35px; margin-top: -10px; letter-spacing: -0.2px; opacity: 0.9; }
 
-        /* Hero Image */
-        .hero-image-wrapper { position: relative; width: 180px; height: 180px; margin: 0 auto 35px auto; }
-        .hero-image-glow {
-            position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
-            background: linear-gradient(45deg, var(--pink-vibrant), var(--purple-vibrant), #00d2d3, var(--pink-vibrant));
-            background-size: 400%; border-radius: 50%; z-index: -1; filter: blur(15px);
-            animation: glowingAura 8s linear infinite; opacity: 0.6;
+        /* APPLE-STYLE BIAS SELECTION UI */
+        .squircle-grid {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+            width: 100%; max-width: 400px; margin-bottom: 25px;
         }
-        @keyframes glowingAura { 0% { background-position: 0% 0; } 50% { background-position: 100% 0; } 100% { background-position: 0% 0; } }
-        .hero-image {
-            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-            border: 6px solid var(--white); background-color: var(--pink-soft);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); animation: breathe 4s ease-in-out infinite;
+        .squircle-btn {
+            width: 110px; height: 110px; border-radius: 32px; 
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.06), inset 0 2px 0 rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.6); display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; transition: transform 0.4s var(--spring), box-shadow 0.4s var(--spring), background 0.4s, border-color 0.6s;
         }
-        @keyframes breathe { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-5px) scale(1.02); } }
+        .squircle-btn:hover {
+            transform: scale(1.06) translateY(-5px); box-shadow: 0 20px 40px var(--glow-color), inset 0 2px 0 rgba(255,255,255,1);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .squircle-btn:active { transform: scale(0.94); }
+        .squircle-btn.scale-pop {
+            animation: scalePop 0.6s var(--spring) forwards; background: var(--white);
+            border-color: var(--accent-color); box-shadow: 0 0 40px var(--glow-color);
+        }
+        @keyframes scalePop { 0% { transform: scale(1); } 50% { transform: scale(1.12); } 100% { transform: scale(1); } }
+        .squircle-btn.selected {
+            border-color: var(--accent-color); background: var(--white);
+            transform: scale(1.04); box-shadow: 0 15px 30px var(--glow-color);
+        }
+        .bias-icon { font-size: 2.8rem; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.12)); margin-bottom: 6px; transition: transform 0.3s var(--spring); }
+        .squircle-btn:hover .bias-icon { transform: scale(1.1); }
+        .bias-name { font-weight: 800; font-size: 0.95rem; color: #2d3436; letter-spacing: -0.3px; } 
+
+        /* Mascot In-Game UI */
+        #mascotUI {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 100; display: none; align-items: flex-end; gap: 15px; width: 90%; max-width: 480px;
+            animation: popUpMascot 0.7s var(--spring) forwards; pointer-events: none;
+        }
+        @keyframes popUpMascot { from { transform: translate(-50%, 60px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+        
+        .mascot-avatar {
+            width: 70px; height: 70px; background: var(--white); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 2.4rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15), inset 0 -4px 0 rgba(0,0,0,0.04);
+            border: 3px solid var(--accent-color);
+            animation: floatMascot 5s ease-in-out infinite; transition: var(--theme-transition);
+        }
+        @keyframes floatMascot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+        .mascot-bubble {
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); padding: 16px 24px;
+            border-radius: 24px 24px 24px 8px; font-weight: 700; font-size: 1rem; 
+            color: #2d3436; letter-spacing: -0.2px;
+            box-shadow: 0 15px 40px var(--glow-color); border: 2px solid rgba(255,255,255,0.6);
+            position: relative; flex-grow: 1; line-height: 1.5;
+            transition: transform 0.5s var(--spring), opacity 0.4s ease, border-color 0.8s var(--slide-ease), box-shadow 0.8s var(--slide-ease);
+            transform: scale(1) translateY(0); opacity: 1;
+            transform-origin: bottom left;
+        }
+        .mascot-bubble.refreshing { transform: scale(0.9) translateY(15px); opacity: 0; }
 
         /* In-Game Header & Coin UI */
-        .game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 5px; }
+        .game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding: 0 8px; }
         .coin-counter {
-            background: var(--white); border: 2px solid rgba(241, 196, 15, 0.3);
-            padding: 6px 16px; border-radius: 30px; font-family: 'Varela Round', sans-serif;
-            font-size: 1.15rem; font-weight: 800; color: var(--gold);
-            display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 15px rgba(241, 196, 15, 0.15);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 20;
+            background: var(--white); border: 2px solid rgba(241, 196, 15, 0.2);
+            padding: 8px 18px; border-radius: 30px; font-family: 'Varela Round', sans-serif;
+            font-size: 1.2rem; font-weight: 800; color: var(--gold);
+            display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 20px rgba(241, 196, 15, 0.15);
+            transition: transform 0.4s var(--spring); z-index: 20;
         }
-        .coin-counter.pulse { transform: scale(1.15); }
-        .coin-icon { font-size: 1.3rem; filter: drop-shadow(0 2px 4px rgba(241, 196, 15, 0.4)); }
+        .coin-counter.pulse { transform: scale(1.15) rotate(3deg); }
+        .coin-icon { font-size: 1.4rem; filter: drop-shadow(0 2px 4px rgba(241, 196, 15, 0.3)); }
 
         .floating-coin {
             position: fixed; font-size: 2rem; z-index: 100; pointer-events: none;
-            animation: coinBurst 1s cubic-bezier(0.25, 1, 0.5, 1) forwards; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
-        }
-        @keyframes coinBurst {
-            0% { transform: scale(0) translate(0, 0); opacity: 1; }
-            50% { transform: scale(1.2) translate(var(--tx-mid), var(--ty-mid)); opacity: 1; }
-            100% { transform: scale(0.8) translate(var(--tx-end), var(--ty-end)); opacity: 0; }
+            animation: coinBurst 1s cubic-bezier(0.25, 1, 0.5, 1) forwards; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
         }
 
         /* Timer UI */
-        .timer-container { width: 100%; height: 10px; background: rgba(0,0,0,0.05); border-radius: 20px; margin-bottom: 25px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
-        .timer-bar { height: 100%; width: 100%; background: var(--success); border-radius: 20px; transition: width 0.1s linear, background-color 0.3s ease; }
+        .timer-container { width: 100%; height: 12px; background: rgba(0,0,0,0.06); border-radius: 20px; margin-bottom: 30px; overflow: hidden; box-shadow: inset 0 2px 6px rgba(0,0,0,0.06); }
+        .timer-bar { height: 100%; width: 100%; background: var(--accent-color); border-radius: 20px; transition: width 0.1s linear, background-color 0.8s var(--slide-ease); box-shadow: inset 0 -2px 4px rgba(0,0,0,0.15); }
         .timer-bar.gamble {
-            background: linear-gradient(90deg, var(--pink-vibrant), #ff9933, var(--pink-vibrant)); background-size: 200% 200%;
-            animation: fieryPulse 1s infinite linear; box-shadow: 0 0 15px var(--pink-glow);
+            background: linear-gradient(90deg, var(--accent-color), #ff9933, var(--accent-color)); background-size: 200% 200%;
+            animation: fieryPulse 1s infinite linear; box-shadow: 0 0 20px var(--glow-color);
         }
-        @keyframes fieryPulse { 0% { background-position: 0% 50%; } 100% { background-position: -200% 50%; } }
 
         /* Lyric UI */
         .lyric-box {
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); padding: 30px 25px;
-            border-radius: 24px; margin-bottom: 25px; box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.8); font-size: 1.3rem; font-weight: 700; line-height: 1.6;
-            min-height: 140px; display: flex; flex-direction: column; justify-content: center;
+            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(12px); padding: 35px 30px;
+            border-radius: 28px; margin-bottom: 30px; box-shadow: 0 10px 40px rgba(31, 38, 135, 0.05), inset 0 2px 0 rgba(255,255,255,0.6);
+            border: 1px solid rgba(255, 255, 255, 0.7); font-size: 1.4rem; font-weight: 700; line-height: 1.6;
+            min-height: 150px; display: flex; flex-direction: column; justify-content: center; letter-spacing: -0.5px;
         }
         .artist-tag {
-            font-weight: 800; background: linear-gradient(135deg, var(--purple-vibrant), var(--pink-vibrant));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 0.9rem;
-            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;
+            font-weight: 800; background: linear-gradient(135deg, var(--purple-vibrant), var(--accent-color));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 0.95rem;
+            text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 14px; transition: var(--theme-transition);
         }
         .blank-space {
-            display: inline-block; min-width: 130px; border-bottom: 3px solid var(--pink-vibrant); color: var(--pink-vibrant);
-            padding: 0 15px; background: linear-gradient(to top, rgba(255, 51, 133, 0.1) 0%, transparent 100%);
-            border-radius: 6px 6px 0 0; transition: all 0.3s ease;
+            display: inline-block; min-width: 140px; border-bottom: 3px solid var(--accent-color); color: var(--accent-color);
+            padding: 0 15px; background: linear-gradient(to top, var(--glow-color) 0%, transparent 100%);
+            border-radius: 8px 8px 0 0; transition: var(--theme-transition);
         }
 
         /* Buttons */
-        .options-grid { display: grid; gap: 14px; }
-        .option-with-img { display: flex; align-items: center; justify-content: flex-start; gap: 15px; padding: 12px 20px; text-align: left; }
-        .option-with-img img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--blue-soft); box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: var(--pink-soft); }
+        .options-grid { display: grid; gap: 16px; }
+        .option-with-img { display: flex; align-items: center; justify-content: flex-start; gap: 18px; padding: 14px 22px; text-align: left; }
+        .option-with-img img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-color); box-shadow: 0 4px 12px rgba(0,0,0,0.15); background: var(--pink-soft); transition: var(--theme-transition); }
 
         .option-bubble {
-            background: var(--white); border: 1px solid rgba(255,255,255,0.9); padding: 18px 24px; border-radius: 20px;
-            font-family: inherit; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.04), 0 2px 5px rgba(0,0,0,0.02); color: var(--text-main); position: relative; line-height: 1.4; display: flex; align-items: center; justify-content: center;
+            background: var(--white); border: 1px solid rgba(255,255,255,0.9); padding: 20px 26px; border-radius: 24px;
+            font-family: inherit; font-size: 1.15rem; font-weight: 700; cursor: pointer; transition: all 0.4s var(--spring);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04), 0 2px 6px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,0.8); 
+            color: #2d3436; position: relative; line-height: 1.4; display: flex; align-items: center; justify-content: center;
+            letter-spacing: -0.3px;
         }
-        .option-bubble:hover { transform: translateY(-4px); background: linear-gradient(135deg, var(--white), var(--blue-soft)); box-shadow: 0 15px 30px rgba(0, 210, 211, 0.15), 0 5px 15px rgba(0,0,0,0.05); color: #0097e6; border-color: #cbf3f0; }
-        .option-bubble:active { transform: translateY(2px) scale(0.98); box-shadow: 0 5px 10px rgba(0,0,0,0.05); }
+        .option-bubble:hover { transform: translateY(-4px) scale(1.02); background: var(--white); box-shadow: 0 20px 40px var(--glow-color), 0 8px 20px rgba(0,0,0,0.06); color: var(--accent-color); border-color: var(--accent-color); }
+        .option-bubble:active { transform: translateY(2px) scale(0.96); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-        .super-stan-btn { background: linear-gradient(135deg, var(--pink-vibrant), var(--purple-vibrant)); color: white; border: none; box-shadow: 0 12px 25px var(--pink-glow), inset 0 2px 0 rgba(255,255,255,0.2); font-weight: 800; }
-        .super-stan-btn:hover { background: linear-gradient(135deg, #ff4d94, #b260f7); box-shadow: 0 18px 35px var(--pink-glow); color: white; }
+        .super-stan-btn { background: linear-gradient(135deg, var(--accent-color), var(--purple-vibrant)); color: white !important; border: none; box-shadow: 0 15px 30px var(--glow-color), inset 0 2px 0 rgba(255,255,255,0.25); font-weight: 800; transition: var(--theme-transition), transform 0.4s var(--spring); }
+        .super-stan-btn:hover { background: linear-gradient(135deg, var(--accent-color), var(--purple-vibrant)); box-shadow: 0 22px 45px var(--glow-color); color: white !important; transform: translateY(-4px) scale(1.02); border-color: transparent; }
+        .super-stan-btn:active { transform: translateY(2px) scale(0.95); }
         
-        .small-btn { padding: 12px; font-size: 1rem; }
+        .small-btn { padding: 14px; font-size: 1.05rem; border-radius: 20px; }
 
         /* Overlays & Modals */
         .overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px);
-            border-radius: 40px; display: none; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 10; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 30px; transition: background 0.6s ease;
+            background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur));
+            border-radius: 48px; display: none; flex-direction: column; justify-content: center; align-items: center;
+            border: 1px solid rgba(255,255,255,0.4);
+            z-index: 10; padding: 35px; transition: var(--theme-transition);
         }
-        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .overlay.active { display: flex; animation: springPop 0.6s var(--spring) forwards; }
+        
+        @keyframes springPop { 
+            0% { transform: scale(0.9); opacity: 0; } 
+            50% { transform: scale(1.03); } 
+            100% { transform: scale(1); opacity: 1; } 
+        }
 
-        .gamble-text { font-size: 1.3rem; font-weight: 700; color: var(--text-main); margin: 20px 0 25px 0; line-height: 1.6; }
-        .gamble-highlight { color: var(--pink-vibrant); font-size: 1.5rem; font-weight: 800; display: block; margin-top: 10px; }
+        .gamble-text { font-size: 1.35rem; font-weight: 700; color: var(--text-main); margin: 25px 0 30px 0; line-height: 1.6; letter-spacing: -0.3px; }
+        .gamble-highlight { color: var(--accent-color); font-size: 1.6rem; font-weight: 800; display: block; margin-top: 12px; transition: var(--theme-transition); }
 
-        /* Photocards */
+        /* Basic Photocards */
         .song-card {
-            width: 170px; height: 240px; background: var(--white); border-radius: 16px; margin-bottom: 25px;
-            display: flex; justify-content: center; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
-            overflow: hidden; border: 8px solid white; position: relative;
+            width: 180px; height: 250px; background: var(--white); border-radius: 20px; margin-bottom: 30px;
+            display: flex; justify-content: center; align-items: center; box-shadow: 0 25px 50px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.03);
+            overflow: hidden; border: 10px solid white; position: relative;
         }
         .song-card::after {
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(110deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.4) 100%);
+            background: linear-gradient(110deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.5) 100%);
             pointer-events: none; z-index: 2;
         }
         .song-card img { width: 100%; height: 100%; object-fit: cover; background-color: var(--pink-soft); }
 
-        .feedback-text { font-size: 2rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .feedback-text { font-size: 2.4rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -1px; }
         .correct-answer-reveal {
-            color: var(--text-light); margin-bottom: 20px; font-weight: 600; font-size: 1.05rem;
-            background: rgba(0,0,0,0.03); padding: 12px 24px; border-radius: 16px; line-height: 1.4;
+            color: var(--text-light); margin-bottom: 25px; font-weight: 600; font-size: 1.1rem;
+            background: rgba(0,0,0,0.04); padding: 14px 28px; border-radius: 18px; line-height: 1.5; letter-spacing: -0.2px;
         }
 
         /* Screens */
         .screen { display: none; }
-        .screen.active { display: block; animation: fadeInScreen 0.4s ease-out forwards; }
-        @keyframes fadeInScreen { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .screen.active { display: block; animation: screenFade 0.5s var(--slide-ease) forwards; }
+        @keyframes screenFade { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
 
         /* Gacha Animation */
         .gacha-card-reveal {
-            animation: gachaPop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, gachaFloat 3s infinite ease-in-out 1s;
-            box-shadow: 0 0 40px var(--gold), 0 0 80px var(--pink-vibrant); border: 8px solid var(--gold);
+            animation: gachaPop 1.2s var(--spring) forwards, gachaFloat 4s infinite ease-in-out 1.2s;
+            box-shadow: 0 0 50px var(--gold), 0 0 100px var(--accent-color); border: 10px solid var(--gold);
         }
-        @keyframes gachaPop { 0% { transform: scale(0) rotate(-20deg); opacity: 0; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
-        @keyframes gachaFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes gachaPop { 0% { transform: scale(0) rotate(-25deg); opacity: 0; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+        @keyframes gachaFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
-        /* Collection Gallery */
-        .collection-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 15px; max-height: 55vh; overflow-y: auto; padding: 10px; margin-bottom: 20px;
-            width: 100%; border-radius: 20px; background: rgba(0,0,0,0.02);
-        }
-        .collection-grid::-webkit-scrollbar { width: 6px; }
-        .collection-grid::-webkit-scrollbar-thumb { background: var(--pink-vibrant); border-radius: 10px; }
+        /* NEW: Set Header and Progress */
+        .set-section { margin-bottom: 35px; text-align: left; }
+        .set-header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; padding: 0 8px; }
+        .set-header h3 { margin: 0; font-size: 1.2rem; color: var(--accent-color); font-weight: 800; transition: var(--theme-transition); letter-spacing: -0.5px; }
+        .set-progress-wrapper { display: flex; align-items: center; gap: 14px; }
+        .set-progress-bg { flex-grow: 1; height: 12px; background: rgba(0,0,0,0.06); border-radius: 12px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        .set-progress-fill { height: 100%; background: linear-gradient(90deg, var(--purple-vibrant), var(--accent-color)); transition: width 1.2s var(--spring), var(--theme-transition); border-radius: 12px; }
+        .set-progress-text { font-size: 0.95rem; font-weight: 800; color: var(--text-light); }
+
+        /* INTERACTIVE 3D FLIP CARDS */
+        .collection-wrapper { max-height: 55vh; overflow-y: auto; padding: 15px; margin-bottom: 25px; width: 100%; border-radius: 24px; background: rgba(0,0,0,0.03); box-shadow: inset 0 4px 10px rgba(0,0,0,0.02); }
+        .collection-wrapper::-webkit-scrollbar { width: 8px; }
+        .collection-wrapper::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 10px; }
+        .collection-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 18px; perspective: 1200px; }
         
-        .gallery-card {
-            width: 100%; aspect-ratio: 2/3; border-radius: 8px; background: var(--white);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative; overflow: hidden; border: 3px solid white;
+        .flip-container { width: 100%; aspect-ratio: 2/3; cursor: pointer; transition: transform 0.25s ease-out; transform-style: preserve-3d; }
+        .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s var(--spring); transform-style: preserve-3d; pointer-events: none; }
+        .flip-container.flipped .flip-inner { transform: rotateY(180deg); }
+        
+        .gallery-card-side {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            backface-visibility: hidden; border-radius: 12px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12); border: 4px solid white; overflow: hidden; background: var(--white);
+            transition: var(--theme-transition);
         }
-        .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
-        .gallery-card.locked { filter: grayscale(100%) opacity(0.4); border-color: #ddd; }
-        .gallery-card.locked::after {
+        .gallery-card-front img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .flip-container:not(.locked):hover .gallery-card-side { box-shadow: 0 0 30px var(--glow-color); border-color: var(--accent-color); }
+
+        .gallery-card-back {
+            transform: rotateY(180deg); background: linear-gradient(135deg, var(--purple-vibrant), var(--accent-color));
+            color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 10px;
+        }
+
+        .flip-container.locked .gallery-card-side { filter: grayscale(100%) opacity(0.35); border-color: #eaeaea; pointer-events: none; box-shadow: none; }
+        .flip-container.locked::after {
             content: '🔒'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 1.5rem; filter: grayscale(0) !important; opacity: 1 !important;
+            font-size: 1.8rem; filter: grayscale(0) !important; opacity: 1 !important; pointer-events: none;
         }
+
+        /* SPECIAL PHOTOCARDS STYLING */
+        .gallery-card-side.special { border: 4px solid var(--gold); }
+        .special-badge {
+            position: absolute; top: -4px; right: -4px; background: var(--gold); color: white;
+            font-size: 0.65rem; padding: 3px 8px; border-radius: 10px; font-weight: 800; z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); letter-spacing: 0.5px;
+        }
+        
+        .flip-container.special.locked .gallery-card-side { filter: grayscale(20%) sepia(50%) opacity(0.9); border-color: var(--gold); animation: specialGlow 2s infinite alternate var(--slide-ease); }
+        .flip-container.special.locked::after { content: '✨🔒✨'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.4rem; filter: grayscale(0) !important; opacity: 1 !important; text-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+        @keyframes specialGlow { from { box-shadow: 0 0 15px rgba(241, 196, 15, 0.3), inset 0 0 10px rgba(241, 196, 15, 0.2); } to { box-shadow: 0 0 35px rgba(241, 196, 15, 0.9), inset 0 0 25px rgba(241, 196, 15, 0.5); } }
 
         /* Stats Panel */
-        .stat-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); font-weight: 700; font-size: 1.1rem; }
-        .stat-val { color: var(--pink-vibrant); font-weight: 800; }
+        .stat-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px dashed rgba(0,0,0,0.08); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.2px; }
+        .stat-val { color: var(--accent-color); font-weight: 800; transition: color 0.8s var(--slide-ease); }
 
         @media (max-width: 500px) {
-            .game-container { margin: auto; padding: 30px 20px; border-radius: 35px; }
-            h1 { font-size: 2rem; margin-bottom: 15px; }
-            .subtitle { font-size: 1rem; margin-bottom: 25px; }
-            .hero-image-wrapper { width: 150px; height: 150px; margin-bottom: 25px; }
-            .game-header { margin-bottom: 15px; }
-            .coin-counter { font-size: 1.05rem; padding: 4px 12px; }
-            .coin-icon { font-size: 1.15rem; }
-            .lyric-box { font-size: 1.15rem; padding: 25px 20px; min-height: 120px; }
-            .option-bubble { padding: 15px 20px; font-size: 1rem; }
-            .option-with-img { padding: 10px 15px; }
-            .song-card { width: 140px; height: 200px; }
-            .gamble-text { font-size: 1.1rem; }
-            .gamble-highlight { font-size: 1.3rem; }
-            .collection-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); }
+            .game-container { margin: auto; padding: 35px 25px; border-radius: 40px; }
+            h1 { font-size: 2.2rem; margin-bottom: 15px; }
+            .subtitle { font-size: 1.05rem; margin-bottom: 25px; }
+            .game-header { margin-bottom: 20px; }
+            .coin-counter { font-size: 1.1rem; padding: 6px 14px; }
+            .coin-icon { font-size: 1.2rem; }
+            .lyric-box { font-size: 1.2rem; padding: 28px 22px; min-height: 130px; border-radius: 24px; }
+            .option-bubble { padding: 16px 22px; font-size: 1.05rem; border-radius: 20px; }
+            .option-with-img { padding: 12px 18px; }
+            .song-card { width: 150px; height: 210px; border-radius: 16px; border-width: 8px; }
+            .gamble-text { font-size: 1.15rem; }
+            .gamble-highlight { font-size: 1.4rem; }
+            .collection-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px; }
+            .squircle-btn { width: 95px; height: 95px; border-radius: 24px; }
+            .bias-icon { font-size: 2.2rem; }
+            #mascotUI { bottom: 20px; width: 95%; }
+            .mascot-avatar { width: 58px; height: 58px; font-size: 1.9rem; }
+            .mascot-bubble { font-size: 0.9rem; padding: 12px 18px; border-radius: 20px 20px 20px 6px; }
         }
-        @media (max-width: 360px) { h1 { font-size: 1.75rem; } .lyric-box { font-size: 1.05rem; } .option-bubble { padding: 14px 16px; font-size: 0.95rem; } }
+        @media (max-width: 360px) { h1 { font-size: 1.9rem; } .lyric-box { font-size: 1.1rem; } .option-bubble { padding: 14px 18px; font-size: 1rem; } .squircle-btn { width: 85px; height: 85px; } }
     </style>
 </head>
 <body>
@@ -324,17 +491,16 @@
         <div id="startScreen" class="screen active">
             <h1>Lyric Master</h1>
             <p class="subtitle">Can you guess the K-Pop songs?</p>
-            
-            <div class="hero-image-wrapper">
-                <div class="hero-image-glow"></div>
-                <img id="startImage" class="hero-image" src="" alt="K-Pop Star">
-            </div>
+
+            <button class="option-bubble small-btn" style="margin-bottom: 25px; width: 100%; border: 2px dashed var(--glow-color);" onclick="document.getElementById('biasOverlay').classList.add('active'); audioManager.play('click');">
+                Change My Bias 👤
+            </button>
 
             <div class="options-grid">
                 <button class="option-bubble" onclick="game.start('normal'); audioManager.play('click');">
                     Normal Audition ✨
                 </button>
-                <button class="option-bubble" style="background: linear-gradient(135deg, #e0fbfa, #cbf3f0); color: #0097e6; border-color: #a0e8e4;" onclick="game.start('whoSangIt'); audioManager.play('click');">
+                <button class="option-bubble" onclick="game.start('whoSangIt'); audioManager.play('click');">
                     Who Sang It? 🎤
                 </button>
                 <button class="option-bubble super-stan-btn" onclick="game.start('super'); audioManager.play('click');">
@@ -342,41 +508,83 @@
                 </button>
             </div>
 
-            <div class="options-grid" style="grid-template-columns: 1fr 1fr; margin-top: 15px;">
+            <div class="options-grid" style="grid-template-columns: 1fr 1fr; margin-top: 20px;">
                 <button class="option-bubble small-btn" onclick="game.showCollection(); audioManager.play('click');">Card Gallery 📚</button>
                 <button class="option-bubble small-btn" onclick="game.showStats(); audioManager.play('click');">My Stats 🏆</button>
             </div>
+        </div>
+
+        <!-- Apple-Style Bias Overlay -->
+        <div class="overlay" id="biasOverlay" style="z-index: 200;">
+            <h1 style="font-size: 2.4rem; margin-bottom: 12px; color: #2d3436; text-shadow: none;">Choose Your Bias</h1>
+            <p class="subtitle" style="margin-bottom: 30px; color: #636e72;">Your personal motivator!</p>
+            
+            <div class="squircle-grid">
+                <div class="squircle-btn" data-bias="jhope" onclick="game.selectBias('jhope', this); audioManager.play('click');">
+                    <div class="bias-icon">🐿️</div>
+                    <div class="bias-name">J-Hope</div>
+                </div>
+                <div class="squircle-btn" data-bias="rm" onclick="game.selectBias('rm', this); audioManager.play('click');">
+                    <div class="bias-icon">🐨</div>
+                    <div class="bias-name">RM</div>
+                </div>
+                <div class="squircle-btn" data-bias="dk" onclick="game.selectBias('dk', this); audioManager.play('click');">
+                    <div class="bias-icon">🍕</div>
+                    <div class="bias-name">DK</div>
+                </div>
+                <div class="squircle-btn" data-bias="mingyu" onclick="game.selectBias('mingyu', this); audioManager.play('click');">
+                    <div class="bias-icon">🐶</div>
+                    <div class="bias-name">Mingyu</div>
+                </div>
+                <div class="squircle-btn" data-bias="scoups" onclick="game.selectBias('scoups', this); audioManager.play('click');">
+                    <div class="bias-icon">🍒</div>
+                    <div class="bias-name">S.Coups</div>
+                </div>
+            </div>
+            
+            <button class="option-bubble small-btn" style="margin-top: 20px; width: 100%; max-width: 400px; color: #2d3436;" onclick="document.getElementById('biasOverlay').classList.remove('active'); audioManager.play('click');">Close</button>
         </div>
 
         <!-- Collection Screen -->
         <div id="collectionScreen" class="screen">
             <h1>My Collection</h1>
             <p class="subtitle" id="collectionProgress">0 / 150 Cards Collected</p>
-            <div class="collection-grid" id="collectionGrid">
-                <!-- Cards injected here -->
+            <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-light); margin-top:-20px; margin-bottom: 15px; opacity: 0.8;">(Hover or tilt to interact!)</p>
+            <div class="collection-wrapper" id="collectionContainer">
+                <!-- Sets and Cards injected here -->
             </div>
-            <button class="option-bubble" style="width: 100%;" onclick="game.showScreen('startScreen'); audioManager.play('click');">Back to Menu ➔</button>
+            <button class="option-bubble" style="width: 100%; color: #2d3436;" onclick="game.showScreen('startScreen'); audioManager.play('click');">Back to Menu ➔</button>
         </div>
 
         <!-- Stats Overlay -->
-        <div class="overlay" id="statsOverlay">
-            <h1 style="font-size: 1.8rem; margin-bottom: 5px;">Hall of Fame 🏆</h1>
-            <p class="subtitle" id="allTimeRankText" style="color: var(--pink-vibrant); margin-bottom: 20px;">ALL-TIME: ROOKIE</p>
+        <div class="overlay" id="statsOverlay" style="overflow-y: auto;">
+            <h1 style="font-size: 2rem; margin-bottom: 5px; color: #2d3436; text-shadow: none;">Hall of Fame 🏆</h1>
+            <p class="subtitle" id="allTimeRankText" style="color: var(--accent-color); margin-bottom: 15px; font-weight: 800; font-size: 1.15rem; transition: color 0.8s var(--slide-ease);">ALL-TIME: ROOKIE</p>
             
-            <div style="width: 100%; background: var(--white); padding: 20px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: left;">
+            <div id="badgesContainer" style="margin-bottom: 20px; width: 100%;">
+                <!-- Permanent Badges Render Here -->
+            </div>
+
+            <div style="width: 100%; background: var(--white); padding: 25px; border-radius: 24px; margin-bottom: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); text-align: left; color: #2d3436;">
                 <div class="stat-row"><span>Highest Score:</span> <span class="stat-val" id="statHigh">0 💖</span></div>
                 <div class="stat-row"><span>Total Coins Banked:</span> <span class="stat-val" id="statTotal">0 💖</span></div>
                 <div class="stat-row"><span>Total Correct:</span> <span class="stat-val" id="statCorrect">0</span></div>
                 <div class="stat-row" style="border:none;"><span>Gamble Win Rate:</span> <span class="stat-val" id="statWinRate">0%</span></div>
             </div>
             
-            <button class="option-bubble super-stan-btn" style="width: 100%;" onclick="document.getElementById('statsOverlay').style.display='none'; audioManager.play('click');">Close</button>
+            <!-- Golden Skin Toggle -->
+            <div id="themeSelectorContainer" style="display: none; width: 100%; margin-bottom: 30px; padding-top: 20px; border-top: 2px dashed rgba(0,0,0,0.1);">
+                <span style="font-weight: 800; color: var(--gold); display: block; margin-bottom: 12px; font-size: 1.1rem;">✨ Golden Maknae Skin Unlocked! ✨</span>
+                <button class="option-bubble small-btn" onclick="game.toggleGoldenSkin(); audioManager.play('click');" style="width: 100%; color: #2d3436;">Toggle Golden Theme 💛</button>
+            </div>
+
+            <button class="option-bubble super-stan-btn" style="width: 100%; margin-top: auto;" onclick="document.getElementById('statsOverlay').classList.remove('active'); audioManager.play('click');">Close</button>
         </div>
 
         <!-- Game Screen -->
         <div id="gameScreen" class="screen">
             <div class="game-header">
-                <div id="roundCounter" style="font-weight: 800; color: var(--text-light); letter-spacing: 1.5px; font-size: 0.9rem;">ROUND 1 / 7</div>
+                <div id="roundCounter" style="font-weight: 800; color: var(--text-light); letter-spacing: 1.5px; font-size: 0.95rem; transition: color 0.8s var(--slide-ease);">ROUND 1 / 7</div>
                 <div class="coin-counter" id="coinCounterUI">
                     <span class="coin-icon">💖</span> <span id="coinTotal">0</span>
                 </div>
@@ -386,82 +594,90 @@
                 <div class="timer-bar" id="timerBar"></div>
             </div>
 
-            <div class="lyric-box" id="lyricBox">
-                <div class="artist-tag" id="artistName">BTS</div>
-                <div id="lyricText">
-                    "Smooth like <span class="blank-space">...</span>"
+            <!-- Fluid Content Wrapper -->
+            <div id="fluidRoundContent" class="fluid-content">
+                <div class="lyric-box" id="lyricBox">
+                    <div class="artist-tag" id="artistName">BTS</div>
+                    <div id="lyricText">
+                        "Smooth like <span class="blank-space">...</span>"
+                    </div>
                 </div>
-            </div>
 
-            <div class="options-grid" id="optionsGrid">
-                <!-- Options injected here -->
+                <div class="options-grid" id="optionsGrid">
+                    <!-- Options injected here -->
+                </div>
             </div>
 
             <!-- Feedback Overlay -->
             <div class="overlay" id="feedbackOverlay">
                 <div class="song-card" id="songCard"></div>
-                <div class="feedback-text" id="feedbackTitle">Daebak!</div>
+                <div class="feedback-text" id="feedbackTitle" style="transition: transform 0.5s var(--spring);">Daebak!</div>
                 <div class="correct-answer-reveal" id="feedbackSub">The answer was: Butter</div>
-                <div style="font-weight: 800; color: var(--gold); font-size: 1.4rem; margin-bottom: 25px; filter: drop-shadow(0 2px 4px rgba(241,196,15,0.2));" id="feedbackCoins"></div>
-                <button class="option-bubble super-stan-btn" style="width: 100%; padding: 16px;" onclick="game.nextRound()">Next Round ➔</button>
+                <div style="font-weight: 800; color: var(--gold); font-size: 1.6rem; margin-bottom: 30px; filter: drop-shadow(0 2px 6px rgba(241,196,15,0.25));" id="feedbackCoins"></div>
+                <button class="option-bubble super-stan-btn" style="width: 100%; padding: 18px;" onclick="game.nextRound()">Next Round ➔</button>
             </div>
 
             <!-- Gamble Overlay -->
             <div class="overlay" id="gambleOverlay">
-                <div class="hero-image-wrapper" style="width: 130px; height: 130px; margin-bottom: 15px;">
-                    <div class="hero-image-glow" style="background: linear-gradient(45deg, var(--pink-vibrant), #ff9933);"></div>
-                    <img class="hero-image" src="https://api.dicebear.com/8.x/micah/svg?seed=Boss&backgroundColor=ff3385" alt="Boss" style="border-width: 4px;">
+                <div class="hero-image-wrapper" style="width: 140px; height: 140px; margin-bottom: 20px;">
+                    <div class="hero-image-glow" style="background: linear-gradient(45deg, var(--accent-color), #ff9933);"></div>
+                    <img class="hero-image" src="https://api.dicebear.com/8.x/micah/svg?seed=Boss&backgroundColor=ff3385" alt="Boss" style="border-width: 5px; border-color: var(--accent-color);">
                 </div>
                 
                 <div class="gamble-text">
-                    You have banked <span style="color:var(--gold); font-size: 1.6rem; font-weight: 800;" id="gambleCoinTotal">150</span> Coins!
+                    You have banked <span style="color:var(--gold); font-size: 1.8rem; font-weight: 800;" id="gambleCoinTotal">150</span> Coins!
                     <br>Round 7 is the BOSS LEVEL.
                     <span class="gamble-highlight">Will you risk it all?</span>
                 </div>
                 <div class="options-grid" style="width: 100%;">
-                    <button class="option-bubble" onclick="game.makeGambleDecision(false); audioManager.play('click');">Play it Safe (+100 Coins)</button>
+                    <button class="option-bubble" style="color: #2d3436;" onclick="game.makeGambleDecision(false); audioManager.play('click');">Play it Safe (+100 Coins)</button>
                     <button class="option-bubble super-stan-btn" onclick="game.makeGambleDecision(true); audioManager.play('click');">DOUBLE OR NOTHING! 😈</button>
                 </div>
             </div>
             
             <!-- Gacha Reveal Overlay -->
             <div class="overlay" id="gachaOverlay">
-                <h1 style="font-size: 1.8rem; margin-bottom: 10px;">JACKPOT! 🎉</h1>
-                <p class="subtitle" style="margin-bottom: 20px;">You unlocked a new Photocard!</p>
+                <h1 style="font-size: 2rem; margin-bottom: 12px; color: #2d3436; text-shadow: none;">JACKPOT! 🎉</h1>
+                <p class="subtitle" style="margin-bottom: 25px; color: #636e72;">You unlocked a new Photocard!</p>
                 
-                <div class="song-card gacha-card-reveal" id="gachaCardImage" style="width: 180px; height: 260px;"></div>
+                <div class="song-card gacha-card-reveal" id="gachaCardImage" style="width: 190px; height: 270px;"></div>
                 
-                <p style="font-weight: 800; color: var(--pink-vibrant); font-size: 1.2rem; margin-bottom: 25px;" id="gachaCardName">BTS Rare Card</p>
-                <button class="option-bubble super-stan-btn" style="width: 100%;" onclick="game.closeGacha()">Claim Reward ✨</button>
+                <p style="font-weight: 800; color: var(--accent-color); font-size: 1.3rem; margin-bottom: 8px; text-align: center; padding: 0 10px; transition: color 0.8s var(--slide-ease);" id="gachaCardName">BTS Rare Card</p>
+                <div id="gachaBonusMsg" style="display:none; font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.5; color: #2d3436;"></div>
+                
+                <button class="option-bubble super-stan-btn" style="width: 100%; margin-top: 15px;" onclick="game.closeGacha()">Claim Reward ✨</button>
             </div>
         </div>
 
         <!-- Result Screen -->
         <div id="resultScreen" class="screen">
-            <h1 style="margin-bottom: 15px;">Audition Results!</h1>
-            <div style="font-size: 5rem; margin-bottom: 5px; animation: breathe 3s infinite ease-in-out;" id="resultIcon">🏆</div>
-            <div class="score-item" style="font-size: 3.5rem; color: var(--gold); font-weight: 800; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; gap: 12px; filter: drop-shadow(0 4px 8px rgba(241,196,15,0.3));">
-                <span class="coin-icon" style="font-size: 3rem;">💖</span><span id="finalScore">300</span>
+            <h1 style="margin-bottom: 20px;">Audition Results!</h1>
+            <div style="font-size: 5.5rem; margin-bottom: 5px; animation: breathe 4s infinite ease-in-out;" id="resultIcon">🏆</div>
+            <div class="score-item" style="font-size: 3.8rem; color: var(--gold); font-weight: 800; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 15px; filter: drop-shadow(0 6px 12px rgba(241,196,15,0.3));">
+                <span class="coin-icon" style="font-size: 3.2rem;">💖</span><span id="finalScore">300</span>
             </div>
             
-            <div style="background: linear-gradient(135deg, var(--purple-vibrant), var(--pink-vibrant)); color: white; padding: 12px 28px; border-radius: 20px; display: inline-block; margin-bottom: 10px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 10px 20px var(--pink-glow);" id="rankBadge">ULTIMATE K-POP DEITY</div>
-            <p id="rankMessage" style="font-weight: 700; font-size: 1.15rem; color: var(--text-light); line-height: 1.5; margin-bottom: 10px;">You own the fandom.</p>
-            <p style="font-weight: 800; font-size: 0.95rem; color: var(--pink-vibrant); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px;" id="resultAllTimeRank">ALL-TIME: ROOKIE</p>
+            <div style="background: linear-gradient(135deg, var(--purple-vibrant), var(--accent-color)); color: white; padding: 14px 32px; border-radius: 24px; display: inline-block; margin-bottom: 12px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 15px 30px var(--glow-color); transition: var(--theme-transition);" id="rankBadge">ULTIMATE K-POP DEITY</div>
+            <p id="rankMessage" style="font-weight: 700; font-size: 1.2rem; color: var(--text-light); line-height: 1.6; margin-bottom: 12px;">You own the fandom.</p>
+            <p style="font-weight: 800; font-size: 1rem; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 30px; transition: color 0.8s var(--slide-ease);" id="resultAllTimeRank">ALL-TIME: ROOKIE</p>
 
-            <button class="option-bubble" style="width: 100%; justify-content: center;" onclick="location.reload()">Encore! 🎶</button>
+            <button class="option-bubble" style="width: 100%; justify-content: center; color: #2d3436;" onclick="location.reload()">Encore! 🎶</button>
         </div>
+    </div>
+
+    <!-- BIAS MASCOT UI -->
+    <div id="mascotUI">
+        <div class="mascot-bubble" id="mascotText">Let's get this! Fighting!</div>
+        <div class="mascot-avatar" id="mascotAvatar">🐨</div>
     </div>
 
     <script>
         // --- DATA PERSISTENCE (LocalStorage) ---
-        const STORAGE_KEY = 'kpop_lyric_master_save';
+        const STORAGE_KEY = 'kpop_lyric_master_save_v4';
         let playerData = {
-            totalCoins: 0,
-            highScore: 0,
-            totalCorrect: 0,
-            gambleWins: 0,
-            gambleAttempts: 0,
-            ownedPhotocardIDs: []
+            totalCoins: 0, highScore: 0, totalCorrect: 0, gambleWins: 0, gambleAttempts: 0,
+            ownedPhotocardIDs: [], songStats: {}, cardDiscovery: {}, unlockedThemes: [], activeSkin: '',
+            savedBias: '' 
         };
 
         function loadGameData() {
@@ -469,14 +685,17 @@
                 const saved = localStorage.getItem(STORAGE_KEY);
                 if (saved) {
                     playerData = { ...playerData, ...JSON.parse(saved) };
+                    if(!playerData.songStats) playerData.songStats = {};
+                    if(!playerData.cardDiscovery) playerData.cardDiscovery = {};
+                    if(!playerData.unlockedThemes) playerData.unlockedThemes = [];
+                    if(!playerData.savedBias) playerData.savedBias = '';
                 }
             } catch (e) { console.warn("Could not load save data:", e); }
         }
 
         function saveGameData() {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(playerData));
-            } catch (e) { console.warn("Could not save game data:", e); }
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(playerData)); } 
+            catch (e) { console.warn("Could not save game data:", e); }
         }
 
         function getAllTimeRankName(coins) {
@@ -487,103 +706,157 @@
             return "ALL-TIME: ROOKIE 🐣";
         }
 
-        // --- PHOTOCARD VAULT (150 Unique Cards) ---
-        const pcGroups = ["BTS", "Seventeen", "Agust D", "Jimin", "V", "Jung Kook", "RM", "Jin", "j-hope"];
-        const photocardVault = Array.from({length: 150}, (_, i) => {
-            const group = pcGroups[i % pcGroups.length];
-            const tier = i < 35 ? "Common" : (i < 105 ? "Rare" : "Ultra-Rare");
-            return {
-                id: `pc_card_${i+1}`,
-                name: `${group} ${tier} #${Math.floor(i/pcGroups.length) + 1}`,
-                group: group,
-                query: `${group} kpop member`
-            };
+        // --- NEW: DYNAMIC THEME SYNC ---
+        function syncTheme(biasId) {
+            if (!biasId) return;
+            document.body.classList.remove('theme-jhope', 'theme-rm', 'theme-dk', 'theme-mingyu', 'theme-scoups');
+            document.body.classList.add(`theme-${biasId}`);
+        }
+
+        // --- NEW: MASCOT PERSONALITY ENGINE ---
+        const mascots = {
+            jhope: {
+                name: "J-Hope",
+                states: { neutral: "🐿️", happy: "🕺", encouraging: "✨" },
+                quotes: {
+                    start: ["I'm your hope! Let's get it! ✨"],
+                    correct: ["J-HOOOPE! That was perfect! 🕺"],
+                    wrong: ["Don't lose hope! Try again! 💫"],
+                    gamble: ["Risking it all? I LOVE that energy! Let's go!"],
+                    win: ["You're shining so bright! ✨"],
+                    lose: ["Aww, next time for sure! 🌟"]
+                }
+            },
+            rm: {
+                name: "RM",
+                states: { neutral: "🐨", happy: "😎", encouraging: "🤔" },
+                quotes: {
+                    start: ["Focus on the rhythm. I trust your focus."],
+                    correct: ["Exactly. Your intuition is sharp."],
+                    wrong: ["A minor miscalculation. Stay focused."],
+                    gamble: ["A calculated risk... I admire your bravery."],
+                    win: ["Brilliant execution."],
+                    lose: ["We learn from our mistakes."]
+                }
+            },
+            dk: {
+                name: "DK",
+                states: { neutral: "🍕", happy: "😆", encouraging: "💪" },
+                quotes: {
+                    start: ["WAAAH! Let's have so much fun today! 🎤"],
+                    correct: ["YOU DID IT! You're a literal genius!"],
+                    wrong: ["Oh no! But it's okay, fighting! 🥺"],
+                    gamble: ["DO IT! DO IT! I'm cheering so loud for you!!"],
+                    win: ["BEST DAY EVER! YOU WON! 🎉"],
+                    lose: ["Awww man! Let's play again!"]
+                }
+            },
+            mingyu: {
+                name: "Mingyu",
+                states: { neutral: "🐶", happy: "🥰", encouraging: "🔥" },
+                quotes: {
+                    start: ["Ready? I’ll be watching you! 😉"],
+                    correct: ["Did you see that? High five! We're a great team."],
+                    wrong: ["Ah, so close! You'll get the next one."],
+                    gamble: ["Double or nothing? You're as bold as me!"],
+                    win: ["We are literally unstoppable! 🏆"],
+                    lose: ["Ouch! But you still did great!"]
+                }
+            },
+            scoups: {
+                name: "S.Coups",
+                states: { neutral: "🍒", happy: "👑", encouraging: "🛡️" },
+                quotes: {
+                    start: ["Leader’s right here. Show them what you've got."],
+                    correct: ["Daebak. That’s the standard I expected."],
+                    wrong: ["Shake it off. We move forward."],
+                    gamble: ["Round 7... risk it. I’ve got your back."],
+                    win: ["That's my team. Outstanding."],
+                    lose: ["A tough loss, but we never quit."]
+                }
+            }
+        };
+
+        // --- PHOTOCARD VAULT (15 Sets, 10 Cards Each = 150 Cards) ---
+        const albumSetsData = [
+            { id: 'bts_proof', name: 'BTS: Proof Era', artist: 'BTS', song: 'Yet To Come', diff: 3 },
+            { id: 'bts_mots', name: 'BTS: Map of the Soul', artist: 'BTS', song: 'ON', diff: 4 },
+            { id: 'bts_ly', name: 'BTS: Love Yourself', artist: 'BTS', song: 'Fake Love', diff: 2 },
+            { id: 'bts_wings', name: 'BTS: Wings', artist: 'BTS', song: 'Blood Sweat & Tears', diff: 4 },
+            { id: 'bts_dyn', name: 'BTS: Dynamite Era', artist: 'BTS', song: 'Dynamite', diff: 1 },
+            { id: 'svt_fml', name: 'SEVENTEEN: FML', artist: 'Seventeen', song: 'Super', diff: 1 },
+            { id: 'svt_fts', name: 'SEVENTEEN: Face the Sun', artist: 'Seventeen', song: 'HOT', diff: 2 },
+            { id: 'svt_attacca', name: 'SEVENTEEN: Attacca', artist: 'Seventeen', song: 'Rock with you', diff: 2 },
+            { id: 'svt_teen', name: 'SEVENTEEN: TEEN, AGE', artist: 'Seventeen', song: 'CLAP', diff: 1 },
+            { id: 'svt_sect17', name: 'SEVENTEEN: SECTOR 17', artist: 'Seventeen', song: '_WORLD', diff: 3 },
+            { id: 'solo_jk', name: 'Jung Kook: GOLDEN', artist: 'Jung Kook', song: 'Seven', diff: 1 },
+            { id: 'solo_jm', name: 'Jimin: FACE', artist: 'Jimin', song: 'Like Crazy', diff: 2 },
+            { id: 'solo_v', name: 'V: Layover', artist: 'V', song: 'Slow Dancing', diff: 3 },
+            { id: 'solo_agustd', name: 'Agust D: D-DAY', artist: 'Agust D', song: 'Haegeum', diff: 3 },
+            { id: 'solo_rap', name: 'RM, Jin & j-hope', artist: 'RM', song: 'Wild Flower', diff: 1 }
+        ];
+
+        const photocardVault = [];
+        let cardCounter = 1;
+        albumSetsData.forEach(set => {
+            for(let i=1; i<=10; i++) {
+                photocardVault.push({
+                    id: `pc_card_${cardCounter}`, setId: set.id, setName: set.name, name: `${set.artist} Card #${i}`,
+                    linkedArtist: set.artist, linkedSong: set.song, difficulty: set.diff,
+                    query: `${set.artist} kpop photocard aesthetic`, isSpecial: false
+                });
+                cardCounter++;
+            }
+        });
+
+        const specialCards = [
+            { id: 'sp_1', setId: 'bts_proof', name: "ARMY Bomb", group: "BTS", query: "BTS ARMY Bomb lightstick", isSpecial: true },
+            { id: 'sp_2', setId: 'svt_fml', name: "Carat Bong", group: "Seventeen", query: "Seventeen Carat Bong lightstick", isSpecial: true },
+            { id: 'sp_3', setId: 'bts_dyn', name: "Borahae", group: "BTS", query: "BTS purple heart aesthetic", isSpecial: true },
+            { id: 'sp_4', setId: 'svt_teen', name: "Bongbongie", group: "Seventeen", query: "Seventeen Bongbongie character", isSpecial: true },
+            { id: 'sp_5', setId: 'solo_v', name: "Yeontan", group: "V", query: "BTS V dog Yeontan", isSpecial: true },
+            { id: 'sp_6', setId: 'svt_fts', name: "Rose Quartz & Serenity", group: "Seventeen", query: "Rose Quartz Serenity gradient", isSpecial: true },
+            { id: 'sp_7', setId: 'bts_mots', name: "BT21", group: "BTS", query: "BT21 characters cute", isSpecial: true },
+            { id: 'sp_8', setId: 'svt_attacca', name: "SVT Rings", group: "Seventeen", query: "Seventeen team rings", isSpecial: true },
+            { id: 'sp_9', setId: 'bts_ly', name: "In The Soop", group: "BTS", query: "BTS In The Soop camper", isSpecial: true },
+            { id: 'sp_10', setId: 'svt_sect17', name: "Going Seventeen", group: "Seventeen", query: "Going Seventeen logo cute", isSpecial: true }
+        ];
+        
+        specialCards.forEach((sc, i) => {
+            photocardVault[i * 15] = { ...photocardVault[i * 15], ...sc, linkedArtist: sc.group, linkedSong: "Special Art", difficulty: 5 };
         });
 
         // Image Fetchers
         const getRealImage = (name) => `https://tse2.mm.bing.net/th?q=${encodeURIComponent(name + ' kpop')}&w=800&h=800&c=7&rs=1&p=0`;
         const getAvatar = (name) => `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=200`;
 
-        document.getElementById('startImage').src = getRealImage("Kpop concert");
-        document.getElementById('startImage').onerror = function() {
-            this.onerror=null; this.src=getAvatar("K P");
-        };
-
-        // Audio Manager for UI sounds
+        // Audio Manager
         const audioManager = {
             ctx: null,
             init() {
                 try {
-                    if (!this.ctx) {
-                        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                        if (AudioCtx) this.ctx = new AudioCtx();
-                    }
+                    if (!this.ctx) { const AudioCtx = window.AudioContext || window.webkitAudioContext; if (AudioCtx) this.ctx = new AudioCtx(); }
                     if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
-                } catch (e) {
-                    console.warn("Audio prevented by browser:", e);
-                }
+                } catch (e) { console.warn("Audio prevented"); }
             },
             play(type) {
                 if (!this.ctx) return;
-                const now = this.ctx.currentTime;
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
+                const now = this.ctx.currentTime; const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
                 osc.connect(gain); gain.connect(this.ctx.destination);
                 
-                if (type === 'correct') {
-                    osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, now); osc.frequency.exponentialRampToValueAtTime(1046.5, now + 0.1);
-                    gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-                    osc.start(now); osc.stop(now + 0.3);
-                } else if (type === 'wrong') {
-                    osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, now); osc.frequency.exponentialRampToValueAtTime(80, now + 0.3);
-                    gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-                    osc.start(now); osc.stop(now + 0.3);
-                } else if (type === 'tick') {
-                    osc.type = 'triangle'; osc.frequency.setValueAtTime(800, now);
-                    gain.gain.setValueAtTime(0.05, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-                    osc.start(now); osc.stop(now + 0.05);
-                } else if (type === 'click') {
-                    osc.type = 'sine'; osc.frequency.setValueAtTime(600, now);
-                    gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-                    osc.start(now); osc.stop(now + 0.05);
-                } else if (type === 'jackpot') {
-                    const notes = [440, 554.37, 659.25, 880, 1108.73, 1318.51];
-                    notes.forEach((freq, i) => {
-                        const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
-                        o.connect(g); g.connect(this.ctx.destination); o.type = 'square'; o.frequency.value = freq;
-                        g.gain.setValueAtTime(0, now + i * 0.05); g.gain.linearRampToValueAtTime(0.15, now + i * 0.05 + 0.02);
-                        g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.05 + 0.2);
-                        o.start(now + i * 0.05); o.stop(now + i * 0.05 + 0.2);
-                    });
-                } else if (type === 'aww') {
-                    osc.type = 'sawtooth'; osc.frequency.setValueAtTime(300, now); osc.frequency.exponentialRampToValueAtTime(50, now + 1);
-                    gain.gain.setValueAtTime(0.3, now); gain.gain.linearRampToValueAtTime(0.01, now + 1);
-                    osc.start(now); osc.stop(now + 1);
-                } else if (type === 'win') {
-                    const notes = [523.25, 659.25, 783.99, 1046.50];
-                    notes.forEach((freq, i) => {
-                        const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
-                        o.connect(g); g.connect(this.ctx.destination); o.type = 'triangle'; o.frequency.value = freq;
-                        g.gain.setValueAtTime(0, now + i * 0.1); g.gain.linearRampToValueAtTime(0.2, now + i * 0.1 + 0.05);
-                        g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.4);
-                        o.start(now + i * 0.1); o.stop(now + i * 0.1 + 0.4);
-                    });
-                } else if (type === 'lose') {
-                    const notes = [392.00, 369.99, 349.23, 329.63];
-                    notes.forEach((freq, i) => {
-                        const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
-                        o.connect(g); g.connect(this.ctx.destination); o.type = 'sawtooth'; o.frequency.value = freq;
-                        g.gain.setValueAtTime(0, now + i * 0.25); g.gain.linearRampToValueAtTime(0.2, now + i * 0.25 + 0.1);
-                        g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.25 + 0.4);
-                        o.start(now + i * 0.25); o.stop(now + i * 0.25 + 0.4);
-                    });
-                }
+                if (type === 'correct') { osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, now); osc.frequency.exponentialRampToValueAtTime(1046.5, now + 0.1); gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3); osc.start(now); osc.stop(now + 0.3); }
+                else if (type === 'wrong') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, now); osc.frequency.exponentialRampToValueAtTime(80, now + 0.3); gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3); osc.start(now); osc.stop(now + 0.3); }
+                else if (type === 'tick') { osc.type = 'triangle'; osc.frequency.setValueAtTime(800, now); gain.gain.setValueAtTime(0.05, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05); osc.start(now); osc.stop(now + 0.05); }
+                else if (type === 'click') { osc.type = 'sine'; osc.frequency.setValueAtTime(600, now); gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05); osc.start(now); osc.stop(now + 0.05); }
+                else if (type === 'jackpot') { [440, 554.37, 659.25, 880, 1108.73, 1318.51].forEach((freq, i) => { const o = this.ctx.createOscillator(); const g = this.ctx.createGain(); o.connect(g); g.connect(this.ctx.destination); o.type = 'square'; o.frequency.value = freq; g.gain.setValueAtTime(0, now + i * 0.05); g.gain.linearRampToValueAtTime(0.15, now + i * 0.05 + 0.02); g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.05 + 0.2); o.start(now + i * 0.05); o.stop(now + i * 0.05 + 0.2); }); }
+                else if (type === 'aww') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(300, now); osc.frequency.exponentialRampToValueAtTime(50, now + 1); gain.gain.setValueAtTime(0.3, now); gain.gain.linearRampToValueAtTime(0.01, now + 1); osc.start(now); osc.stop(now + 1); }
+                else if (type === 'win') { [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => { const o = this.ctx.createOscillator(); const g = this.ctx.createGain(); o.connect(g); g.connect(this.ctx.destination); o.type = 'triangle'; o.frequency.value = freq; g.gain.setValueAtTime(0, now + i * 0.1); g.gain.linearRampToValueAtTime(0.2, now + i * 0.1 + 0.05); g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.4); o.start(now + i * 0.1); o.stop(now + i * 0.1 + 0.4); }); }
+                else if (type === 'lose') { [392.00, 369.99, 349.23, 329.63].forEach((freq, i) => { const o = this.ctx.createOscillator(); const g = this.ctx.createGain(); o.connect(g); g.connect(this.ctx.destination); o.type = 'sawtooth'; o.frequency.value = freq; g.gain.setValueAtTime(0, now + i * 0.25); g.gain.linearRampToValueAtTime(0.2, now + i * 0.25 + 0.1); g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.25 + 0.4); o.start(now + i * 0.25); o.stop(now + i * 0.25 + 0.4); }); }
             }
         };
 
         function fireConfetti() {
-            const colors = ['#ff3385', '#00d2d3', '#a142f5', '#ffffff', '#f1c40f'];
-            const gameBox = document.getElementById('gameBox');
+            const colors = ['#ff3385', '#00d2d3', '#a142f5', '#ffffff', '#f1c40f']; const gameBox = document.getElementById('gameBox');
             for(let i = 0; i < 60; i++) {
                 const conf = document.createElement('div');
                 conf.style.position = 'absolute'; conf.style.width = Math.random() * 10 + 6 + 'px'; conf.style.height = conf.style.width;
@@ -745,32 +1018,97 @@
         };
 
         const game = {
-            currentRound: 0,
-            coins: 0,
-            rounds: [],
-            timeLeft: 10,
-            timerId: null,
-            gameMode: 'normal',
-            isGambleMode: false,
-            pendingGacha: false,
+            currentRound: 0, coins: 0, rounds: [], timeLeft: 10, timerId: null,
+            gameMode: 'normal', isGambleMode: false, pendingGacha: false, streak: 0,
+
+            selectBias(biasKey, element) {
+                playerData.savedBias = biasKey;
+                saveGameData();
+                syncTheme(biasKey);
+                
+                document.querySelectorAll('.squircle-btn').forEach(el => el.classList.remove('selected'));
+                
+                if (element) {
+                    element.classList.add('scale-pop');
+                    element.classList.add('selected');
+                    setTimeout(() => {
+                        element.classList.remove('scale-pop');
+                        document.getElementById('biasOverlay').classList.remove('active');
+                    }, 600);
+                } else {
+                     const cards = document.querySelectorAll('.squircle-btn');
+                     cards.forEach(card => {
+                         if(card.getAttribute('data-bias') === biasKey) {
+                             card.classList.add('selected');
+                         }
+                     })
+                }
+            },
+
+            updateMascot(event) {
+                const ui = document.getElementById('mascotUI');
+                const avatar = document.getElementById('mascotAvatar');
+                const text = document.getElementById('mascotText');
+                const mascot = mascots[playerData.savedBias || 'rm'];
+
+                if (!mascot) return;
+                ui.style.display = 'flex';
+                
+                let state = 'neutral';
+                if (['correct', 'streak', 'win'].includes(event)) state = 'happy';
+                if (['wrong', 'gamble', 'lose'].includes(event)) state = 'encouraging';
+                
+                avatar.innerText = mascot.states[state];
+                
+                let dialogueOptions = mascot.quotes[event === 'streak' ? 'correct' : event] || mascot.quotes.start;
+                const newText = dialogueOptions[Math.floor(Math.random() * dialogueOptions.length)];
+                
+                text.classList.add('refreshing');
+                
+                setTimeout(() => {
+                    text.innerText = newText;
+                    text.classList.remove('refreshing');
+                }, 300);
+            },
 
             start(mode = 'normal') {
-                audioManager.init();
-                this.coins = 0;
-                this.updateCoinDisplay();
-                this.currentRound = 0;
-                this.gameMode = mode;
-                this.isGambleMode = false;
-                this.pendingGacha = false;
+                audioManager.init(); this.coins = 0; this.updateCoinDisplay();
+                this.currentRound = 0; this.gameMode = mode; this.isGambleMode = false; this.pendingGacha = false;
+                this.streak = 0;
                 
-                document.body.className = '';
-                if (mode === 'super') document.body.classList.add('theme-super');
-                else if (mode === 'whoSangIt') document.body.classList.add('theme-who');
-                
-                createBg(mode);
+                this.applyTheme();
                 this.generateRounds();
                 this.showScreen('gameScreen');
+                
+                setTimeout(() => this.updateMascot('start'), 500);
                 this.loadRound();
+            },
+
+            applyTheme() {
+                document.body.classList.remove('theme-super', 'theme-who', 'theme-golden');
+                
+                if (playerData.activeSkin === 'golden') {
+                    document.body.classList.add('theme-golden');
+                    createBg('normal');
+                } else {
+                    if (this.gameMode === 'super') {
+                        document.body.classList.add('theme-super');
+                        createBg('super');
+                    } else if (this.gameMode === 'whoSangIt') {
+                        document.body.classList.add('theme-who');
+                        createBg('whoSangIt');
+                    } else {
+                        createBg('normal');
+                    }
+                }
+                // Always sync bias accent colors
+                if (playerData.savedBias) syncTheme(playerData.savedBias);
+            },
+
+            toggleGoldenSkin() {
+                playerData.activeSkin = playerData.activeSkin === 'golden' ? '' : 'golden';
+                saveGameData();
+                this.applyTheme();
             },
 
             showStats() {
@@ -778,56 +1116,133 @@
                 document.getElementById('statTotal').innerText = `${playerData.totalCoins} 💖`;
                 document.getElementById('statCorrect').innerText = playerData.totalCorrect;
                 
-                const winRate = playerData.gambleAttempts > 0 
-                    ? Math.round((playerData.gambleWins / playerData.gambleAttempts) * 100) 
-                    : 0;
+                const winRate = playerData.gambleAttempts > 0 ? Math.round((playerData.gambleWins / playerData.gambleAttempts) * 100) : 0;
                 document.getElementById('statWinRate').innerText = `${winRate}%`;
-                
                 document.getElementById('allTimeRankText').innerText = getAllTimeRankName(playerData.totalCoins);
-                document.getElementById('statsOverlay').style.display = 'flex';
+
+                // Render Earned Badges
+                let badgesHtml = '<div style="font-size:0.85rem; font-weight:800; color:var(--text-light); margin-bottom:8px;">ERA BADGES UNLOCKED:</div><div style="display:flex; flex-wrap:wrap; gap:6px;">';
+                let hasBadges = false;
+                albumSetsData.forEach(set => {
+                    if(playerData.unlockedThemes.includes(set.id)) {
+                        hasBadges = true;
+                        badgesHtml += `<span style="background:linear-gradient(135deg, var(--accent-color), var(--purple-vibrant)); color:white; padding:5px 10px; border-radius:12px; font-size:0.8rem; font-weight:800; box-shadow:0 2px 5px var(--glow-color);">${set.name} 🏆</span>`;
+                    }
+                });
+                badgesHtml += '</div>';
+                document.getElementById('badgesContainer').innerHTML = hasBadges ? badgesHtml : '';
+
+                // Toggle Golden Skin UI
+                const themeUI = document.getElementById('themeSelectorContainer');
+                if (playerData.unlockedThemes.includes('solo_jk')) {
+                    themeUI.style.display = 'block';
+                    themeUI.querySelector('button').innerText = playerData.activeSkin === 'golden' ? "Revert to Default Theme" : "Equip Golden Theme 💛";
+                } else {
+                    themeUI.style.display = 'none';
+                }
+
+                document.getElementById('statsOverlay').classList.add('active');
             },
 
             showCollection() {
-                const grid = document.getElementById('collectionGrid');
-                grid.innerHTML = '';
-                
+                const container = document.getElementById('collectionContainer');
+                container.innerHTML = '';
                 document.getElementById('collectionProgress').innerText = `${playerData.ownedPhotocardIDs.length} / 150 Photocards`;
 
-                photocardVault.forEach(card => {
-                    const el = document.createElement('div');
-                    const isOwned = playerData.ownedPhotocardIDs.includes(card.id);
+                albumSetsData.forEach(set => {
+                    const setCards = photocardVault.filter(c => c.setId === set.id);
+                    const ownedInSet = setCards.filter(c => playerData.ownedPhotocardIDs.includes(c.id)).length;
                     
-                    if (isOwned) {
-                        el.className = 'gallery-card';
-                        el.innerHTML = `<img src="${getRealImage(card.query)}" loading="lazy" alt="${card.name}">`;
-                    } else {
-                        el.className = 'gallery-card locked';
-                        // To save API hits on 150 locked images, we use UI avatars for placeholders.
-                        el.innerHTML = `<img src="${getAvatar(card.group)}" loading="lazy" alt="Locked">`;
-                    }
-                    grid.appendChild(el);
+                    let html = `
+                    <div class="set-section">
+                        <div class="set-header">
+                            <h3>${set.name}</h3>
+                            <div class="set-progress-wrapper">
+                                <div class="set-progress-bg"><div class="set-progress-fill" style="width: ${(ownedInSet/10)*100}%"></div></div>
+                                <span class="set-progress-text">${ownedInSet} / 10</span>
+                            </div>
+                        </div>
+                        <div class="collection-grid">
+                    `;
+                    
+                    setCards.forEach(card => {
+                        const isOwned = playerData.ownedPhotocardIDs.includes(card.id);
+                        const statsKey = `${card.linkedArtist}-${card.linkedSong}`;
+                        const timesGuessed = playerData.songStats[statsKey] || 0;
+                        const discDate = playerData.cardDiscovery[card.id] || 'Unknown';
+                        
+                        if (isOwned) {
+                            let specialBadge = card.isSpecial ? `<div class="special-badge">✨</div>` : '';
+                            let classes = card.isSpecial ? 'gallery-card-side gallery-card-front special' : 'gallery-card-side gallery-card-front';
+                            html += `
+                            <div class="flip-container" onclick="this.classList.toggle('flipped'); audioManager.play('click');">
+                                <div class="flip-inner">
+                                    <div class="${classes}">
+                                        ${specialBadge}<img src="${getRealImage(card.query)}" loading="lazy" alt="${card.name}">
+                                    </div>
+                                    <div class="gallery-card-side gallery-card-back">
+                                        <div style="font-size:0.6rem; opacity:0.9; text-transform:uppercase;">Linked Song</div>
+                                        <div style="font-weight:800; font-size:0.85rem; margin-bottom:8px; line-height:1.2;">${card.linkedSong}</div>
+                                        <div style="font-size:0.65rem; opacity:0.9;">Guessed Correctly</div>
+                                        <div style="font-weight:800; font-size:1.1rem; color:var(--gold); margin-bottom:8px;">${timesGuessed}x</div>
+                                        <div style="font-size:0.6rem; opacity:0.8; margin-top:auto;">Discovered: ${discDate}</div>
+                                        <div style="font-size:0.65rem; font-weight:700; margin-top:3px;">Lv ${card.difficulty}</div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        } else {
+                            const avatarUrl = getAvatar(card.linkedArtist || 'K P');
+                            let lockClasses = card.isSpecial ? 'flip-container special locked' : 'flip-container locked';
+                            let frontClasses = card.isSpecial ? 'gallery-card-side gallery-card-front special' : 'gallery-card-side gallery-card-front';
+                            html += `
+                            <div class="${lockClasses}">
+                                <div class="flip-inner">
+                                    <div class="${frontClasses}">
+                                        <img src="${avatarUrl}" loading="lazy" onerror="this.src='https://ui-avatars.com/api/?name=KP'">
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                    });
+                    
+                    html += `</div></div>`;
+                    container.innerHTML += html;
                 });
                 
+                // Add 3D Hover Tilt Logic dynamically
+                setTimeout(() => {
+                    document.querySelectorAll('.flip-container:not(.locked)').forEach(el => {
+                        el.addEventListener('mousemove', (e) => {
+                            if(el.classList.contains('flipped')) return; 
+                            const rect = el.getBoundingClientRect();
+                            const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                            const centerX = rect.width / 2; const centerY = rect.height / 2;
+                            const rotateX = ((y - centerY) / centerY) * -12;
+                            const rotateY = ((x - centerX) / centerX) * 12;
+                            el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+                        });
+                        el.addEventListener('mouseleave', () => {
+                            el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                        });
+                    });
+                }, 100);
+
                 this.showScreen('collectionScreen');
             },
 
             updateCoinDisplay() {
-                const ui = document.getElementById('coinTotal');
-                const counterBox = document.getElementById('coinCounterUI');
-                ui.innerText = this.coins;
-                counterBox.classList.add('pulse');
-                setTimeout(() => counterBox.classList.remove('pulse'), 200);
+                const ui = document.getElementById('coinTotal'); const counterBox = document.getElementById('coinCounterUI');
+                ui.innerText = this.coins; counterBox.classList.add('pulse');
+                setTimeout(() => counterBox.classList.remove('pulse'), 300);
             },
 
             spawnFloatingCoins() {
                 const body = document.body;
                 for(let i=0; i<6; i++) {
-                    const coin = document.createElement('div');
-                    coin.className = 'floating-coin'; coin.innerText = '💖';
+                    const coin = document.createElement('div'); coin.className = 'floating-coin'; coin.innerText = '💖';
                     coin.style.left = '50%'; coin.style.top = '50%';
                     const angle = Math.random() * Math.PI * 2; const dist = 60 + Math.random() * 60;
-                    coin.style.setProperty('--tx-mid', `${Math.cos(angle) * dist}px`);
-                    coin.style.setProperty('--ty-mid', `${Math.sin(angle) * dist}px`);
+                    coin.style.setProperty('--tx-mid', `${Math.cos(angle) * dist}px`); coin.style.setProperty('--ty-mid', `${Math.sin(angle) * dist}px`);
                     coin.style.setProperty('--tx-end', '40vw'); coin.style.setProperty('--ty-end', '-45vh');
                     body.appendChild(coin); setTimeout(() => coin.remove(), 1000);
                 }
@@ -857,57 +1272,65 @@
             },
 
             loadRound() {
-                const song = this.rounds[this.currentRound];
-                const roundText = this.currentRound === 6 ? "ROUND 7 : BOSS LEVEL 😈" : `ROUND ${this.currentRound + 1} / 7`;
-                document.getElementById('roundCounter').innerText = roundText;
-                
-                document.getElementById('roundCounter').style.color = (this.currentRound === 6 && this.isGambleMode) ? 'var(--pink-vibrant)' : 'var(--text-light)';
-                document.getElementById('artistName').innerText = song.artist;
-                
-                let lyricHtml = this.gameMode === 'whoSangIt' 
-                    ? `"${song.snippet}"<br><span style="font-size:0.85em; color:var(--text-light); margin-top:12px; display:block; text-transform:uppercase; letter-spacing:1px;">Who sang this line?</span>`
-                    : song.snippet.replace("___", '<span class="blank-space">...</span>');
-                document.getElementById('lyricText').innerHTML = lyricHtml;
+                const contentWrapper = document.getElementById('fluidRoundContent');
+                if (this.currentRound > 0) {
+                    contentWrapper.classList.remove('slide-in');
+                    contentWrapper.classList.add('slide-out');
+                }
 
-                const optionsGrid = document.getElementById('optionsGrid');
-                optionsGrid.innerHTML = '';
-                const shuffledOptions = [...song.options].sort(() => Math.random() - 0.5);
-                
-                shuffledOptions.forEach(opt => {
-                    const btn = document.createElement('button');
-                    if (this.gameMode === 'whoSangIt') {
-                        btn.className = 'option-bubble option-with-img';
-                        const imgSrc = getRealImage(opt + " " + song.artist);
-                        btn.innerHTML = `<img src="${imgSrc}" onerror="this.onerror=null; this.src='${getAvatar(opt)}'" alt="${opt}"> <span>${opt}</span>`;
-                    } else {
-                        btn.className = 'option-bubble';
-                        btn.innerText = opt;
+                setTimeout(() => {
+                    const song = this.rounds[this.currentRound];
+                    const roundText = this.currentRound === 6 ? "ROUND 7 : BOSS LEVEL 😈" : `ROUND ${this.currentRound + 1} / 7`;
+                    document.getElementById('roundCounter').innerText = roundText;
+                    document.getElementById('roundCounter').style.color = (this.currentRound === 6 && this.isGambleMode) ? 'var(--accent-color)' : 'var(--text-light)';
+                    document.getElementById('artistName').innerText = song.artist;
+                    
+                    let lyricHtml = this.gameMode === 'whoSangIt' 
+                        ? `"${song.snippet}"<br><span style="font-size:0.85em; color:var(--text-light); margin-top:12px; display:block; text-transform:uppercase; letter-spacing:1px;">Who sang this line?</span>`
+                        : song.snippet.replace("___", '<span class="blank-space">...</span>');
+                    document.getElementById('lyricText').innerHTML = lyricHtml;
+
+                    const optionsGrid = document.getElementById('optionsGrid');
+                    optionsGrid.innerHTML = '';
+                    const shuffledOptions = [...song.options].sort(() => Math.random() - 0.5);
+                    
+                    shuffledOptions.forEach(opt => {
+                        const btn = document.createElement('button');
+                        if (this.gameMode === 'whoSangIt') {
+                            btn.className = 'option-bubble option-with-img';
+                            const imgSrc = getRealImage(opt + " " + song.artist);
+                            btn.innerHTML = `<img src="${imgSrc}" onerror="this.onerror=null; this.src='${getAvatar(opt)}'" alt="${opt}"> <span>${opt}</span>`;
+                        } else {
+                            btn.className = 'option-bubble'; btn.innerText = opt;
+                        }
+                        btn.onclick = () => { audioManager.play('click'); this.handleAnswer(opt); };
+                        optionsGrid.appendChild(btn);
+                    });
+
+                    if (this.currentRound > 0) {
+                        contentWrapper.classList.remove('slide-out');
+                        contentWrapper.classList.add('slide-in');
                     }
-                    btn.onclick = () => { audioManager.play('click'); this.handleAnswer(opt); };
-                    optionsGrid.appendChild(btn);
-                });
 
-                document.getElementById('feedbackOverlay').style.display = 'none';
-                this.startTimer();
+                    document.getElementById('feedbackOverlay').classList.remove('active');
+                    this.startTimer();
+                }, this.currentRound > 0 ? 300 : 0);
             },
 
             startTimer() {
                 this.timeLeft = (this.currentRound === 6 && this.isGambleMode) ? 5 : 10;
-                const totalTime = this.timeLeft;
-                const bar = document.getElementById('timerBar');
+                const totalTime = this.timeLeft; const bar = document.getElementById('timerBar');
                 
                 if (this.currentRound === 6 && this.isGambleMode) {
                     bar.className = 'timer-bar gamble';
-                } else {
-                    bar.className = 'timer-bar';
-                    bar.style.backgroundColor = 'var(--success)';
+                } else { 
+                    bar.className = 'timer-bar'; bar.style.backgroundColor = 'var(--accent-color)'; 
                 }
                 
                 bar.style.width = '100%';
                 clearInterval(this.timerId);
                 this.timerId = setInterval(() => {
-                    this.timeLeft -= 0.1;
-                    bar.style.width = (this.timeLeft / totalTime) * 100 + '%';
+                    this.timeLeft -= 0.1; bar.style.width = (this.timeLeft / totalTime) * 100 + '%';
 
                     if (!this.isGambleMode || this.currentRound !== 6) {
                         if (this.timeLeft < 4 && Math.floor(this.timeLeft * 10) % 10 === 0) { bar.style.backgroundColor = 'var(--danger)'; audioManager.play('tick'); }
@@ -927,37 +1350,34 @@
                 let coinsEarned = 0; let isJackpot = false; let isFail = false;
 
                 if (isCorrect) {
-                    playerData.totalCorrect++; // Persistent Stat
+                    this.streak++;
+                    if(this.streak > 1) this.updateMascot('streak');
+                    else this.updateMascot('correct');
+
+                    playerData.totalCorrect++;
+                    const statKey = `${song.artist}-${song.song}`;
+                    playerData.songStats[statKey] = (playerData.songStats[statKey] || 0) + 1;
+
                     if (this.currentRound < 2) coinsEarned = 10;
                     else if (this.currentRound < 5) coinsEarned = 25;
                     else if (this.currentRound === 5) coinsEarned = 50;
                     else if (this.currentRound === 6) {
                         if (this.isGambleMode) {
-                            coinsEarned = this.coins; 
-                            isJackpot = true;
-                            playerData.gambleWins++; // Persistent Stat
-                            this.pendingGacha = true; // Trigger Gacha!
-                        } else {
-                            coinsEarned = 100;
-                        }
+                            coinsEarned = this.coins; isJackpot = true;
+                            playerData.gambleWins++; this.pendingGacha = true;
+                        } else coinsEarned = 100;
                     }
-                    this.coins += coinsEarned;
-                    this.spawnFloatingCoins();
-                    setTimeout(() => this.updateCoinDisplay(), 800);
+                    this.coins += coinsEarned; this.spawnFloatingCoins(); setTimeout(() => this.updateCoinDisplay(), 800);
                     if (isJackpot) audioManager.play('jackpot'); else audioManager.play('correct');
                 } else {
+                    this.streak = 0;
+                    this.updateMascot('wrong');
                     if (this.currentRound === 6 && this.isGambleMode) {
-                        this.coins = 0; this.updateCoinDisplay();
-                        isFail = true; audioManager.play('aww');
-                    } else {
-                        audioManager.play('wrong');
-                    }
+                        this.coins = 0; this.updateCoinDisplay(); isFail = true; audioManager.play('aww');
+                    } else audioManager.play('wrong');
                 }
 
-                // Track gamble attempt persistently
-                if (this.currentRound === 6 && this.isGambleMode) {
-                    playerData.gambleAttempts++;
-                }
+                if (this.currentRound === 6 && this.isGambleMode) playerData.gambleAttempts++;
 
                 const overlay = document.getElementById('feedbackOverlay');
                 const title = document.getElementById('feedbackTitle');
@@ -968,8 +1388,11 @@
                 title.innerText = isCorrect ? this.getRandom(cheers.right) : this.getRandom(cheers.wrong);
                 title.style.color = isCorrect ? 'var(--success)' : 'var(--danger)';
                 
+                title.style.transform = 'scale(0.8)';
+                setTimeout(() => title.style.transform = 'scale(1)', 50);
+                
                 let answerContext = this.gameMode === 'whoSangIt' ? 'Singer' : 'Lyric';
-                sub.innerHTML = `<span style="display:block; font-size: 0.85em; color: var(--pink-vibrant); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">${song.artist} • ${song.song}</span>The ${answerContext}: "${song.answer}"`;
+                sub.innerHTML = `<span style="display:block; font-size: 0.85em; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">${song.artist} • ${song.song}</span>The ${answerContext}: "${song.answer}"`;
                 
                 if (isCorrect) coinText.innerText = `+${coinsEarned} Coins!`;
                 else if (isFail) coinText.innerText = `Bankrupt! 😭`;
@@ -978,74 +1401,79 @@
                 let imageQuery = this.gameMode === 'whoSangIt' ? (song.answer + " " + song.artist) : song.artist;
                 card.innerHTML = `<img src="${getRealImage(imageQuery)}" alt="${song.artist}" onerror="this.onerror=null; this.src='${getAvatar(imageQuery)}';">`;
                 
-                overlay.style.display = 'flex';
+                overlay.classList.add('active');
             },
 
             getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; },
 
             nextRound() {
                 this.currentRound++;
-                if (this.currentRound === 6) { 
+                if (this.currentRound === 6) {
+                    this.updateMascot('gamble');
                     this.showGambleModal();
-                } else if (this.currentRound < 7) {
-                    this.loadRound();
-                } else {
-                    this.processEndOfGame();
                 }
+                else if (this.currentRound < 7) this.loadRound();
+                else this.processEndOfGame();
             },
 
             showGambleModal() {
-                document.getElementById('feedbackOverlay').style.display = 'none';
+                document.getElementById('feedbackOverlay').classList.remove('active');
                 document.getElementById('gambleCoinTotal').innerText = this.coins;
-                document.getElementById('gambleOverlay').style.display = 'flex';
+                document.getElementById('gambleOverlay').classList.add('active');
             },
 
             makeGambleDecision(isDouble) {
                 this.isGambleMode = isDouble;
-                document.getElementById('gambleOverlay').style.display = 'none';
+                document.getElementById('gambleOverlay').classList.remove('active');
                 this.loadRound();
             },
 
             processEndOfGame() {
-                // Persistent saving logic
                 playerData.totalCoins += this.coins;
                 if (this.coins > playerData.highScore) playerData.highScore = this.coins;
                 saveGameData();
 
-                document.getElementById('feedbackOverlay').style.display = 'none';
+                document.getElementById('feedbackOverlay').classList.remove('active');
 
-                if (this.pendingGacha) {
-                    this.triggerGacha();
-                } else {
-                    this.showResults();
-                }
+                if (this.pendingGacha) this.triggerGacha();
+                else this.showResults();
             },
 
             triggerGacha() {
                 const unowned = photocardVault.filter(c => !playerData.ownedPhotocardIDs.includes(c.id));
                 if (unowned.length === 0) {
-                    // Maxed out collection fallback
-                    this.coins += 500;
-                    this.showResults();
-                    return;
+                    this.coins += 500; this.showResults(); return;
                 }
 
-                // Random pull
                 const newCard = unowned[Math.floor(Math.random() * unowned.length)];
                 playerData.ownedPhotocardIDs.push(newCard.id);
+                playerData.cardDiscovery[newCard.id] = new Date().toLocaleDateString();
+
+                const setCards = photocardVault.filter(c => c.setId === newCard.setId);
+                const ownedInSet = setCards.filter(c => playerData.ownedPhotocardIDs.includes(c.id)).length;
+                
+                let bonusMsg = '';
+                if (ownedInSet === 10 && !playerData.unlockedThemes.includes(newCard.setId)) {
+                    playerData.unlockedThemes.push(newCard.setId);
+                    bonusMsg = `<br><span style="color:var(--gold); font-size: 1rem; display:block; margin-top:10px;">🏆 SET COMPLETE: ${newCard.setName}!<br>Badge Unlocked!</span>`;
+                }
+
                 saveGameData();
 
-                // Setup overlay
                 const gachaOverlay = document.getElementById('gachaOverlay');
                 document.getElementById('gachaCardName').innerText = newCard.name;
                 document.getElementById('gachaCardImage').innerHTML = `<img src="${getRealImage(newCard.query)}" alt="${newCard.name}">`;
                 
-                audioManager.play('win'); // Shimmer effect substitute
-                gachaOverlay.style.display = 'flex';
+                const bonusEl = document.getElementById('gachaBonusMsg');
+                if (bonusMsg) { bonusEl.innerHTML = bonusMsg; bonusEl.style.display = 'block'; } 
+                else { bonusEl.style.display = 'none'; }
+                
+                audioManager.play('win'); 
+                gachaOverlay.classList.add('active');
             },
 
             closeGacha() {
-                document.getElementById('gachaOverlay').style.display = 'none';
+                document.getElementById('gachaOverlay').classList.remove('active');
                 this.showResults();
             },
 
@@ -1057,19 +1485,22 @@
                 const resultIcon = document.getElementById('resultIcon');
                 
                 document.getElementById('resultAllTimeRank').innerText = getAllTimeRankName(playerData.totalCoins);
-
                 scoreDisplay.innerText = `${this.coins}`;
 
                 if (this.coins >= 300) {
+                    this.updateMascot('win');
                     audioManager.play('win'); fireConfetti(); resultIcon.innerText = "👑🔥";
                     rankBadge.innerText = "ULTIMATE K-POP DEITY"; rankMsg.innerText = "You won the Boss gamble! You own the fandom.";
                 } else if (this.coins >= 151) {
+                    this.updateMascot('win');
                     audioManager.play('win'); fireConfetti(); resultIcon.innerText = "📸";
                     rankBadge.innerText = "HIGH-TIER BIAS"; rankMsg.innerText = "Daebak! Time to watch more Behind the Scenes!";
                 } else if (this.coins >= 51) {
+                    this.updateMascot('correct');
                     audioManager.play('win'); fireConfetti(); resultIcon.innerText = "✨";
                     rankBadge.innerText = "TRAINEE"; rankMsg.innerText = "You know your title tracks! Keep practicing!";
                 } else {
+                    this.updateMascot('lose');
                     audioManager.play('lose'); resultIcon.innerText = "🌧️";
                     rankBadge.innerText = "MUGGLE LISTENER"; rankMsg.innerText = "It's just a casual vibe. Watch some MVs!";
                 }
@@ -1078,6 +1509,10 @@
             showScreen(id) {
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                 document.getElementById(id).classList.add('active');
+                
+                if(id === 'startScreen' || id === 'collectionScreen') {
+                    document.getElementById('mascotUI').style.display = 'none';
+                }
             }
         };
 
@@ -1107,7 +1542,18 @@
 
         window.onload = () => {
             loadGameData();
+            
+            if (playerData.savedBias) {
+                syncTheme(playerData.savedBias);
+                game.selectBias(playerData.savedBias, null);
+            } else {
+                syncTheme('rm'); 
+                game.selectBias('rm', null);
+                document.getElementById('biasOverlay').classList.add('active');
+            }
+            
             createBg('normal');
+            if(playerData.activeSkin === 'golden') game.applyTheme();
         };
     </script>
 </body>
