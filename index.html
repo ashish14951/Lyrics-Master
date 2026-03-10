@@ -270,6 +270,26 @@
             transition: all 0.3s ease;
         }
 
+        /* Member Photo Buttons */
+        .option-with-img {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            padding: 12px 20px;
+            text-align: left;
+        }
+
+        .option-with-img img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--blue-soft);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background: var(--pink-soft);
+        }
+
         /* Sleek Modern Buttons */
         .options-grid {
             display: grid;
@@ -406,6 +426,7 @@
             background: rgba(0,0,0,0.03);
             padding: 12px 24px;
             border-radius: 16px;
+            line-height: 1.4;
         }
 
         /* Screens */
@@ -433,6 +454,7 @@
             .coin-counter { font-size: 1.1rem; padding: 6px 16px; top: -18px; right: 18px; }
             .lyric-box { font-size: 1.15rem; padding: 25px 20px; min-height: 120px; }
             .option-bubble { padding: 15px 20px; font-size: 1rem; }
+            .option-with-img { padding: 10px 15px; }
             .song-card { width: 140px; height: 200px; }
             .gamble-text { font-size: 1.1rem; }
             .gamble-highlight { font-size: 1.3rem; }
@@ -454,7 +476,7 @@
         <!-- Start Screen -->
         <div id="startScreen" class="screen active">
             <h1>Lyric Master</h1>
-            <p class="subtitle">Complete the lyrics for 7 songs!</p>
+            <p class="subtitle">Can you guess the K-Pop songs?</p>
             
             <div class="hero-image-wrapper">
                 <div class="hero-image-glow"></div>
@@ -464,6 +486,9 @@
             <div class="options-grid">
                 <button class="option-bubble" onclick="game.start('normal'); audioManager.play('click');">
                     Normal Audition ✨
+                </button>
+                <button class="option-bubble" style="background: linear-gradient(135deg, #e0fbfa, #cbf3f0); color: #0097e6; border-color: #a0e8e4;" onclick="game.start('whoSangIt'); audioManager.play('click');">
+                    Who Sang It? 🎤
                 </button>
                 <button class="option-bubble super-stan-btn" onclick="game.start('super'); audioManager.play('click');">
                     Super Stan Mode 🔥
@@ -482,7 +507,8 @@
                 <div class="timer-bar" id="timerBar"></div>
             </div>
 
-            <div class="lyric-box">
+            <!-- Standard Lyric UI -->
+            <div class="lyric-box" id="lyricBox">
                 <div class="artist-tag" id="artistName">BTS</div>
                 <div id="lyricText">
                     "Smooth like <span class="blank-space">...</span>"
@@ -547,7 +573,7 @@
             this.onerror=null; this.src=getAvatar("K P");
         };
 
-        // Audio Manager
+        // Audio Manager for UI sounds
         const audioManager = {
             ctx: null,
             init() {
@@ -673,8 +699,9 @@
             }
         }
 
+        // Standard Text Vault (Strictly 7 Bands)
         const vault = [
-            // DIFFICULTY 1 (15 Questions)
+            // DIFFICULTY 1
             { artist: "BTS", song: "Butter", snippet: "___, like a criminal undercover", answer: "Smooth like butter", options: ["Smooth like butter", "Sweet like honey", "Hot like summer"], difficulty: 1 },
             { artist: "BLACKPINK", song: "DDU-DU DDU-DU", snippet: "___, ah yeah, ah yeah", answer: "Hit you with that ddu-du", options: ["Hit you with that ddu-du", "Make you crazy like a", "Playing with the fire"], difficulty: 1 },
             { artist: "TWICE", song: "Cheer Up", snippet: "___, shy shy shy", answer: "Cheer up baby", options: ["Cheer up baby", "Meet you later", "Fancy you baby"], difficulty: 1 },
@@ -682,90 +709,74 @@
             { artist: "Seventeen", song: "Aju Nice", snippet: "___, aju nice!", answer: "Gibun gibun gibun joa", options: ["Gibun gibun gibun joa", "Oneul harudo sugohesseo", "Uri hamkke dallyeoboja"], difficulty: 1 },
             { artist: "ENHYPEN", song: "Drunk-Dazed", snippet: "Jeongdabeun eopseo, ___", answer: "Just play play play", options: ["Just play play play", "We run run run", "Let's dance dance dance"], difficulty: 1 },
             { artist: "EXO", song: "Love Shot", snippet: "It's the love shot, ___", answer: "Na nanana nananana", options: ["Na nanana nananana", "We are the absolute", "Boom boom pow pow pow"], difficulty: 1 },
-            { artist: "BTS", song: "Dynamite", snippet: "Shining through the city with a little funk and soul, ___", answer: "So I'ma light it up like dynamite", options: ["So I'ma light it up like dynamite", "We gonna make it pop like a superstar", "Dancing in the moonlight until the dawn"], difficulty: 1 },
-            { artist: "BLACKPINK", song: "How You Like That", snippet: "___, look at you now look at me", answer: "How you like that", options: ["How you like that", "Catch me if you can baby", "Watch me drop it like that"], difficulty: 1 },
-            { artist: "TWICE", song: "TT", snippet: "I'm like TT, ___", answer: "Just like TT", options: ["Just like TT", "Crying all night long", "Tell me that you love me"], difficulty: 1 },
-            { artist: "Stray Kids", song: "MANIAC", snippet: "Poppin' like a maniac, ___", answer: "Maniac, pingdora beorigetji", options: ["Maniac, pingdora beorigetji", "Crazy, jumping out of my mind", "Monster, taking over the world"], difficulty: 1 },
-            { artist: "Seventeen", song: "Super", snippet: "I love my team, I love my crew, ___", answer: "Yeogikkaji dallyeowasseo", options: ["Yeogikkaji dallyeowasseo", "Uri hamkke mandeun gijeok", "Urin jeoldae meomchuji ana"], difficulty: 1 },
-            { artist: "ENHYPEN", song: "Bite Me", snippet: "Just come kiss me and ___", answer: "Bite me, bite me", options: ["Bite me, bite me", "Hold me, hold me", "Love me, love me"], difficulty: 1 },
-            { artist: "EXO", song: "Growl", snippet: "Eureureong eureureong eureureong dae, ___", answer: "Mulleoseoji aneumyeon dacheo", options: ["Mulleoseoji aneumyeon dacheo", "Nareul domangchiryeogo haji ma", "Ije neoneun nae geoya"], difficulty: 1 },
-            { artist: "BTS", song: "Boy With Luv", snippet: "Oh my my my, oh my my my, ___", answer: "You got me high so fast", options: ["You got me high so fast", "I want to be with you", "Let me fly up to the sky"], difficulty: 1 },
-
-            // DIFFICULTY 2 (15 Questions)
+            // DIFFICULTY 2
             { artist: "BLACKPINK", song: "Pink Venom", snippet: "This that pink venom, ___", answer: "Get 'em, get 'em, get 'em", options: ["Get 'em, get 'em, get 'em", "Watch out, we are coming", "Poison, running through your veins"], difficulty: 2 },
             { artist: "TWICE", song: "Fancy", snippet: "Fancy you, nuga meonjeo joahamyeon eottae, ___", answer: "Fancy you, jigeum neoegero gallae", options: ["Fancy you, jigeum neoegero gallae", "I love you, nae maeumeul badajwo", "Want you back, urin yeongwonhal geoya"], difficulty: 2 },
             { artist: "Stray Kids", song: "Thunderous", snippet: "Sorikkun, ___", answer: "Ppaengppaenghage ullyeo peojeo", options: ["Ppaengppaenghage ullyeo peojeo", "Urin jeoldae meomchuji ana", "Sori jilleo bwa right now"], difficulty: 2 },
             { artist: "Seventeen", song: "HOT", snippet: "Modu chyeodabwa, ___", answer: "Drop it like hot hot hot", options: ["Drop it like hot hot hot", "Burn it up right now now", "We are gonna set the fire"], difficulty: 2 },
             { artist: "ENHYPEN", song: "Fever", snippet: "Neol ango sipeo, ___", answer: "Fever, fever, fever, fever", options: ["Fever, fever, fever, fever", "Desire, desire, desire, desire", "Fire, fire, fire, fire"], difficulty: 2 },
-            { artist: "EXO", song: "Monster", snippet: "I'm creeping in your heart, babe, ___", answer: "Dwijibeo eopeul geonikka", options: ["Dwijibeo eopeul geonikka", "Nareul beoseonal su eopseo", "Yeongwonhi neowa hamkkehae"], difficulty: 2 },
-            { artist: "BTS", song: "Fake Love", snippet: "I'm so sick of this, ___", answer: "Fake love, fake love, fake love", options: ["Fake love, fake love, fake love", "Dark night, dark night, dark night", "Sad truth, sad truth, sad truth"], difficulty: 2 },
-            { artist: "BLACKPINK", song: "Kill This Love", snippet: "Let's kill this love, ___", answer: "Yeah yeah yeah yeah yeah", options: ["Yeah yeah yeah yeah yeah", "Right now right now right now", "Burn it down down down"], difficulty: 2 },
-            { artist: "TWICE", song: "Feel Special", snippet: "You make me feel special, ___", answer: "Sesangi amuri nal jujeoanchyeodo", options: ["Sesangi amuri nal jujeoanchyeodo", "Naui modeun geosi binnage hae", "Eodum sogeseo nal chajajwo"], difficulty: 2 },
-            { artist: "Stray Kids", song: "Back Door", snippet: "Hey, you wanna come in? ___", answer: "Da chiwo ije deureoga", options: ["Da chiwo ije deureoga", "Bimilmuneul yeoreobwa", "Uriui segyero wajwo"], difficulty: 2 },
-            { artist: "Seventeen", song: "Left & Right", snippet: "Left and right, left and right, ___", answer: "Rip it, rip it, rip it, rip it", options: ["Rip it, rip it, rip it, rip it", "Jump up, jump up, jump up, jump up", "Move it, move it, move it, move it"], difficulty: 2 },
-            { artist: "ENHYPEN", song: "Given-Taken", snippet: "Unmyeongeui hwasalbie, ___", answer: "Majuhan nae anui segye", options: ["Majuhan nae anui segye", "Bilkkeute pieonan bit", "Nareul bureuneun moksori"], difficulty: 2 },
-            { artist: "EXO", song: "Ko Ko Bop", snippet: "Shimmy shimmy Ko Ko Bop, ___", answer: "I think I like it", options: ["I think I like it", "Let's go crazy now", "Dance until the morning"], difficulty: 2 },
-            { artist: "BTS", song: "DNA", snippet: "Don't worry love, ___", answer: "I modeun geon uyeoni aninikka", options: ["I modeun geon uyeoni aninikka", "Urin yeongwonhi hamkkehal geoya", "Ujuui seomniro maeeojin geol"], difficulty: 2 },
-            { artist: "BLACKPINK", song: "As If It's Your Last", snippet: "Majimakcheoreom, ___", answer: "Ma-ma-majimakcheoreom", options: ["Ma-ma-majimakcheoreom", "Naeireun eomneun geotcheoreom", "Dasi oji aneul sungan"], difficulty: 2 },
-
-            // DIFFICULTY 3 (15 Questions)
-            { artist: "BTS", song: "MIC Drop", snippet: "Did you see my bag, ___", answer: "Did you see my bag", options: ["Did you see my bag", "Filled with trophies and thick", "Watch my steps moving fast"], difficulty: 3 },
-            { artist: "TWICE", song: "Cry For Me", snippet: "I want you to cry, cry for me, ___", answer: "Die for me, die for me", options: ["Die for me, die for me", "Lie to me, lie to me", "Stay with me, stay with me"], difficulty: 3 },
-            { artist: "Stray Kids", song: "Case 143", snippet: "Why do I keep getting drawn, ___", answer: "Kkeullyeoganeun geolkka", options: ["Kkeullyeoganeun geolkka", "Neoege ppajyeodeureo", "Ijen meomchul su eopseo"], difficulty: 3 },
-            { artist: "Seventeen", song: "Don Quixote", snippet: "My hands up, I keep 'em high, ___", answer: "Don Quixote, Don Quixote", options: ["Don Quixote, Don Quixote", "Running to the endless sky", "Never gonna give it up"], difficulty: 3 },
-            { artist: "ENHYPEN", song: "Pass The Mic", snippet: "Walk the line, ___", answer: "I hate that line", options: ["I hate that line", "I draw my own line", "Breaking all the boundaries"], difficulty: 3 },
+            // DIFFICULTY 3
             { artist: "EXO", song: "Tempo", snippet: "I can't believe, ___", answer: "Gidaryeotdeon ireon neukkim", options: ["Gidaryeotdeon ireon neukkim", "Neol cheoeum bon sunganbuteo", "Nae simjangi ttwineun sori"], difficulty: 3 },
             { artist: "BLACKPINK", song: "Shut Down", snippet: "Keep watching me shut it down, ___", answer: "Nah nah nah nah nah", options: ["Nah nah nah nah nah", "Yeah yeah yeah yeah yeah", "Ooh ooh ooh ooh ooh"], difficulty: 3 },
             { artist: "BTS", song: "Run BTS", snippet: "Run bulletproof, run, ___", answer: "Yeah you gotta run", options: ["Yeah you gotta run", "Never looking back", "Keep moving forward now"], difficulty: 3 },
-            { artist: "TWICE", song: "Talk That Talk", snippet: "Tell me what you want, ___", answer: "Tell me what you need", options: ["Tell me what you need", "Show me what you got", "Give me all your love"], difficulty: 3 },
-            { artist: "Stray Kids", song: "S-Class", snippet: "Byulnan nom geu wieseo, ___", answer: "Bitnaneun byulnan nom", options: ["Bitnaneun byulnan nom", "Urin jeoldae an jukkneun nom", "Moduga nollal geureon nom"], difficulty: 3 },
-            { artist: "Seventeen", song: "Rock with you", snippet: "I wanna rock with you, ___", answer: "No words are enough for you", options: ["No words are enough for you", "Dancing all night long with you", "Falling deep inside of you"], difficulty: 3 },
-            { artist: "ENHYPEN", song: "Sweet Venom", snippet: "Sweet venom, sweet venom, ___", answer: "Ppeonhan gwedoreul beoseona", options: ["Ppeonhan gwedoreul beoseona", "Dalkomhan doge ppajyeodeureo", "Nareul mabi sikyeobeoryeo"], difficulty: 3 },
-            { artist: "EXO", song: "Obsession", snippet: "I don't think so, ___", answer: "I don't think so", options: ["I don't think so", "Get away from me", "You can never win"], difficulty: 3 },
-            { artist: "BLACKPINK", song: "Playing With Fire", snippet: "Uri sarangeun buljangnan, ___", answer: "My love is on fire", options: ["My love is on fire", "Burn it up all night long", "Can't control this feeling"], difficulty: 3 },
-            { artist: "BTS", song: "Blood Sweat & Tears", snippet: "Nae pi ttam nunmul, ___", answer: "Nae majimak chumeul", options: ["Nae majimak chumeul", "Dagawa nareul chaewojwo", "Neoege modage gyesok"], difficulty: 3 },
-
-            // DIFFICULTY 4 (SUPER STAN & BOSS LEVEL - 40 Questions)
+            // DIFFICULTY 4
             { artist: "BTS", song: "134340", snippet: "My cold heart is ___", answer: "248 degrees minus, below zero", options: ["248 degrees minus, below zero", "Frozen solid like the winter snow", "Lost completely in the universe"], difficulty: 4 },
             { artist: "BLACKPINK", song: "Tally", snippet: "I say fuck it when I ___", answer: "Feel it, cause no one's keeping tally", options: ["Feel it, cause no one's keeping tally", "Want to, doing whatever I please", "Need to, living life on my own terms"], difficulty: 4 },
             { artist: "TWICE", song: "Hell in Heaven", snippet: "Take me to your paradise, ___", answer: "Make me feel like I'm alive", options: ["Make me feel like I'm alive", "Hiding in the shadows of love", "Burning up the skies above"], difficulty: 4 },
-            { artist: "Seventeen", song: "Shadow", snippet: "Geomeun moseup tto darun nan, ___", answer: "Neo nareul ttara wa", options: ["Neo nareul ttara wa", "Yeongwonhi neowa hamkke", "Geurimjacheoreom pieona"], difficulty: 4 },
-            { artist: "Stray Kids", song: "Chronosaurus", snippet: "Runnin' runnin' runnin' ___", answer: "Away from the ticking clock", options: ["Away from the ticking clock", "Fast towards the finish line", "Now before it gets too late"], difficulty: 4 },
-            { artist: "ENHYPEN", song: "Chaconne", snippet: "Dance for me, dance for me, ___", answer: "In this beautiful dark night", options: ["In this beautiful dark night", "Under the pale moonlight", "Until our feet can't move"], difficulty: 4 },
-            { artist: "EXO", song: "El Dorado", snippet: "Find the El Dorado, ___", answer: "Sail away, sail away", options: ["Sail away, sail away", "Looking for the golden city", "Running through the endless desert"], difficulty: 4 },
-            { artist: "BTS", song: "Cypher Pt.4", snippet: "I love, I love, ___", answer: "I love myself, I know myself", options: ["I love myself, I know myself", "My life, my rules, my game", "Every single thing about me"], difficulty: 4 },
-            { artist: "BLACKPINK", song: "Typa Girl", snippet: "I bring money to the table, ___", answer: "Not your dinner, I'm the winner", options: ["Not your dinner, I'm the winner", "Paying for my own designer", "Making millions by the minute"], difficulty: 4 },
-            { artist: "TWICE", song: "Icon", snippet: "Damn I got it, ___", answer: "I'm iconic, you know I've got it", options: ["I'm iconic, you know I've got it", "Looking flawless every day", "Shining brighter than a diamond"], difficulty: 4 },
-            { artist: "Seventeen", song: "March", snippet: "Run like a racehorse, ___", answer: "Run away from the setting sun", options: ["Run away from the setting sun", "Jumping over all the hurdles", "Breaking out of the stable"], difficulty: 4 },
-            { artist: "Stray Kids", song: "Domino", snippet: "Han beone sseureojyeo, ___", answer: "Domino, like a domino", options: ["Domino, like a domino", "Falling down into the ground", "Crashing hard into the wall"], difficulty: 4 },
-            { artist: "ENHYPEN", song: "Sacrifice", snippet: "Eat me up, ___", answer: "Swallow me entirely, my love", options: ["Swallow me entirely, my love", "Take away all of my fears", "Consume my heart and soul"], difficulty: 4 },
-            { artist: "EXO", song: "Gravity", snippet: "You said I was your future, ___", answer: "Now I'm just your fading past", options: ["Now I'm just your fading past", "Why did you let me go", "Pulling me down to the ground"], difficulty: 4 },
-            { artist: "BTS", song: "Pied Piper", snippet: "I'm here to save you, ___", answer: "I'm here to ruin you", options: ["I'm here to ruin you", "Follow the sound of my flute", "Don't look back anymore"], difficulty: 4 },
-            { artist: "BLACKPINK", song: "Love To Hate Me", snippet: "You ain't worth my love if you only ___", answer: "Love to hate me, hate me", options: ["Love to hate me, hate me", "Play with my heart, my heart", "Tell me lies all the time"], difficulty: 4 },
-            { artist: "TWICE", song: "Up No More", snippet: "I don't wanna go up no more, ___", answer: "Falling down into the deep night", options: ["Falling down into the deep night", "Staying in the dark forever", "Running from the endless light"], difficulty: 4 },
-            { artist: "Seventeen", song: "Anyone", snippet: "I love you, cause I am ___", answer: "Your only one in this whole world", options: ["Your only one in this whole world", "Waiting for you in the rain", "Fighting for our destiny"], difficulty: 4 },
-            { artist: "Stray Kids", song: "Charmer", snippet: "You can't resist it, ___", answer: "I am the charmer, I am the charmer", options: ["I am the charmer, I am the charmer", "Falling into my magic spell", "Dancing to the snake's tune"], difficulty: 4 },
-            { artist: "ENHYPEN", song: "Criminal Love", snippet: "This is criminal love, ___", answer: "Criminal love, tearing me apart", options: ["Criminal love, tearing me apart", "Running from the sirens outside", "Breaking all the rules for you"], difficulty: 4 },
-            { artist: "EXO", song: "Ooh La La La", snippet: "Ooh la la la, ___", answer: "Let me come closer to your heart", options: ["Let me come closer to your heart", "Dancing under the moonlight", "Feeling the rhythm of the night"], difficulty: 4 },
-            { artist: "BTS", song: "Louder than bombs", snippet: "Louder than bombs I break, ___", answer: "Pouring out all my hidden pain", options: ["Pouring out all my hidden pain", "Shattering the silent night", "Crying in the dark alone"], difficulty: 4 },
-            { artist: "BLACKPINK", song: "Pretty Savage", snippet: "Similar to nobody, ___", answer: "We are pretty savage", options: ["We are pretty savage", "Born skinny, yeah, but I fly thick", "You can't imitate my style"], difficulty: 4 },
-            { artist: "TWICE", song: "Last Waltz", snippet: "Mmm, this is our last waltz, ___", answer: "Dancing until the music stops", options: ["Dancing until the music stops", "Spinning around in the ballroom", "Holding you tight in my arms"], difficulty: 4 },
-            { artist: "Seventeen", song: "Fear", snippet: "Someone tell me what should I do, ___", answer: "Poison running through my veins", options: ["Poison running through my veins", "Lost inside this endless maze", "Fear is taking over my mind"], difficulty: 4 },
-            { artist: "Stray Kids", song: "Venom", snippet: "Got me caught in your spider web, ___", answer: "Trapped inside without a way out", options: ["Trapped inside without a way out", "Poison spreading through my body", "Wrapping me up tight and close"], difficulty: 4 },
-            { artist: "ENHYPEN", song: "Shout Out", snippet: "My life without you is a misery, ___", answer: "Screaming out your name tonight", options: ["Screaming out your name tonight", "Calling out into the void", "Searching for your hidden light"], difficulty: 4 },
-            { artist: "EXO", song: "Oasis", snippet: "Run further away, ___", answer: "Towards the oasis in the desert", options: ["Towards the oasis in the desert", "Finding the hidden water spring", "Escaping from the burning heat"], difficulty: 4 },
-            { artist: "BTS", song: "Dis-ease", snippet: "I'm a workaholic, I need a pill, ___", answer: "Ima work it out, walk it out", options: ["Ima work it out, walk it out", "Can't stop running on the treadmill", "Resting feels like a heavy sin"], difficulty: 4 },
-            { artist: "BLACKPINK", song: "Crazy Over You", snippet: "I went crazy over you, ___", answer: "Over you, lost my mind for you", options: ["Over you, lost my mind for you", "Falling deep into your trap", "Can't escape this toxic love"], difficulty: 4 },
-            { artist: "TWICE", song: "Perfect World", snippet: "Get out, get lost, ___", answer: "This is my perfect world without you", options: ["This is my perfect world without you", "Leaving you behind in the dust", "Breaking down the fake reality"], difficulty: 4 },
-            { artist: "Seventeen", song: "I Don't Understand But I Luv U", snippet: "I don't understand but I love you, ___", answer: "Words are not needed between us", options: ["Words are not needed between us", "Feeling the connection in our souls", "Speaking in a different language"], difficulty: 4 },
-            { artist: "Stray Kids", song: "Red Lights", snippet: "I cannot let you go, ___", answer: "Never let you go, losing control", options: ["Never let you go, losing control", "Holding on to the red lights", "Falling into the dark abyss"], difficulty: 4 },
-            { artist: "ENHYPEN", song: "Tamed-Dashed", snippet: "Summer, taking me far away, ___", answer: "Running towards the burning sun", options: ["Running towards the burning sun", "Dashing through the endless waves", "Leaving the tamed world behind"], difficulty: 4 },
-            { artist: "EXO", song: "Monster", snippet: "Creeping creeping creeping, ___", answer: "You're dead, deep inside my heart", options: ["You're dead, deep inside my heart", "Watching you from the shadows", "Taking over your entire soul"], difficulty: 4 },
-            { artist: "BTS", song: "UGH!", snippet: "This is my anger, this is my rage, ___", answer: "Burning down everything in my path", options: ["Burning down everything in my path", "Spitting fire from my mouth", "Destroying the fake hypocrisy"], difficulty: 4 },
-            { artist: "BLACKPINK", song: "Hope Not", snippet: "For you I could pretend to be happy, ___", answer: "Hiding all my tears behind a smile", options: ["Hiding all my tears behind a smile", "Wishing that you would stay with me", "Hoping that our love will never end"], difficulty: 4 },
-            { artist: "TWICE", song: "Queen of Hearts", snippet: "I'm the queen, ___", answer: "The queen of hearts, ruling your world", options: ["The queen of hearts, ruling your world", "Taking over the entire kingdom", "Wearing the golden crown tonight"], difficulty: 4 },
-            { artist: "Seventeen", song: "Ash", snippet: "Build a fire, ___", answer: "Burn it all to ash, leave nothing behind", options: ["Burn it all to ash, leave nothing behind", "Watching the flames rise higher", "Rising from the dust like a phoenix"], difficulty: 4 },
-            { artist: "Stray Kids", song: "Topline", snippet: "We draw the line, ___", answer: "We the topline, looking down on you", options: ["We the topline, looking down on you", "Breaking the charts every time", "Reaching the peak of the mountain"], difficulty: 4 }
+            { artist: "Seventeen", song: "Shadow", snippet: "Geomeun moseup tto darun nan, ___", answer: "Neo nareul ttara wa", options: ["Neo nareul ttara wa", "Yeongwonhi neowa hamkke", "Geurimjacheoreom pieona"], difficulty: 4 }
+        ];
+
+        // ==========================================
+        // 🎤 WHO SANG IT? VAULT (Strictly 7 Bands) 🎤
+        // ==========================================
+        const whoSangItVault = [
+            // DIFFICULTY 1
+            { artist: "Stray Kids", song: "God's Menu", snippet: "Cooking like a chef, I'm a 5 star Michelin", answer: "Felix", options: ["Felix", "Bang Chan", "Hyunjin"], difficulty: 1 },
+            { artist: "TWICE", song: "Cheer Up", snippet: "Shy shy shy", answer: "Sana", options: ["Sana", "Momo", "Nayeon"], difficulty: 1 },
+            { artist: "BLACKPINK", song: "Boombayah", snippet: "Click clack bada bing bada boom", answer: "Jennie", options: ["Jennie", "Lisa", "Rosé"], difficulty: 1 },
+            { artist: "BTS", song: "Fire", snippet: "Bultaoreune", answer: "Suga", options: ["Suga", "Jungkook", "RM"], difficulty: 1 },
+            { artist: "EXO", song: "Monster", snippet: "I'm creeping in your heart babe", answer: "Baekhyun", options: ["Baekhyun", "D.O.", "Kai"], difficulty: 1 },
+            { artist: "Seventeen", song: "Aju Nice", snippet: "Aju nice!", answer: "Hoshi", options: ["Hoshi", "Mingyu", "Woozi"], difficulty: 1 },
+            { artist: "ENHYPEN", song: "Bite Me", snippet: "Just come kiss me and bite me", answer: "Heeseung", options: ["Heeseung", "Sunghoon", "Ni-ki"], difficulty: 1 },
+            { artist: "TWICE", song: "TT", snippet: "I'm like TT, just like TT", answer: "Nayeon", options: ["Nayeon", "Jihyo", "Dahyun"], difficulty: 1 },
+            { artist: "BLACKPINK", song: "Pretty Savage", snippet: "Born skinny, bitch, but I fly thick", answer: "Lisa", options: ["Lisa", "Jisoo", "Jennie"], difficulty: 1 },
+            { artist: "BTS", song: "Blood Sweat & Tears", snippet: "Nae pi ttam nunmul", answer: "Jimin", options: ["Jimin", "V", "Jin"], difficulty: 1 },
+
+            // DIFFICULTY 2
+            { artist: "Stray Kids", song: "Maniac", snippet: "Poppin' like a maniac", answer: "Felix", options: ["Felix", "Han", "Seungmin"], difficulty: 2 },
+            { artist: "BTS", song: "Dynamite", snippet: "'Cause I, I, I'm in the stars tonight", answer: "Jungkook", options: ["Jungkook", "Jimin", "J-Hope"], difficulty: 2 },
+            { artist: "TWICE", song: "Likey", snippet: "BB cream papapa, lipstick mamama", answer: "Dahyun", options: ["Dahyun", "Chaeyoung", "Mina"], difficulty: 2 },
+            { artist: "BLACKPINK", song: "Playing With Fire", snippet: "My love is on fire", answer: "Rosé", options: ["Rosé", "Jisoo", "Jennie"], difficulty: 2 },
+            { artist: "ENHYPEN", song: "Fever", snippet: "Neol ango sipeo fever", answer: "Ni-ki", options: ["Ni-ki", "Jay", "Jake"], difficulty: 2 },
+            { artist: "EXO", song: "Growl", snippet: "Nareul jageuk haji ma", answer: "D.O.", options: ["D.O.", "Chanyeol", "Suho"], difficulty: 2 },
+            { artist: "Seventeen", song: "HOT", snippet: "Drop it like hot hot hot", answer: "Mingyu", options: ["Mingyu", "S.Coups", "Jeonghan"], difficulty: 2 },
+            { artist: "Stray Kids", song: "Thunderous", snippet: "Maaamdaero kkeuchangbwa!", answer: "Changbin", options: ["Changbin", "I.N", "Lee Know"], difficulty: 2 },
+            { artist: "BTS", song: "Epiphany", snippet: "I'm the one I should love in this world", answer: "Jin", options: ["Jin", "V", "Suga"], difficulty: 2 },
+            { artist: "TWICE", song: "Feel Special", snippet: "You make me feel special", answer: "Nayeon", options: ["Nayeon", "Tzuyu", "Sana"], difficulty: 2 },
+
+            // DIFFICULTY 3
+            { artist: "BLACKPINK", song: "Shut Down", snippet: "It's not a comeback since we've never left", answer: "Jennie", options: ["Jennie", "Lisa", "Rosé"], difficulty: 3 },
+            { artist: "BTS", song: "Mic Drop", snippet: "Yeah nuga nae sujeo deoreopdae", answer: "Suga", options: ["Suga", "RM", "J-Hope"], difficulty: 3 },
+            { artist: "Seventeen", song: "Super", snippet: "Darumdarimda", answer: "Vernon", options: ["Vernon", "DK", "Wonwoo"], difficulty: 3 },
+            { artist: "Stray Kids", song: "S-Class", snippet: "I'm a S-Class, yeah", answer: "Han", options: ["Han", "Bang Chan", "Changbin"], difficulty: 3 },
+            { artist: "ENHYPEN", song: "Drunk-Dazed", snippet: "Daze daze daze", answer: "Jungwon", options: ["Jungwon", "Sunoo", "Heeseung"], difficulty: 3 },
+            { artist: "EXO", song: "Love Shot", snippet: "It's the love shot", answer: "Kai", options: ["Kai", "Sehun", "Xiumin"], difficulty: 3 },
+            { artist: "TWICE", song: "Fancy", snippet: "Fancy you, nuga meonjeo joahamyeon eottae", answer: "Jihyo", options: ["Jihyo", "Nayeon", "Jeongyeon"], difficulty: 3 },
+            { artist: "BLACKPINK", song: "How You Like That", snippet: "Bodaran du son-e sumg-yeodun bal-teob", answer: "Jisoo", options: ["Jisoo", "Rosé", "Jennie"], difficulty: 3 },
+            { artist: "BTS", song: "Boy In Luv", snippet: "I'm a good boy", answer: "V", options: ["V", "Jimin", "Jungkook"], difficulty: 3 },
+            { artist: "Seventeen", song: "Very Nice", snippet: "Gibun gibun gibun joa", answer: "DK", options: ["DK", "Seungkwan", "Joshua"], difficulty: 3 },
+
+            // DIFFICULTY 4 (BOSS LEVEL)
+            { artist: "BTS", song: "Spring Day", snippet: "You know it all, you're my best friend", answer: "V", options: ["V", "Jimin", "Jin"], difficulty: 4 },
+            { artist: "Stray Kids", song: "Venom", snippet: "Spider web, spider web", answer: "Hyunjin", options: ["Hyunjin", "Felix", "Lee Know"], difficulty: 4 },
+            { artist: "BLACKPINK", song: "Lovesick Girls", snippet: "I'm a girl with a good heart", answer: "Rosé", options: ["Rosé", "Jisoo", "Jennie"], difficulty: 4 },
+            { artist: "TWICE", song: "Alcohol-Free", snippet: "I'm drunk in you", answer: "Mina", options: ["Mina", "Chaeyoung", "Tzuyu"], difficulty: 4 },
+            { artist: "ENHYPEN", song: "Given-Taken", snippet: "Unmyeongeui hwasalbie", answer: "Sunghoon", options: ["Sunghoon", "Jake", "Jungwon"], difficulty: 4 },
+            { artist: "EXO", song: "Call Me Baby", snippet: "Never don't mind about a thing", answer: "Sehun", options: ["Sehun", "Chanyeol", "Kai"], difficulty: 4 },
+            { artist: "Seventeen", song: "Rock With You", snippet: "I wanna stay with you", answer: "Joshua", options: ["Joshua", "Jeonghan", "Jun"], difficulty: 4 },
+            { artist: "BTS", song: "Blood Sweat & Tears", snippet: "Peaches and cream, sweeter than sweet", answer: "RM", options: ["RM", "Suga", "J-Hope"], difficulty: 4 },
+            { artist: "Stray Kids", song: "Maknae On Top", snippet: "Maknae on top", answer: "I.N", options: ["I.N", "Seungmin", "Bang Chan"], difficulty: 4 },
+            { artist: "BLACKPINK", song: "Whistle", snippet: "Make 'em whistle like a missile, bomb, bomb", answer: "Jennie", options: ["Jennie", "Lisa", "Rosé"], difficulty: 4 }
         ];
 
         const cheers = {
@@ -834,14 +845,16 @@
                     return array;
                 };
 
+                const sourceVault = this.gameMode === 'whoSangIt' ? whoSangItVault : vault;
+
                 if (this.gameMode === 'super') {
-                    const d4 = shuffle(vault.filter(s => s.difficulty === 4));
+                    const d4 = shuffle(sourceVault.filter(s => s.difficulty === 4));
                     this.rounds = d4.slice(0, 7);
                 } else {
-                    const d1 = shuffle(vault.filter(s => s.difficulty === 1));
-                    const d2 = shuffle(vault.filter(s => s.difficulty === 2));
-                    const d3 = shuffle(vault.filter(s => s.difficulty === 3));
-                    const d4 = shuffle(vault.filter(s => s.difficulty === 4));
+                    const d1 = shuffle(sourceVault.filter(s => s.difficulty === 1));
+                    const d2 = shuffle(sourceVault.filter(s => s.difficulty === 2));
+                    const d3 = shuffle(sourceVault.filter(s => s.difficulty === 3));
+                    const d4 = shuffle(sourceVault.filter(s => s.difficulty === 4));
 
                     this.rounds = [
                         ...d1.slice(0, 2),
@@ -865,9 +878,17 @@
 
                 document.getElementById('artistName').innerText = song.artist;
                 
-                const lyricHtml = song.snippet.replace("___", '<span class="blank-space">...</span>');
+                // Switch text rendering based on mode
+                let lyricHtml = "";
+                if (this.gameMode === 'whoSangIt') {
+                    lyricHtml = `"${song.snippet}"<br><span style="font-size:0.85em; color:var(--text-light); margin-top:12px; display:block; text-transform:uppercase; letter-spacing:1px;">Who sang this line?</span>`;
+                } else {
+                    lyricHtml = song.snippet.replace("___", '<span class="blank-space">...</span>');
+                }
+                
                 document.getElementById('lyricText').innerHTML = lyricHtml;
 
+                // Build Options
                 const optionsGrid = document.getElementById('optionsGrid');
                 optionsGrid.innerHTML = '';
                 
@@ -882,8 +903,18 @@
                 
                 shuffledOptions.forEach(opt => {
                     const btn = document.createElement('button');
-                    btn.className = 'option-bubble';
-                    btn.innerText = opt;
+                    
+                    if (this.gameMode === 'whoSangIt') {
+                        btn.className = 'option-bubble option-with-img';
+                        // Fetch the member's face dynamically!
+                        const imgSrc = getRealImage(opt + " " + song.artist);
+                        const fallbackSrc = getAvatar(opt);
+                        btn.innerHTML = `<img src="${imgSrc}" onerror="this.onerror=null; this.src='${fallbackSrc}'" alt="${opt}"> <span>${opt}</span>`;
+                    } else {
+                        btn.className = 'option-bubble';
+                        btn.innerText = opt;
+                    }
+                    
                     btn.onclick = () => {
                         audioManager.play('click');
                         this.handleAnswer(opt);
@@ -935,6 +966,7 @@
 
             handleAnswer(choice) {
                 clearInterval(this.timerId);
+                
                 const song = this.rounds[this.currentRound];
                 const isCorrect = choice?.toLowerCase() === song.answer.toLowerCase();
                 
@@ -980,14 +1012,18 @@
 
                 title.innerText = isCorrect ? this.getRandom(cheers.right) : this.getRandom(cheers.wrong);
                 title.style.color = isCorrect ? 'var(--success)' : 'var(--danger)';
-                sub.innerHTML = `<span style="display:block; font-size: 0.85em; color: var(--pink-vibrant); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">${song.artist} • ${song.song}</span>"${song.answer}"`;
+                
+                let answerContext = this.gameMode === 'whoSangIt' ? 'Singer' : 'Lyric';
+                sub.innerHTML = `<span style="display:block; font-size: 0.85em; color: var(--pink-vibrant); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">${song.artist} • ${song.song}</span>The ${answerContext}: "${song.answer}"`;
                 
                 if (isCorrect) coinText.innerText = `+${coinsEarned} Coins!`;
                 else if (isFail) coinText.innerText = `Bankrupt! 😭`;
                 else coinText.innerText = ``;
                 
-                const realSrc = getRealImage(song.artist);
-                const fallbackSrc = getAvatar(song.artist);
+                // Show the specific member's face if in "Who Sang It" mode!
+                let imageQuery = this.gameMode === 'whoSangIt' ? (song.answer + " " + song.artist) : song.artist;
+                const realSrc = getRealImage(imageQuery);
+                const fallbackSrc = getAvatar(imageQuery);
                 card.innerHTML = `<img src="${realSrc}" alt="${song.artist}" onerror="this.onerror=null; this.src='${fallbackSrc}';">`;
                 
                 overlay.style.display = 'flex';
