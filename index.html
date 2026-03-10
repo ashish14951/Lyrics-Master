@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>K-Pop Lyric Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-soft: #ffe5f0;
+            --pink-vibrant: #ff3385;
+            --pink-glow: rgba(255, 51, 133, 0.4);
+            --blue-soft: #e0fbfa;
+            --purple-soft: #f0e6ff;
+            --purple-vibrant: #a142f5;
+            --white: #ffffff;
+            --text-main: #2d3436;
+            --text-light: #636e72;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #ff7675;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --gold: #f1c40f;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(-45deg, #ffc3db, #cbf3f0, #eaddff, #ffb6c1);
+            background-size: 300% 300%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+            color: var(--text-main);
+        }
+
+        /* Subtle noise texture for a premium feel */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .bg-elements {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            fill: rgba(255, 255, 255, 0.6);
+            animation: float 6s infinite ease-in-out;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(12deg); }
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 480px;
+            margin: auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 40px;
+            padding: 40px 30px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.1), 
+                        inset 0 2px 0 rgba(255,255,255,0.8),
+                        inset 0 -2px 0 rgba(255,255,255,0.4);
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Premium Title */
+        h1 {
+            font-family: 'Varela Round', sans-serif;
+            background: linear-gradient(135deg, var(--pink-vibrant), var(--purple-vibrant));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 25px 0;
+            font-size: 2.4rem;
+            letter-spacing: -1px;
+            filter: drop-shadow(0 2px 4px rgba(255, 51, 133, 0.2));
+        }
+
+        .subtitle {
+            font-weight: 700;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            margin-top: -15px;
+        }
+
+        /* Start Screen Hero Image */
+        .hero-image-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 35px auto;
+        }
+
+        .hero-image-glow {
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            background: linear-gradient(45deg, #ff3385, #a142f5, #00d2d3, #ff3385);
+            background-size: 400%;
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(15px);
+            animation: glowingAura 8s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes glowingAura {
+            0% { background-position: 0% 0; }
+            50% { background-position: 100% 0; }
+            100% { background-position: 0% 0; }
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid var(--white);
+            background-color: var(--pink-soft);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            animation: breathe 4s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.02); }
+        }
+
+        /* Coin UI */
+        .coin-counter {
+            position: absolute;
+            top: -24px;
+            right: 24px;
+            background: var(--white);
+            border: 2px solid rgba(241, 196, 15, 0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-family: 'Varela Round', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #d4ac0d;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 25px rgba(241, 196, 15, 0.25);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+        }
+
+        .coin-counter.pulse { transform: scale(1.15); }
+        .coin-icon { font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(241, 196, 15, 0.4)); }
+
+        .floating-coin {
+            position: fixed;
+            font-size: 2rem;
+            z-index: 100;
+            pointer-events: none;
+            animation: coinBurst 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+        }
+
+        @keyframes coinBurst {
+            0% { transform: scale(0) translate(0, 0); opacity: 1; }
+            50% { transform: scale(1.2) translate(var(--tx-mid), var(--ty-mid)); opacity: 1; }
+            100% { transform: scale(0.8) translate(var(--tx-end), var(--ty-end)); opacity: 0; }
+        }
+
+        /* Timer UI */
+        .timer-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 20px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background: var(--success);
+            border-radius: 20px;
+            transition: width 0.1s linear, background-color 0.3s ease;
+        }
+
+        .timer-bar.gamble {
+            background: linear-gradient(90deg, #ff3385, #ff9933, #ff3385);
+            background-size: 200% 200%;
+            animation: fieryPulse 1s infinite linear;
+            box-shadow: 0 0 15px var(--pink-glow);
+        }
+
+        @keyframes fieryPulse {
+            0% { background-position: 0% 50%; }
+            100% { background-position: -200% 50%; }
+        }
+
+        /* Lyric UI */
+        .lyric-box {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 30px 25px;
+            border-radius: 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            font-size: 1.3rem;
+            font-weight: 700;
+            line-height: 1.6;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .artist-tag {
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--purple-vibrant), var(--pink-vibrant));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .blank-space {
+            display: inline-block;
+            min-width: 130px;
+            border-bottom: 3px solid var(--pink-vibrant);
+            color: var(--pink-vibrant);
+            padding: 0 15px;
+            background: linear-gradient(to top, rgba(255, 51, 133, 0.1) 0%, transparent 100%);
+            border-radius: 6px 6px 0 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Sleek Modern Buttons */
+        .options-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .option-bubble {
+            background: var(--white);
+            border: 1px solid rgba(255,255,255,0.9);
+            padding: 18px 24px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04), 0 2px 5px rgba(0,0,0,0.02);
+            color: var(--text-main);
+            position: relative;
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option-bubble:hover {
+            transform: translateY(-4px);
+            background: linear-gradient(135deg, var(--white), var(--blue-soft));
+            box-shadow: 0 15px 30px rgba(0, 210, 211, 0.15), 0 5px 15px rgba(0,0,0,0.05);
+            color: #0097e6;
+            border-color: #cbf3f0;
+        }
+
+        .option-bubble:active {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+        }
+
+        .super-stan-btn {
+            background: linear-gradient(135deg, #ff3385, #a142f5);
+            color: white;
+            border: none;
+            box-shadow: 0 12px 25px var(--pink-glow), inset 0 2px 0 rgba(255,255,255,0.2);
+            font-weight: 800;
+        }
+
+        .super-stan-btn:hover {
+            background: linear-gradient(135deg, #ff4d94, #b260f7);
+            box-shadow: 0 18px 35px rgba(161, 66, 245, 0.35);
+            color: white;
+        }
+
+        /* Overlay Modals */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border-radius: 40px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 30px;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .gamble-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 20px 0 25px 0;
+            line-height: 1.6;
+        }
+        
+        .gamble-highlight {
+            color: var(--pink-vibrant);
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* Premium Photocard */
+        .song-card {
+            width: 170px;
+            height: 240px;
+            background: var(--white);
+            border-radius: 16px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 8px solid white;
+            position: relative;
+        }
+
+        .song-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(110deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.4) 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .song-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background-color: var(--pink-soft);
+        }
+
+        .feedback-text {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .correct-answer-reveal {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            background: rgba(0,0,0,0.03);
+            padding: 12px 24px;
+            border-radius: 16px;
+        }
+
+        /* Screens */
+        .screen { display: none; }
+        .screen.active { 
+            display: block; 
+            animation: fadeInScreen 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeInScreen {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 500px) {
+            .game-container {
+                margin: auto;
+                padding: 30px 20px;
+                border-radius: 35px;
+            }
+            h1 { font-size: 2rem; margin-bottom: 15px; }
+            .subtitle { font-size: 1rem; margin-bottom: 25px; }
+            .hero-image-wrapper { width: 150px; height: 150px; margin-bottom: 25px; }
+            .coin-counter { font-size: 1.1rem; padding: 6px 16px; top: -18px; right: 18px; }
+            .lyric-box { font-size: 1.15rem; padding: 25px 20px; min-height: 120px; }
+            .option-bubble { padding: 15px 20px; font-size: 1rem; }
+            .song-card { width: 140px; height: 200px; }
+            .gamble-text { font-size: 1.1rem; }
+            .gamble-highlight { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 360px) {
+            h1 { font-size: 1.75rem; }
+            .lyric-box { font-size: 1.05rem; }
+            .option-bubble { padding: 14px 16px; font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-elements" id="bgElements"></div>
+
+    <div class="game-container" id="gameBox">
+        
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen active">
+            <h1>Lyric Master</h1>
+            <p class="subtitle">Complete the lyrics for 7 songs!</p>
+            
+            <div class="hero-image-wrapper">
+                <div class="hero-image-glow"></div>
+                <img id="startImage" class="hero-image" src="" alt="K-Pop Star">
+            </div>
+
+            <div class="options-grid">
+                <button class="option-bubble" onclick="game.start('normal'); audioManager.play('click');">
+                    Normal Audition ✨
+                </button>
+                <button class="option-bubble super-stan-btn" onclick="game.start('super'); audioManager.play('click');">
+                    Super Stan Mode 🔥
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen">
+            <div class="coin-counter" id="coinCounterUI">
+                <span class="coin-icon">💖</span> <span id="coinTotal">0</span>
+            </div>
+
+            <div id="roundCounter" style="margin-bottom: 12px; font-weight: 800; color: var(--text-light); letter-spacing: 1.5px; margin-top: 15px; font-size: 0.9rem;">ROUND 1 / 7</div>
+            <div class="timer-container">
+                <div class="timer-bar" id="timerBar"></div>
+            </div>
+
+            <div class="lyric-box">
+                <div class="artist-tag" id="artistName">BTS</div>
+                <div id="lyricText">
+                    "Smooth like <span class="blank-space">...</span>"
+                </div>
+            </div>
+
+            <div class="options-grid" id="optionsGrid">
+                <!-- Options injected here -->
+            </div>
+
+            <!-- Feedback Overlay -->
+            <div class="overlay" id="feedbackOverlay">
+                <div class="song-card" id="songCard"></div>
+                <div class="feedback-text" id="feedbackTitle">Daebak!</div>
+                <div class="correct-answer-reveal" id="feedbackSub">The answer was: Butter</div>
+                <div style="font-weight: 800; color: #d4ac0d; font-size: 1.4rem; margin-bottom: 25px; filter: drop-shadow(0 2px 4px rgba(241,196,15,0.2));" id="feedbackCoins"></div>
+                <button class="option-bubble super-stan-btn" style="width: 100%; padding: 16px;" onclick="game.nextRound()">Next Round ➔</button>
+            </div>
+
+            <!-- Gamble Overlay -->
+            <div class="overlay" id="gambleOverlay">
+                <div class="hero-image-wrapper" style="width: 130px; height: 130px; margin-bottom: 15px;">
+                    <div class="hero-image-glow" style="background: linear-gradient(45deg, #ff3385, #ff9933);"></div>
+                    <img class="hero-image" src="https://api.dicebear.com/8.x/micah/svg?seed=Boss&backgroundColor=ff3385" alt="Boss" style="border-width: 4px;">
+                </div>
+                
+                <div class="gamble-text">
+                    You have banked <span style="color:#d4ac0d; font-size: 1.6rem; font-weight: 800;" id="gambleCoinTotal">150</span> Coins!
+                    <br>Round 7 is the BOSS LEVEL.
+                    <span class="gamble-highlight">Will you risk it all?</span>
+                </div>
+                <div class="options-grid" style="width: 100%;">
+                    <button class="option-bubble" onclick="game.makeGambleDecision(false); audioManager.play('click');">Play it Safe (+100 Coins)</button>
+                    <button class="option-bubble super-stan-btn" onclick="game.makeGambleDecision(true); audioManager.play('click');">DOUBLE OR NOTHING! 😈</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="resultScreen" class="screen">
+            <h1 style="margin-bottom: 15px;">Audition Results!</h1>
+            <div style="font-size: 5rem; margin-bottom: 5px; animation: breathe 3s infinite ease-in-out;" id="resultIcon">🏆</div>
+            <div style="font-size: 3.5rem; color: #d4ac0d; font-weight: 800; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; gap: 12px; filter: drop-shadow(0 4px 8px rgba(241,196,15,0.3));">
+                <span class="coin-icon" style="font-size: 3rem;">💖</span><span id="finalScore">300</span>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, var(--purple-vibrant), var(--pink-vibrant)); color: white; padding: 12px 28px; border-radius: 20px; display: inline-block; margin-bottom: 15px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 10px 20px var(--pink-glow);" id="rankBadge">ULTIMATE K-POP DEITY</div>
+            
+            <p id="rankMessage" style="font-weight: 700; font-size: 1.15rem; color: var(--text-light); line-height: 1.5; margin-bottom: 30px;">You own the fandom.</p>
+            
+            <button class="option-bubble" style="width: 100%; justify-content: center;" onclick="location.reload()">Encore! 🎶</button>
+        </div>
+    </div>
+
+    <script>
+        // Image Fetchers
+        const getRealImage = (name) => `https://tse2.mm.bing.net/th?q=${encodeURIComponent(name + ' kpop')}&w=800&h=800&c=7&rs=1&p=0`;
+        const getAvatar = (name) => `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&size=200`;
+
+        document.getElementById('startImage').src = getRealImage("Kpop concert");
+        document.getElementById('startImage').onerror = function() {
+            this.onerror=null; this.src=getAvatar("K P");
+        };
+
+        // Audio Manager
+        const audioManager = {
+            ctx: null,
+            init() {
+                try {
+                    if (!this.ctx) {
+                        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                        if (AudioCtx) this.ctx = new AudioCtx();
+                    }
+                    if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+                } catch (e) {
+                    console.warn("Audio prevented by browser:", e);
+                }
+            },
+            play(type) {
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.connect(gain); gain.connect(this.ctx.destination);
+                
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.exponentialRampToValueAtTime(1046.5, now + 0.1);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now); osc.stop(now + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(80, now + 0.3);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now); osc.stop(now + 0.3);
+                } else if (type === 'tick') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(800, now);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    osc.start(now); osc.stop(now + 0.05);
+                } else if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, now);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    osc.start(now); osc.stop(now + 0.05);
+                } else if (type === 'jackpot') {
+                    const notes = [440, 554.37, 659.25, 880, 1108.73, 1318.51];
+                    notes.forEach((freq, i) => {
+                        const o = this.ctx.createOscillator();
+                        const g = this.ctx.createGain();
+                        o.connect(g); g.connect(this.ctx.destination);
+                        o.type = 'square';
+                        o.frequency.value = freq;
+                        g.gain.setValueAtTime(0, now + i * 0.05);
+                        g.gain.linearRampToValueAtTime(0.15, now + i * 0.05 + 0.02);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.05 + 0.2);
+                        o.start(now + i * 0.05); o.stop(now + i * 0.05 + 0.2);
+                    });
+                } else if (type === 'aww') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(50, now + 1);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 1);
+                    osc.start(now); osc.stop(now + 1);
+                } else if (type === 'win') {
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, i) => {
+                        const o = this.ctx.createOscillator();
+                        const g = this.ctx.createGain();
+                        o.connect(g); g.connect(this.ctx.destination);
+                        o.type = 'triangle';
+                        o.frequency.value = freq;
+                        g.gain.setValueAtTime(0, now + i * 0.1);
+                        g.gain.linearRampToValueAtTime(0.2, now + i * 0.1 + 0.05);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.4);
+                        o.start(now + i * 0.1); o.stop(now + i * 0.1 + 0.4);
+                    });
+                } else if (type === 'lose') {
+                    const notes = [392.00, 369.99, 349.23, 329.63];
+                    notes.forEach((freq, i) => {
+                        const o = this.ctx.createOscillator();
+                        const g = this.ctx.createGain();
+                        o.connect(g); g.connect(this.ctx.destination);
+                        o.type = 'sawtooth';
+                        o.frequency.value = freq;
+                        g.gain.setValueAtTime(0, now + i * 0.25);
+                        g.gain.linearRampToValueAtTime(0.2, now + i * 0.25 + 0.1);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.25 + 0.4);
+                        o.start(now + i * 0.25); o.stop(now + i * 0.25 + 0.4);
+                    });
+                }
+            }
+        };
+
+        function fireConfetti() {
+            const colors = ['#ff3385', '#00d2d3', '#a142f5', '#ffffff', '#f1c40f'];
+            const gameBox = document.getElementById('gameBox');
+            for(let i = 0; i < 60; i++) {
+                const conf = document.createElement('div');
+                conf.style.position = 'absolute';
+                conf.style.width = Math.random() * 10 + 6 + 'px';
+                conf.style.height = conf.style.width;
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.left = '50%'; conf.style.top = '50%';
+                conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '4px';
+                conf.style.zIndex = '100'; conf.style.pointerEvents = 'none';
+                conf.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 3 + Math.random() * 8;
+                const tx = Math.cos(angle) * velocity * 35;
+                const ty = Math.sin(angle) * velocity * 35 + 150; 
+                
+                conf.animate([
+                    { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0) rotate(${Math.random()*720}deg)`, opacity: 0 }
+                ], { duration: 1200 + Math.random() * 1000, easing: 'cubic-bezier(.37,0,.23,1)', fill: 'forwards' });
+                
+                gameBox.appendChild(conf);
+                setTimeout(() => conf.remove(), 2500);
+            }
+        }
+
+        const vault = [
+            // DIFFICULTY 1 (15 Questions)
+            { artist: "BTS", song: "Butter", snippet: "___, like a criminal undercover", answer: "Smooth like butter", options: ["Smooth like butter", "Sweet like honey", "Hot like summer"], difficulty: 1 },
+            { artist: "BLACKPINK", song: "DDU-DU DDU-DU", snippet: "___, ah yeah, ah yeah", answer: "Hit you with that ddu-du", options: ["Hit you with that ddu-du", "Make you crazy like a", "Playing with the fire"], difficulty: 1 },
+            { artist: "TWICE", song: "Cheer Up", snippet: "___, shy shy shy", answer: "Cheer up baby", options: ["Cheer up baby", "Meet you later", "Fancy you baby"], difficulty: 1 },
+            { artist: "Stray Kids", song: "God's Menu", snippet: "___, igun uri tang tang tang tang", answer: "Welcome to the five star", options: ["Welcome to the five star", "Cooking up a masterpiece", "Make it hotter than an oven"], difficulty: 1 },
+            { artist: "Seventeen", song: "Aju Nice", snippet: "___, aju nice!", answer: "Gibun gibun gibun joa", options: ["Gibun gibun gibun joa", "Oneul harudo sugohesseo", "Uri hamkke dallyeoboja"], difficulty: 1 },
+            { artist: "ENHYPEN", song: "Drunk-Dazed", snippet: "Jeongdabeun eopseo, ___", answer: "Just play play play", options: ["Just play play play", "We run run run", "Let's dance dance dance"], difficulty: 1 },
+            { artist: "EXO", song: "Love Shot", snippet: "It's the love shot, ___", answer: "Na nanana nananana", options: ["Na nanana nananana", "We are the absolute", "Boom boom pow pow pow"], difficulty: 1 },
+            { artist: "BTS", song: "Dynamite", snippet: "Shining through the city with a little funk and soul, ___", answer: "So I'ma light it up like dynamite", options: ["So I'ma light it up like dynamite", "We gonna make it pop like a superstar", "Dancing in the moonlight until the dawn"], difficulty: 1 },
+            { artist: "BLACKPINK", song: "How You Like That", snippet: "___, look at you now look at me", answer: "How you like that", options: ["How you like that", "Catch me if you can baby", "Watch me drop it like that"], difficulty: 1 },
+            { artist: "TWICE", song: "TT", snippet: "I'm like TT, ___", answer: "Just like TT", options: ["Just like TT", "Crying all night long", "Tell me that you love me"], difficulty: 1 },
+            { artist: "Stray Kids", song: "MANIAC", snippet: "Poppin' like a maniac, ___", answer: "Maniac, pingdora beorigetji", options: ["Maniac, pingdora beorigetji", "Crazy, jumping out of my mind", "Monster, taking over the world"], difficulty: 1 },
+            { artist: "Seventeen", song: "Super", snippet: "I love my team, I love my crew, ___", answer: "Yeogikkaji dallyeowasseo", options: ["Yeogikkaji dallyeowasseo", "Uri hamkke mandeun gijeok", "Urin jeoldae meomchuji ana"], difficulty: 1 },
+            { artist: "ENHYPEN", song: "Bite Me", snippet: "Just come kiss me and ___", answer: "Bite me, bite me", options: ["Bite me, bite me", "Hold me, hold me", "Love me, love me"], difficulty: 1 },
+            { artist: "EXO", song: "Growl", snippet: "Eureureong eureureong eureureong dae, ___", answer: "Mulleoseoji aneumyeon dacheo", options: ["Mulleoseoji aneumyeon dacheo", "Nareul domangchiryeogo haji ma", "Ije neoneun nae geoya"], difficulty: 1 },
+            { artist: "BTS", song: "Boy With Luv", snippet: "Oh my my my, oh my my my, ___", answer: "You got me high so fast", options: ["You got me high so fast", "I want to be with you", "Let me fly up to the sky"], difficulty: 1 },
+
+            // DIFFICULTY 2 (15 Questions)
+            { artist: "BLACKPINK", song: "Pink Venom", snippet: "This that pink venom, ___", answer: "Get 'em, get 'em, get 'em", options: ["Get 'em, get 'em, get 'em", "Watch out, we are coming", "Poison, running through your veins"], difficulty: 2 },
+            { artist: "TWICE", song: "Fancy", snippet: "Fancy you, nuga meonjeo joahamyeon eottae, ___", answer: "Fancy you, jigeum neoegero gallae", options: ["Fancy you, jigeum neoegero gallae", "I love you, nae maeumeul badajwo", "Want you back, urin yeongwonhal geoya"], difficulty: 2 },
+            { artist: "Stray Kids", song: "Thunderous", snippet: "Sorikkun, ___", answer: "Ppaengppaenghage ullyeo peojeo", options: ["Ppaengppaenghage ullyeo peojeo", "Urin jeoldae meomchuji ana", "Sori jilleo bwa right now"], difficulty: 2 },
+            { artist: "Seventeen", song: "HOT", snippet: "Modu chyeodabwa, ___", answer: "Drop it like hot hot hot", options: ["Drop it like hot hot hot", "Burn it up right now now", "We are gonna set the fire"], difficulty: 2 },
+            { artist: "ENHYPEN", song: "Fever", snippet: "Neol ango sipeo, ___", answer: "Fever, fever, fever, fever", options: ["Fever, fever, fever, fever", "Desire, desire, desire, desire", "Fire, fire, fire, fire"], difficulty: 2 },
+            { artist: "EXO", song: "Monster", snippet: "I'm creeping in your heart, babe, ___", answer: "Dwijibeo eopeul geonikka", options: ["Dwijibeo eopeul geonikka", "Nareul beoseonal su eopseo", "Yeongwonhi neowa hamkkehae"], difficulty: 2 },
+            { artist: "BTS", song: "Fake Love", snippet: "I'm so sick of this, ___", answer: "Fake love, fake love, fake love", options: ["Fake love, fake love, fake love", "Dark night, dark night, dark night", "Sad truth, sad truth, sad truth"], difficulty: 2 },
+            { artist: "BLACKPINK", song: "Kill This Love", snippet: "Let's kill this love, ___", answer: "Yeah yeah yeah yeah yeah", options: ["Yeah yeah yeah yeah yeah", "Right now right now right now", "Burn it down down down"], difficulty: 2 },
+            { artist: "TWICE", song: "Feel Special", snippet: "You make me feel special, ___", answer: "Sesangi amuri nal jujeoanchyeodo", options: ["Sesangi amuri nal jujeoanchyeodo", "Naui modeun geosi binnage hae", "Eodum sogeseo nal chajajwo"], difficulty: 2 },
+            { artist: "Stray Kids", song: "Back Door", snippet: "Hey, you wanna come in? ___", answer: "Da chiwo ije deureoga", options: ["Da chiwo ije deureoga", "Bimilmuneul yeoreobwa", "Uriui segyero wajwo"], difficulty: 2 },
+            { artist: "Seventeen", song: "Left & Right", snippet: "Left and right, left and right, ___", answer: "Rip it, rip it, rip it, rip it", options: ["Rip it, rip it, rip it, rip it", "Jump up, jump up, jump up, jump up", "Move it, move it, move it, move it"], difficulty: 2 },
+            { artist: "ENHYPEN", song: "Given-Taken", snippet: "Unmyeongeui hwasalbie, ___", answer: "Majuhan nae anui segye", options: ["Majuhan nae anui segye", "Bilkkeute pieonan bit", "Nareul bureuneun moksori"], difficulty: 2 },
+            { artist: "EXO", song: "Ko Ko Bop", snippet: "Shimmy shimmy Ko Ko Bop, ___", answer: "I think I like it", options: ["I think I like it", "Let's go crazy now", "Dance until the morning"], difficulty: 2 },
+            { artist: "BTS", song: "DNA", snippet: "Don't worry love, ___", answer: "I modeun geon uyeoni aninikka", options: ["I modeun geon uyeoni aninikka", "Urin yeongwonhi hamkkehal geoya", "Ujuui seomniro maeeojin geol"], difficulty: 2 },
+            { artist: "BLACKPINK", song: "As If It's Your Last", snippet: "Majimakcheoreom, ___", answer: "Ma-ma-majimakcheoreom", options: ["Ma-ma-majimakcheoreom", "Naeireun eomneun geotcheoreom", "Dasi oji aneul sungan"], difficulty: 2 },
+
+            // DIFFICULTY 3 (15 Questions)
+            { artist: "BTS", song: "MIC Drop", snippet: "Did you see my bag, ___", answer: "Did you see my bag", options: ["Did you see my bag", "Filled with trophies and thick", "Watch my steps moving fast"], difficulty: 3 },
+            { artist: "TWICE", song: "Cry For Me", snippet: "I want you to cry, cry for me, ___", answer: "Die for me, die for me", options: ["Die for me, die for me", "Lie to me, lie to me", "Stay with me, stay with me"], difficulty: 3 },
+            { artist: "Stray Kids", song: "Case 143", snippet: "Why do I keep getting drawn, ___", answer: "Kkeullyeoganeun geolkka", options: ["Kkeullyeoganeun geolkka", "Neoege ppajyeodeureo", "Ijen meomchul su eopseo"], difficulty: 3 },
+            { artist: "Seventeen", song: "Don Quixote", snippet: "My hands up, I keep 'em high, ___", answer: "Don Quixote, Don Quixote", options: ["Don Quixote, Don Quixote", "Running to the endless sky", "Never gonna give it up"], difficulty: 3 },
+            { artist: "ENHYPEN", song: "Pass The Mic", snippet: "Walk the line, ___", answer: "I hate that line", options: ["I hate that line", "I draw my own line", "Breaking all the boundaries"], difficulty: 3 },
+            { artist: "EXO", song: "Tempo", snippet: "I can't believe, ___", answer: "Gidaryeotdeon ireon neukkim", options: ["Gidaryeotdeon ireon neukkim", "Neol cheoeum bon sunganbuteo", "Nae simjangi ttwineun sori"], difficulty: 3 },
+            { artist: "BLACKPINK", song: "Shut Down", snippet: "Keep watching me shut it down, ___", answer: "Nah nah nah nah nah", options: ["Nah nah nah nah nah", "Yeah yeah yeah yeah yeah", "Ooh ooh ooh ooh ooh"], difficulty: 3 },
+            { artist: "BTS", song: "Run BTS", snippet: "Run bulletproof, run, ___", answer: "Yeah you gotta run", options: ["Yeah you gotta run", "Never looking back", "Keep moving forward now"], difficulty: 3 },
+            { artist: "TWICE", song: "Talk That Talk", snippet: "Tell me what you want, ___", answer: "Tell me what you need", options: ["Tell me what you need", "Show me what you got", "Give me all your love"], difficulty: 3 },
+            { artist: "Stray Kids", song: "S-Class", snippet: "Byulnan nom geu wieseo, ___", answer: "Bitnaneun byulnan nom", options: ["Bitnaneun byulnan nom", "Urin jeoldae an jukkneun nom", "Moduga nollal geureon nom"], difficulty: 3 },
+            { artist: "Seventeen", song: "Rock with you", snippet: "I wanna rock with you, ___", answer: "No words are enough for you", options: ["No words are enough for you", "Dancing all night long with you", "Falling deep inside of you"], difficulty: 3 },
+            { artist: "ENHYPEN", song: "Sweet Venom", snippet: "Sweet venom, sweet venom, ___", answer: "Ppeonhan gwedoreul beoseona", options: ["Ppeonhan gwedoreul beoseona", "Dalkomhan doge ppajyeodeureo", "Nareul mabi sikyeobeoryeo"], difficulty: 3 },
+            { artist: "EXO", song: "Obsession", snippet: "I don't think so, ___", answer: "I don't think so", options: ["I don't think so", "Get away from me", "You can never win"], difficulty: 3 },
+            { artist: "BLACKPINK", song: "Playing With Fire", snippet: "Uri sarangeun buljangnan, ___", answer: "My love is on fire", options: ["My love is on fire", "Burn it up all night long", "Can't control this feeling"], difficulty: 3 },
+            { artist: "BTS", song: "Blood Sweat & Tears", snippet: "Nae pi ttam nunmul, ___", answer: "Nae majimak chumeul", options: ["Nae majimak chumeul", "Dagawa nareul chaewojwo", "Neoege modage gyesok"], difficulty: 3 },
+
+            // DIFFICULTY 4 (SUPER STAN & BOSS LEVEL - 40 Questions)
+            { artist: "BTS", song: "134340", snippet: "My cold heart is ___", answer: "248 degrees minus, below zero", options: ["248 degrees minus, below zero", "Frozen solid like the winter snow", "Lost completely in the universe"], difficulty: 4 },
+            { artist: "BLACKPINK", song: "Tally", snippet: "I say fuck it when I ___", answer: "Feel it, cause no one's keeping tally", options: ["Feel it, cause no one's keeping tally", "Want to, doing whatever I please", "Need to, living life on my own terms"], difficulty: 4 },
+            { artist: "TWICE", song: "Hell in Heaven", snippet: "Take me to your paradise, ___", answer: "Make me feel like I'm alive", options: ["Make me feel like I'm alive", "Hiding in the shadows of love", "Burning up the skies above"], difficulty: 4 },
+            { artist: "Seventeen", song: "Shadow", snippet: "Geomeun moseup tto darun nan, ___", answer: "Neo nareul ttara wa", options: ["Neo nareul ttara wa", "Yeongwonhi neowa hamkke", "Geurimjacheoreom pieona"], difficulty: 4 },
+            { artist: "Stray Kids", song: "Chronosaurus", snippet: "Runnin' runnin' runnin' ___", answer: "Away from the ticking clock", options: ["Away from the ticking clock", "Fast towards the finish line", "Now before it gets too late"], difficulty: 4 },
+            { artist: "ENHYPEN", song: "Chaconne", snippet: "Dance for me, dance for me, ___", answer: "In this beautiful dark night", options: ["In this beautiful dark night", "Under the pale moonlight", "Until our feet can't move"], difficulty: 4 },
+            { artist: "EXO", song: "El Dorado", snippet: "Find the El Dorado, ___", answer: "Sail away, sail away", options: ["Sail away, sail away", "Looking for the golden city", "Running through the endless desert"], difficulty: 4 },
+            { artist: "BTS", song: "Cypher Pt.4", snippet: "I love, I love, ___", answer: "I love myself, I know myself", options: ["I love myself, I know myself", "My life, my rules, my game", "Every single thing about me"], difficulty: 4 },
+            { artist: "BLACKPINK", song: "Typa Girl", snippet: "I bring money to the table, ___", answer: "Not your dinner, I'm the winner", options: ["Not your dinner, I'm the winner", "Paying for my own designer", "Making millions by the minute"], difficulty: 4 },
+            { artist: "TWICE", song: "Icon", snippet: "Damn I got it, ___", answer: "I'm iconic, you know I've got it", options: ["I'm iconic, you know I've got it", "Looking flawless every day", "Shining brighter than a diamond"], difficulty: 4 },
+            { artist: "Seventeen", song: "March", snippet: "Run like a racehorse, ___", answer: "Run away from the setting sun", options: ["Run away from the setting sun", "Jumping over all the hurdles", "Breaking out of the stable"], difficulty: 4 },
+            { artist: "Stray Kids", song: "Domino", snippet: "Han beone sseureojyeo, ___", answer: "Domino, like a domino", options: ["Domino, like a domino", "Falling down into the ground", "Crashing hard into the wall"], difficulty: 4 },
+            { artist: "ENHYPEN", song: "Sacrifice", snippet: "Eat me up, ___", answer: "Swallow me entirely, my love", options: ["Swallow me entirely, my love", "Take away all of my fears", "Consume my heart and soul"], difficulty: 4 },
+            { artist: "EXO", song: "Gravity", snippet: "You said I was your future, ___", answer: "Now I'm just your fading past", options: ["Now I'm just your fading past", "Why did you let me go", "Pulling me down to the ground"], difficulty: 4 },
+            { artist: "BTS", song: "Pied Piper", snippet: "I'm here to save you, ___", answer: "I'm here to ruin you", options: ["I'm here to ruin you", "Follow the sound of my flute", "Don't look back anymore"], difficulty: 4 },
+            { artist: "BLACKPINK", song: "Love To Hate Me", snippet: "You ain't worth my love if you only ___", answer: "Love to hate me, hate me", options: ["Love to hate me, hate me", "Play with my heart, my heart", "Tell me lies all the time"], difficulty: 4 },
+            { artist: "TWICE", song: "Up No More", snippet: "I don't wanna go up no more, ___", answer: "Falling down into the deep night", options: ["Falling down into the deep night", "Staying in the dark forever", "Running from the endless light"], difficulty: 4 },
+            { artist: "Seventeen", song: "Anyone", snippet: "I love you, cause I am ___", answer: "Your only one in this whole world", options: ["Your only one in this whole world", "Waiting for you in the rain", "Fighting for our destiny"], difficulty: 4 },
+            { artist: "Stray Kids", song: "Charmer", snippet: "You can't resist it, ___", answer: "I am the charmer, I am the charmer", options: ["I am the charmer, I am the charmer", "Falling into my magic spell", "Dancing to the snake's tune"], difficulty: 4 },
+            { artist: "ENHYPEN", song: "Criminal Love", snippet: "This is criminal love, ___", answer: "Criminal love, tearing me apart", options: ["Criminal love, tearing me apart", "Running from the sirens outside", "Breaking all the rules for you"], difficulty: 4 },
+            { artist: "EXO", song: "Ooh La La La", snippet: "Ooh la la la, ___", answer: "Let me come closer to your heart", options: ["Let me come closer to your heart", "Dancing under the moonlight", "Feeling the rhythm of the night"], difficulty: 4 },
+            { artist: "BTS", song: "Louder than bombs", snippet: "Louder than bombs I break, ___", answer: "Pouring out all my hidden pain", options: ["Pouring out all my hidden pain", "Shattering the silent night", "Crying in the dark alone"], difficulty: 4 },
+            { artist: "BLACKPINK", song: "Pretty Savage", snippet: "Similar to nobody, ___", answer: "We are pretty savage", options: ["We are pretty savage", "Born skinny, yeah, but I fly thick", "You can't imitate my style"], difficulty: 4 },
+            { artist: "TWICE", song: "Last Waltz", snippet: "Mmm, this is our last waltz, ___", answer: "Dancing until the music stops", options: ["Dancing until the music stops", "Spinning around in the ballroom", "Holding you tight in my arms"], difficulty: 4 },
+            { artist: "Seventeen", song: "Fear", snippet: "Someone tell me what should I do, ___", answer: "Poison running through my veins", options: ["Poison running through my veins", "Lost inside this endless maze", "Fear is taking over my mind"], difficulty: 4 },
+            { artist: "Stray Kids", song: "Venom", snippet: "Got me caught in your spider web, ___", answer: "Trapped inside without a way out", options: ["Trapped inside without a way out", "Poison spreading through my body", "Wrapping me up tight and close"], difficulty: 4 },
+            { artist: "ENHYPEN", song: "Shout Out", snippet: "My life without you is a misery, ___", answer: "Screaming out your name tonight", options: ["Screaming out your name tonight", "Calling out into the void", "Searching for your hidden light"], difficulty: 4 },
+            { artist: "EXO", song: "Oasis", snippet: "Run further away, ___", answer: "Towards the oasis in the desert", options: ["Towards the oasis in the desert", "Finding the hidden water spring", "Escaping from the burning heat"], difficulty: 4 },
+            { artist: "BTS", song: "Dis-ease", snippet: "I'm a workaholic, I need a pill, ___", answer: "Ima work it out, walk it out", options: ["Ima work it out, walk it out", "Can't stop running on the treadmill", "Resting feels like a heavy sin"], difficulty: 4 },
+            { artist: "BLACKPINK", song: "Crazy Over You", snippet: "I went crazy over you, ___", answer: "Over you, lost my mind for you", options: ["Over you, lost my mind for you", "Falling deep into your trap", "Can't escape this toxic love"], difficulty: 4 },
+            { artist: "TWICE", song: "Perfect World", snippet: "Get out, get lost, ___", answer: "This is my perfect world without you", options: ["This is my perfect world without you", "Leaving you behind in the dust", "Breaking down the fake reality"], difficulty: 4 },
+            { artist: "Seventeen", song: "I Don't Understand But I Luv U", snippet: "I don't understand but I love you, ___", answer: "Words are not needed between us", options: ["Words are not needed between us", "Feeling the connection in our souls", "Speaking in a different language"], difficulty: 4 },
+            { artist: "Stray Kids", song: "Red Lights", snippet: "I cannot let you go, ___", answer: "Never let you go, losing control", options: ["Never let you go, losing control", "Holding on to the red lights", "Falling into the dark abyss"], difficulty: 4 },
+            { artist: "ENHYPEN", song: "Tamed-Dashed", snippet: "Summer, taking me far away, ___", answer: "Running towards the burning sun", options: ["Running towards the burning sun", "Dashing through the endless waves", "Leaving the tamed world behind"], difficulty: 4 },
+            { artist: "EXO", song: "Monster", snippet: "Creeping creeping creeping, ___", answer: "You're dead, deep inside my heart", options: ["You're dead, deep inside my heart", "Watching you from the shadows", "Taking over your entire soul"], difficulty: 4 },
+            { artist: "BTS", song: "UGH!", snippet: "This is my anger, this is my rage, ___", answer: "Burning down everything in my path", options: ["Burning down everything in my path", "Spitting fire from my mouth", "Destroying the fake hypocrisy"], difficulty: 4 },
+            { artist: "BLACKPINK", song: "Hope Not", snippet: "For you I could pretend to be happy, ___", answer: "Hiding all my tears behind a smile", options: ["Hiding all my tears behind a smile", "Wishing that you would stay with me", "Hoping that our love will never end"], difficulty: 4 },
+            { artist: "TWICE", song: "Queen of Hearts", snippet: "I'm the queen, ___", answer: "The queen of hearts, ruling your world", options: ["The queen of hearts, ruling your world", "Taking over the entire kingdom", "Wearing the golden crown tonight"], difficulty: 4 },
+            { artist: "Seventeen", song: "Ash", snippet: "Build a fire, ___", answer: "Burn it all to ash, leave nothing behind", options: ["Burn it all to ash, leave nothing behind", "Watching the flames rise higher", "Rising from the dust like a phoenix"], difficulty: 4 },
+            { artist: "Stray Kids", song: "Topline", snippet: "We draw the line, ___", answer: "We the topline, looking down on you", options: ["We the topline, looking down on you", "Breaking the charts every time", "Reaching the peak of the mountain"], difficulty: 4 }
+        ];
+
+        const cheers = {
+            right: ["Daebak!", "Fighting!", "Hwaiting!", "Perfect Pitch!", "Main Visual Level!"],
+            wrong: ["Aish, close!", "Next time!", "Keep training!", "Bias wrecked!", "Omo! Not quite."]
+        };
+
+        const game = {
+            currentRound: 0,
+            coins: 0,
+            rounds: [],
+            timeLeft: 10,
+            timerId: null,
+            gameMode: 'normal',
+            isGambleMode: false,
+
+            start(mode = 'normal') {
+                audioManager.init();
+                this.coins = 0;
+                this.updateCoinDisplay();
+                this.currentRound = 0;
+                this.gameMode = mode;
+                this.isGambleMode = false;
+                this.generateRounds();
+                this.showScreen('gameScreen');
+                this.loadRound();
+            },
+
+            updateCoinDisplay() {
+                const ui = document.getElementById('coinTotal');
+                const counterBox = document.getElementById('coinCounterUI');
+                ui.innerText = this.coins;
+                
+                counterBox.classList.add('pulse');
+                setTimeout(() => counterBox.classList.remove('pulse'), 200);
+            },
+
+            spawnFloatingCoins() {
+                const body = document.body;
+                for(let i=0; i<6; i++) {
+                    const coin = document.createElement('div');
+                    coin.className = 'floating-coin';
+                    coin.innerText = '💖';
+                    coin.style.left = '50%';
+                    coin.style.top = '50%';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const dist = 60 + Math.random() * 60;
+                    coin.style.setProperty('--tx-mid', `${Math.cos(angle) * dist}px`);
+                    coin.style.setProperty('--ty-mid', `${Math.sin(angle) * dist}px`);
+                    
+                    coin.style.setProperty('--tx-end', '40vw');
+                    coin.style.setProperty('--ty-end', '-45vh');
+                    
+                    body.appendChild(coin);
+                    setTimeout(() => coin.remove(), 1000);
+                }
+            },
+
+            generateRounds() {
+                const shuffle = (array) => {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                };
+
+                if (this.gameMode === 'super') {
+                    const d4 = shuffle(vault.filter(s => s.difficulty === 4));
+                    this.rounds = d4.slice(0, 7);
+                } else {
+                    const d1 = shuffle(vault.filter(s => s.difficulty === 1));
+                    const d2 = shuffle(vault.filter(s => s.difficulty === 2));
+                    const d3 = shuffle(vault.filter(s => s.difficulty === 3));
+                    const d4 = shuffle(vault.filter(s => s.difficulty === 4));
+
+                    this.rounds = [
+                        ...d1.slice(0, 2),
+                        ...d2.slice(0, 3),
+                        ...d3.slice(0, 1),
+                        ...d4.slice(0, 1)
+                    ];
+                }
+            },
+
+            loadRound() {
+                const song = this.rounds[this.currentRound];
+                const roundText = this.currentRound === 6 ? "ROUND 7 : BOSS LEVEL 😈" : `ROUND ${this.currentRound + 1} / 7`;
+                document.getElementById('roundCounter').innerText = roundText;
+                
+                if(this.currentRound === 6 && this.isGambleMode) {
+                    document.getElementById('roundCounter').style.color = 'var(--pink-vibrant)';
+                } else {
+                    document.getElementById('roundCounter').style.color = 'var(--text-light)';
+                }
+
+                document.getElementById('artistName').innerText = song.artist;
+                
+                const lyricHtml = song.snippet.replace("___", '<span class="blank-space">...</span>');
+                document.getElementById('lyricText').innerHTML = lyricHtml;
+
+                const optionsGrid = document.getElementById('optionsGrid');
+                optionsGrid.innerHTML = '';
+                
+                const shuffle = (array) => {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                };
+                const shuffledOptions = shuffle([...song.options]);
+                
+                shuffledOptions.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-bubble';
+                    btn.innerText = opt;
+                    btn.onclick = () => {
+                        audioManager.play('click');
+                        this.handleAnswer(opt);
+                    };
+                    optionsGrid.appendChild(btn);
+                });
+
+                document.getElementById('feedbackOverlay').style.display = 'none';
+                this.startTimer();
+            },
+
+            startTimer() {
+                this.timeLeft = (this.currentRound === 6 && this.isGambleMode) ? 5 : 10;
+                const totalTime = this.timeLeft;
+                const bar = document.getElementById('timerBar');
+                
+                if (this.currentRound === 6 && this.isGambleMode) {
+                    bar.className = 'timer-bar gamble';
+                } else {
+                    bar.className = 'timer-bar';
+                    bar.style.backgroundColor = 'var(--success)';
+                }
+                
+                bar.style.width = '100%';
+
+                clearInterval(this.timerId);
+                this.timerId = setInterval(() => {
+                    this.timeLeft -= 0.1;
+                    const percent = (this.timeLeft / totalTime) * 100;
+                    bar.style.width = percent + '%';
+
+                    if (!this.isGambleMode || this.currentRound !== 6) {
+                        if (this.timeLeft < 4 && Math.floor(this.timeLeft * 10) % 10 === 0) {
+                            bar.style.backgroundColor = 'var(--danger)';
+                            audioManager.play('tick'); 
+                        }
+                        else if (this.timeLeft < 7 && this.timeLeft >= 4) {
+                            bar.style.backgroundColor = 'var(--warning)';
+                        }
+                    } else {
+                         if(Math.floor(this.timeLeft * 10) % 5 === 0) audioManager.play('tick');
+                    }
+
+                    if (this.timeLeft <= 0) {
+                        this.handleAnswer(null);
+                    }
+                }, 100);
+            },
+
+            handleAnswer(choice) {
+                clearInterval(this.timerId);
+                const song = this.rounds[this.currentRound];
+                const isCorrect = choice?.toLowerCase() === song.answer.toLowerCase();
+                
+                let coinsEarned = 0;
+                let isJackpot = false;
+                let isFail = false;
+
+                if (isCorrect) {
+                    if (this.currentRound < 2) coinsEarned = 10;
+                    else if (this.currentRound < 5) coinsEarned = 25;
+                    else if (this.currentRound === 5) coinsEarned = 50;
+                    else if (this.currentRound === 6) {
+                        if (this.isGambleMode) {
+                            coinsEarned = this.coins;
+                            isJackpot = true;
+                        } else {
+                            coinsEarned = 100;
+                        }
+                    }
+                    
+                    this.coins += coinsEarned;
+                    this.spawnFloatingCoins();
+                    setTimeout(() => this.updateCoinDisplay(), 800);
+
+                    if (isJackpot) audioManager.play('jackpot');
+                    else audioManager.play('correct');
+                } else {
+                    if (this.currentRound === 6 && this.isGambleMode) {
+                        this.coins = 0; 
+                        this.updateCoinDisplay();
+                        isFail = true;
+                        audioManager.play('aww');
+                    } else {
+                        audioManager.play('wrong');
+                    }
+                }
+
+                const overlay = document.getElementById('feedbackOverlay');
+                const title = document.getElementById('feedbackTitle');
+                const sub = document.getElementById('feedbackSub');
+                const card = document.getElementById('songCard');
+                const coinText = document.getElementById('feedbackCoins');
+
+                title.innerText = isCorrect ? this.getRandom(cheers.right) : this.getRandom(cheers.wrong);
+                title.style.color = isCorrect ? 'var(--success)' : 'var(--danger)';
+                sub.innerHTML = `<span style="display:block; font-size: 0.85em; color: var(--pink-vibrant); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">${song.artist} • ${song.song}</span>"${song.answer}"`;
+                
+                if (isCorrect) coinText.innerText = `+${coinsEarned} Coins!`;
+                else if (isFail) coinText.innerText = `Bankrupt! 😭`;
+                else coinText.innerText = ``;
+                
+                const realSrc = getRealImage(song.artist);
+                const fallbackSrc = getAvatar(song.artist);
+                card.innerHTML = `<img src="${realSrc}" alt="${song.artist}" onerror="this.onerror=null; this.src='${fallbackSrc}';">`;
+                
+                overlay.style.display = 'flex';
+            },
+
+            getRandom(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            },
+
+            nextRound() {
+                this.currentRound++;
+                if (this.currentRound === 6) { 
+                    this.showGambleModal();
+                } else if (this.currentRound < 7) {
+                    this.loadRound();
+                } else {
+                    this.showResults();
+                }
+            },
+
+            showGambleModal() {
+                document.getElementById('feedbackOverlay').style.display = 'none';
+                document.getElementById('gambleCoinTotal').innerText = this.coins;
+                document.getElementById('gambleOverlay').style.display = 'flex';
+            },
+
+            makeGambleDecision(isDouble) {
+                this.isGambleMode = isDouble;
+                document.getElementById('gambleOverlay').style.display = 'none';
+                this.loadRound();
+            },
+
+            showResults() {
+                this.showScreen('resultScreen');
+                const scoreDisplay = document.getElementById('finalScore');
+                const rankBadge = document.getElementById('rankBadge');
+                const rankMsg = document.getElementById('rankMessage');
+                const resultIcon = document.getElementById('resultIcon');
+
+                scoreDisplay.innerText = `${this.coins}`;
+
+                if (this.coins >= 300) {
+                    audioManager.play('win');
+                    fireConfetti();
+                    resultIcon.innerText = "👑🔥";
+                    rankBadge.innerText = "ULTIMATE K-POP DEITY";
+                    rankMsg.innerText = "You won the Boss gamble! You own the fandom.";
+                } else if (this.coins >= 151) {
+                    audioManager.play('win');
+                    fireConfetti();
+                    resultIcon.innerText = "📸";
+                    rankBadge.innerText = "HIGH-TIER BIAS";
+                    rankMsg.innerText = "Daebak! Time to watch more Behind the Scenes!";
+                } else if (this.coins >= 51) {
+                    audioManager.play('win');
+                    fireConfetti();
+                    resultIcon.innerText = "✨";
+                    rankBadge.innerText = "TRAINEE";
+                    rankMsg.innerText = "You know your title tracks! Keep practicing!";
+                } else {
+                    audioManager.play('lose');
+                    resultIcon.innerText = "🌧️";
+                    rankBadge.innerText = "MUGGLE LISTENER";
+                    rankMsg.innerText = "It's just a casual vibe. Watch some MVs!";
+                }
+            },
+
+            showScreen(id) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+            }
+        };
+
+        function createBg() {
+            const container = document.getElementById('bgElements');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                heart.setAttribute("viewBox", "0 0 32 32");
+                heart.classList.add('heart');
+                heart.style.width = Math.random() * 40 + 20 + 'px';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.opacity = Math.random() * 0.4 + 0.2;
+                
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", "M16,28.221l-2.221-2.022C6.126,19.389,1,14.737,1,9.088C1,4.438,4.646,1,9.088,1c2.51,0,4.919,1.168,6.912,3.007 C17.993,2.168,20.402,1,22.912,1C27.354,1,31,4.438,31,9.088c0,5.649-5.126,10.301-12.779,17.13L16,28.221z");
+                
+                heart.appendChild(path);
+                container.appendChild(heart);
+            }
+        }
+
+        window.onload = createBg;
+    </script>
+</body>
+</html>
